@@ -8,19 +8,14 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>com.forbes</groupId>
-  <artifactId>usercenter-config</artifactId>
+  <artifactId>usercenter-provider</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>usercenter-config</name>
+  <name>usercenter-provider</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-     <dependency>
-      <groupId>com.forbes</groupId>
-      <artifactId>usercenter-comm</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

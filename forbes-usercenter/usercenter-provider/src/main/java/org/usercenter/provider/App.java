@@ -1,4 +1,4 @@
-package com.forbes.forbes_usercenter;
+package org.usercenter.provider;
 
 /**
  * Hello world!
