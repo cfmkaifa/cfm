@@ -1,8 +1,8 @@
-package org.usercenter.comm.vo;
+package org.forbes.comm.vo;
 
 import java.io.Serializable;
 
-import org.usercenter.comm.constant.CommonConstant;
+import org.forbes.comm.constant.CommonConstant;
 
 import lombok.Data;
 /***

@@ -1,4 +1,4 @@
-package org.usercenter.comm.constant;
+package org.forbes.comm.constant;
 /***
  * CommonConstant概要说明：常用常量
  * @author Huanghy

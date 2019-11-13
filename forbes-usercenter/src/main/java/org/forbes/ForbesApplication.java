@@ -1,17 +1,18 @@
-package com.forbes;
-
+package org.forbes;
 import javax.servlet.MultipartConfigElement;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 @SpringBootApplication
+@EnableDiscoveryClient
 @EnableSwagger2
 public class ForbesApplication {
+	
+	private final static String PROFILES_CODE = "spring.profiles.active";
+	
 	/***启动类
 	 * main方法慨述:
 	 * @param args void
@@ -21,6 +22,7 @@ public class ForbesApplication {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	 public static void main(String[] args) {
+		    System.setProperty(PROFILES_CODE, "dev");
 	    	SpringApplication.run(ForbesApplication.class, args);
 	    }
 	 

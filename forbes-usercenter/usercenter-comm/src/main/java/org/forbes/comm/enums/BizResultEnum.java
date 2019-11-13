@@ -1,4 +1,4 @@
-package org.usercenter.comm.enums;
+package org.forbes.comm.enums;
 /***
  * BizResultEnum概要说明：业务系统错误代码
  * @author Huanghy
