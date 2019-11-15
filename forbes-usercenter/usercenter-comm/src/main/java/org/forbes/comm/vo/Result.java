@@ -23,6 +23,11 @@ public class Result<T> implements Serializable {
 	 * 返回处理消息
 	 */
 	private String message = "操作成功！";
+	/******登录相关提示信息****/
+	public static final  String LOGIN_MSG = "登录成功";
+	public static final  String LOGIN_PASS_ERROR_MSG = "用户名或密码错误";
+	public static final  String LOGIN_NOT_USER_ERROR_MSG = "该用户不存在";
+	public static final  String LOGOUT_SUCCESS_MSG = "退出登录成功！";
 	
 	/**
 	 * 返回代码

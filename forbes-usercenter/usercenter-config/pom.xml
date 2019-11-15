@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.forbes</groupId>
+    <groupId>org.forbes</groupId>
     <artifactId>forbes-usercenter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.forbes</groupId>
+  <groupId>org.forbes</groupId>
   <artifactId>usercenter-config</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>usercenter-config</name>
@@ -17,7 +17,7 @@
   </properties>
   <dependencies>
      <dependency>
-      <groupId>com.forbes</groupId>
+      <groupId>org.forbes</groupId>
       <artifactId>usercenter-comm</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>

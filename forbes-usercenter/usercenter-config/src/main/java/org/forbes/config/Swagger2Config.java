@@ -3,13 +3,13 @@ package org.forbes.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.forbes.comm.constant.CommonConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.usercenter.comm.constant.CommonConstant;
 
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.builders.ApiInfoBuilder;
