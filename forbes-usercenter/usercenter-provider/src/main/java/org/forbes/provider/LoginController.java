@@ -1,4 +1,4 @@
-package org.fobes.provider;
+package org.forbes.provider;
 
 import javax.validation.Valid;
 

@@ -1,5 +1,7 @@
 package org.forbes;
 import javax.servlet.MultipartConfigElement;
+
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
@@ -9,6 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableSwagger2
+@MapperScan(basePackages={"org.forbes.dal.mapper"})
 public class ForbesApplication {
 	
 	private final static String PROFILES_CODE = "spring.profiles.active";

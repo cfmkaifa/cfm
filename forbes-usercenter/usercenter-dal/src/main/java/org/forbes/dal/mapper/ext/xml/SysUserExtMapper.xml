@@ -12,8 +12,8 @@
 	  <include refid="Base_Column_List" />
 	FROM
 	  `f_sys_user` fsu 
-	WHERE fsu.`username` = #{username,VARCHAR} 
-	  OR fsu.`phone` = #{username,VARCHAR}  
-	  OR fsu.`email` = #{username,VARCHAR} 
+	WHERE fsu.`username` = #{username,jdbcType=VARCHAR} 
+	  OR fsu.`phone` = #{username,jdbcType=VARCHAR}  
+	  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
   </select>
 </mapper>
