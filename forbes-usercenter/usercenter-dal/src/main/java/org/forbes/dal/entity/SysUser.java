@@ -1,14 +1,14 @@
 package org.forbes.dal.entity;
 
-import java.io.Serializable;
-
 import lombok.Data;
 
 /**
  * Table: f_sys_user
  */
 @Data
-public class SysUser implements Serializable {
+public class SysUser  extends BaseEntity {
+
+	private static final long serialVersionUID = 6199785596106991966L;
 
 	/**
      * 登录账号
