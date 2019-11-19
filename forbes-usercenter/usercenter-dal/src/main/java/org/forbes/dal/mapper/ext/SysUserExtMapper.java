@@ -3,6 +3,8 @@ package org.forbes.dal.mapper.ext;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.dal.entity.SysUser;
 
+import java.util.List;
+
 /***
  * SysUserExtMapper概要说明：扩展类
  * @author Huanghy
@@ -22,4 +24,11 @@ public interface SysUserExtMapper {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	SysUser  getUserByName(@Param("username")String username);
+
+
+	/***
+	 * 获取用户列表
+	 * @return
+	 */
+	List<SysUser> getUserList();
 }
