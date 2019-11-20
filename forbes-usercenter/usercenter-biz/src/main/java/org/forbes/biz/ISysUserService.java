@@ -4,6 +4,8 @@ import org.forbes.dal.entity.SysUser;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 public interface ISysUserService extends IService<SysUser> {
 
 	
@@ -18,4 +20,10 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	SysUser  getUserByName(String username);
+
+	/***
+	 * 获取用户列表
+	 * @return
+	 */
+	List<SysUser> getUserList();
 }

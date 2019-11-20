@@ -16,4 +16,12 @@
 	  OR fsu.`phone` = #{username,jdbcType=VARCHAR}  
 	  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
   </select>
+    <!--查询用户列表-->
+    <select id="getUserList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        f_sys_user
+    </select>
+
 </mapper>

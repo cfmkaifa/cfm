@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
+import java.util.List;
+
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 	
@@ -25,5 +28,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	public SysUser  getUserByName(String username){
 		return sysUserExtMapper.getUserByName(username);
+	}
+
+	/**
+	 * 查询所有用户(未分页)
+	 */
+	public List<SysUser> getUserList() {
+		return sysUserExtMapper.getUserList();
 	}
 }

@@ -195,6 +195,20 @@
   	<module>usercenter-provider</module>
   </modules>
   <build>
+
+	  <resources>
+		  <resource>
+			  <directory>src/main/java</directory><!--java文件的路径-->
+			  <includes>
+				  <include>**/*.xml</include>
+			  </includes>
+		  </resource>
+		  <!-- mapper.xml文件在resources目录下-->
+		  <resource>
+			  <directory>src/main/resources</directory>
+		  </resource>
+	  </resources>
+
 	   <!--模块间相互依赖打包失败，在父级模块执行打包-->
 	  	<plugins>
 			  	<plugin>
@@ -240,13 +254,13 @@
 				        <artifactId>mybatis-generator-core</artifactId>
 			                <version>1.3.2</version>
 			         </dependency>
-			         <dependency>
+			        <!-- <dependency>
 				        <groupId>com.chrm</groupId>
 				        <artifactId>mybatis-generator-lombok-plugin</artifactId>
 			            <version>1.0-SNAPSHOT</version>
 			            <scope>system</scope>
 			            <systemPath>C:/Software/maven/repository/other/mybatis-generator-lombok-plugin-1.0-SNAPSHOT.jar</systemPath>
-			         </dependency>
+			         </dependency>-->
 			       </dependencies>
 		     </plugin>
 	  </plugins>
