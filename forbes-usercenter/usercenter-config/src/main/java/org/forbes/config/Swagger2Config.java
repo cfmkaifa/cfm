@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.forbes.comm.constant.CommonConstant;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,12 +22,18 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Parameter;
+import springfox.documentation.service.StringVendorExtension;
+import springfox.documentation.service.VendorExtension;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 @Order(0)
 public class Swagger2Config implements WebMvcConfigurer {
 
+	@Value("${spring.application.name}")
+	private String applicationName;
+	private static final String APPLICATIO_NNAME_CODE = "applicationName";
+	
 	/**
 	 *
 	 * 显示swagger-ui.html文档展示页，还必须注入swagger资源：
@@ -79,12 +88,17 @@ public class Swagger2Config implements WebMvcConfigurer {
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	private ApiInfo apiInfo() {
+		VendorExtension<String> extension = new StringVendorExtension(APPLICATIO_NNAME_CODE,applicationName);
+		List<VendorExtension> extensions = Lists.newArrayList();
+		extensions.add(extension);
 		return new ApiInfoBuilder()
 				// //大标题
 				.title("福布斯后台服务API接口文档")
 				// 版本号
 				.version("1.0")
+				.extensions(extensions)
 				// 描述
 				.description("restful 风格接口")
 				.build();
