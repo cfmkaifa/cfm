@@ -4,18 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.ISysUserService;
-import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.model.AddUserModel;
 import org.forbes.comm.model.UpdateStatusModel;
 import org.forbes.comm.model.UpdateUserModel;
 import org.forbes.comm.model.UserDetailModel;
-import org.forbes.comm.utils.JwtUtil;
-import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.SysUserListVo;
 import org.forbes.comm.vo.UserDeatailVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysUser;
@@ -34,31 +29,15 @@ import java.util.Map;
 @RequestMapping("/user")
 @Api(tags={"用户管理"})
 @Slf4j
-public class UserController {
+public class SysUserController {
 
     @Autowired
     private ISysUserService sysUserService;
-
 
     @Autowired
     private RedisUtil redisUtil;
 
 
-    @RequestMapping(value = "/getList", method = RequestMethod.POST)
-    @ApiOperation("查询用户列表")
-    @ApiResponses(value={//未定义响应结果字符串
-            @ApiResponse(code=500,message= Result.LOGIN_NOT_USER_ERROR_MSG),
-            @ApiResponse(code=200,response=SysUserListVo.class, message = Result.LOGIN_MSG)
-    })
-    public Result<SysUserListVo> getSysUserList(){
-        Result<SysUserListVo> result = new Result<>();
-        List<SysUser> userList = sysUserService.getUserList();
-
-        SysUserListVo listVo = new SysUserListVo();
-        listVo.setUserList(userList);
-        result.setResult(listVo);
-        return result;
-    }
 
     @RequestMapping(value = "/updateUserStatus",method = RequestMethod.POST)
     @ApiOperation("修改用户状态")

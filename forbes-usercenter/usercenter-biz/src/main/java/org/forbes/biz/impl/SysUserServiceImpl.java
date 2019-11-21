@@ -31,14 +31,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 查询所有用户(未分页)
-	 */
-	public List<SysUser> getUserList() {
-		return sysUserExtMapper.getUserList();
-	}
-
-
-	/**
 	  *@ 作者：xfx
 	  *@ 参数：username,status
 	  *@ 返回值：

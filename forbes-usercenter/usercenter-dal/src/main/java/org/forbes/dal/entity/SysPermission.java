@@ -1,5 +1,6 @@
 package org.forbes.dal.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -16,6 +17,7 @@ public class SysPermission extends BaseEntity {
      * Column:    parent_id
      * Nullable:  true
      */
+	@ApiModelProperty(value = "父级id")
     private Integer parentId;
 
     /**
@@ -24,6 +26,7 @@ public class SysPermission extends BaseEntity {
      * Column:    name
      * Nullable:  true
      */
+    @ApiModelProperty(value = "资源名称")
     private String name;
 
     /**
@@ -32,6 +35,7 @@ public class SysPermission extends BaseEntity {
      * Column:    perms
      * Nullable:  true
      */
+    @ApiModelProperty(value = "菜单权限编码")
     private String perms;
 
     /**
@@ -40,6 +44,7 @@ public class SysPermission extends BaseEntity {
      * Column:    component
      * Nullable:  true
      */
+    @ApiModelProperty(value = "组件")
     private String component;
 
     /**
@@ -48,6 +53,7 @@ public class SysPermission extends BaseEntity {
      * Column:    component_name
      * Nullable:  true
      */
+    @ApiModelProperty(value = "组件名称")
     private String componentName;
 
     /**
@@ -56,6 +62,7 @@ public class SysPermission extends BaseEntity {
      * Column:    always_show
      * Nullable:  true
      */
+    @ApiModelProperty(value = "是否聚合子路由")
     private String alwaysShow;
 
     /**
@@ -64,6 +71,7 @@ public class SysPermission extends BaseEntity {
      * Column:    is_route
      * Nullable:  true
      */
+    @ApiModelProperty(value = "是否路由")
     private String isRoute;
 
     /**
@@ -71,6 +79,7 @@ public class SysPermission extends BaseEntity {
      * Column:    is_leaf
      * Nullable:  true
      */
+    @ApiModelProperty()
     private String isLeaf;
 
     /**
@@ -79,6 +88,7 @@ public class SysPermission extends BaseEntity {
      * Column:    is_hidden
      * Nullable:  true
      */
+    @ApiModelProperty(value = "是否隐藏")
     private String isHidden;
 
     /**
@@ -86,6 +96,7 @@ public class SysPermission extends BaseEntity {
      * Column:    sort_no
      * Nullable:  true
      */
+    @ApiModelProperty()
     private Integer sortNo;
 
     /**
@@ -94,6 +105,7 @@ public class SysPermission extends BaseEntity {
      * Column:    description
      * Nullable:  true
      */
+    @ApiModelProperty(value = "描述")
     private String description;
 
     /**
@@ -102,6 +114,7 @@ public class SysPermission extends BaseEntity {
      * Column:    redirect
      * Nullable:  true
      */
+    @ApiModelProperty(value = "路由请求地址")
     private String redirect;
 
     /**
@@ -110,6 +123,7 @@ public class SysPermission extends BaseEntity {
      * Column:    url
      * Nullable:  true
      */
+    @ApiModelProperty(value = "后台请求地址")
     private String url;
 
     /**
@@ -118,5 +132,6 @@ public class SysPermission extends BaseEntity {
      * Column:    icon
      * Nullable:  true
      */
+    @ApiModelProperty(value = "菜单图标")
     private byte[] icon;
 }

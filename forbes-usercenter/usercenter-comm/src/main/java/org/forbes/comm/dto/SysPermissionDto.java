@@ -7,6 +7,7 @@ import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysUser;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /***
@@ -23,6 +24,7 @@ public class SysPermissionDto implements Serializable{
     private static final long serialVersionUID = 7046487455365110153L;
 
     @ApiModelProperty("传入权限对象")
+    @NotEmpty(message = "权限对象不能为空")
     private SysPermission sysPermission;
 
 }

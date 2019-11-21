@@ -2,6 +2,7 @@ package org.forbes.dal.entity;
 
 import java.util.Date;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -20,6 +21,7 @@ public class SysRole extends BaseEntity {
      * Column:    role_name
      * Nullable:  true
      */
+    @ApiModelProperty(value = "角色名称")
     private String roleName;
 
     /**
@@ -28,6 +30,7 @@ public class SysRole extends BaseEntity {
      * Column:    role_code
      * Nullable:  true
      */
+    @ApiModelProperty(value = "角色编码")
     private String roleCode;
 
     /**
@@ -36,5 +39,6 @@ public class SysRole extends BaseEntity {
      * Column:    description
      * Nullable:  true
      */
+    @ApiModelProperty(value = "角色描述")
     private String description;
 }

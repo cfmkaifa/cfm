@@ -1,5 +1,6 @@
 package org.forbes.dal.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -18,6 +19,7 @@ public class SysUserRole extends BaseEntity {
      * Column:    user_id
      * Nullable:  true
      */
+    @ApiModelProperty(value = "用户ID")
     private Long userId;
 
     /**
@@ -26,5 +28,6 @@ public class SysUserRole extends BaseEntity {
      * Column:    role_id
      * Nullable:  true
      */
+    @ApiModelProperty(value = "角色ID")
     private Long roleId;
 }

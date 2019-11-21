@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ISysUserService extends IService<SysUser> {
 
-	
-	
+
+
 	/***
 	 * getUserByName方法慨述:根据用户名查询用户
 	 * @param username
@@ -20,12 +20,6 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	SysUser  getUserByName(String username);
-
-	/***
-	 * 获取用户列表
-	 * @return
-	 */
-	List<SysUser> getUserList();
 
 	/**
 	  *@ 作者：xfx

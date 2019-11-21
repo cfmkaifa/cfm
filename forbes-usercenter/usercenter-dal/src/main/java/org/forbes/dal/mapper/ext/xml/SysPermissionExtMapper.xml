@@ -7,5 +7,201 @@
    <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
   </sql>
 
-
+<!--查询一个用户的所有权限-->
+    <select id="getPermissionByUser" resultMap="BaseResultMap">
+        SELECT
+        p.parent_id,
+        p.name,
+        p.perms,
+        p.icon,
+        p.component,
+        p.component_name,
+        p.always_show,
+        p.is_route,
+        p.is_leaf,
+        p.is_hidden,
+        p.sort_no,
+        p.description,
+        p.redirect,
+        p.url
+        FROM f_sys_permission p
+        JOIN f_sys_role_permission rp
+        ON rp.role_id = p.id JOIN f_sys_role r
+        ON rp.role_id = r.id JOIN f_sys_user_role ur
+        ON r.id = ur.role_id JOIN f_sys_user u ON
+        ur.user_id = u.id WHERE u.username=#{username}
+    </select>
+    <!--给一个角色添加权限-->
+    <insert id="AddPermissionToUser" parameterType="Integer">
+      INSERT INTO f_sys_role_permission
+      (role_id,permission_id)
+      VALUES (#{RoleId},#{PermissionId})
+    </insert>
+    <!--添加一个新的权限(仅添加权限)-->
+    <insert id="AddPermission" parameterType="org.forbes.dal.entity.SysPermission">
+        INSERT INTO f_sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="perms != null">
+                perms,
+            </if>
+            <if test="component != null">
+                component,
+            </if>
+            <if test="componentName != null">
+                component_name,
+            </if>
+            <if test="isRoute != null">
+                is_route,
+            </if>
+            <if test="isLeaf != null">
+                is_ieaf,
+            </if>
+            <if test="isHidden != null">
+                is_hidden,
+            </if>
+            <if test="sortNo != null">
+                sort_no,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="redirect != null">
+                redirect,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">
+                #{parentId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="perms != null">
+                #{perms},
+            </if>
+            <if test="component != null">
+                #{component},
+            </if>
+            <if test="componentName != null">
+                #{componentName},
+            </if>
+            <if test="isRoute != null">
+                #{isRoute},
+            </if>
+            <if test="isLeaf != null">
+                #{isLeaf},
+            </if>
+            <if test="isHidden != null">
+                #{isHidden},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="redirect != null">
+                #{redirect},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+            <if test="icon != null">
+                #{icon},
+            </if>
+        </trim>
+    </insert>
+    <!--将新的权限和角色绑定(添加中间表)-->
+    <insert id="AddPermissionRole" parameterType="org.forbes.dal.entity.SysRolePermission">
+         INSERT INTO f_sys_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                role_id,
+            </if>
+            <if test="permissionId != null">
+                permission_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId},
+            </if>
+            <if test="permissionId != null">
+                #{permissionId},
+            </if>
+        </trim>
+    </insert>
+    <!--修改权限内容-->
+    <update id="UpdatePermission" parameterType="Integer">
+      UPDATE f_sys_permission
+      <set>
+          <if test="parentId != null">
+              parent_id = #{parentId},
+          </if>
+          <if test="name != null">
+              name = #{name},
+          </if>
+          <if test="perms != null">
+              perms = #{perms},
+          </if>
+          <if test="component != null">
+              component = #{component},
+          </if>
+          <if test="componentName != null">
+              component_name = #{componentName},
+          </if>
+          <if test="isRoute != null">
+              is_route = #{isRoute},
+          </if>
+          <if test="isLeaf != null">
+              is_leaf = #{isLeaf},
+          </if>
+          <if test="isHidden != null">
+              is_hidden = #{isHidden},
+          </if>
+          <if test="sortNo != null">
+              sort_no = #{sortNo},
+          </if>
+          <if test="description != null">
+              description = #{description},
+          </if>
+          <if test="redirect != null">
+              redirect = #{redirect},
+          </if>
+          <if test="url != null">
+              url = #{url},
+          </if>
+          <if test="icon != null">
+              icon = #{icon},
+          </if>
+      </set>
+        WHERE id = #{permissionId}
+    </update>
+    <!--修改一个角色的权限(中间表)-->
+    <update id="UpdatePermissionToUser" parameterType="Integer">
+        UPDATE f_sys_role_permission
+        <set>
+            <if test="permissionId != null" >
+                permission_id = #{permissionId},
+            </if>
+        </set>
+        WHERE role_id = #{RoleId}
+    </update>
+    <!--删除角色的权限-->
+    <delete id="DeletePermissionToUser" parameterType="Integer">
+        DELETE FROM f_sys_role_permission
+        WHERE role_id = #{RoleId} AND permission_id = #{PermissionId}
+    </delete>
 </mapper>

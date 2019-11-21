@@ -1,5 +1,6 @@
 package org.forbes.dal.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -16,6 +17,7 @@ public class SysUser  extends BaseEntity {
      * Column:    username
      * Nullable:  false
      */
+    @ApiModelProperty(value = "登录账号")
     private String username;
 
     /**
@@ -24,6 +26,7 @@ public class SysUser  extends BaseEntity {
      * Column:    status
      * Nullable:  false
      */
+    @ApiModelProperty(value = "状态",required = true)
     private String status;
 
     /**
@@ -32,6 +35,7 @@ public class SysUser  extends BaseEntity {
      * Column:    password
      * Nullable:  true
      */
+    @ApiModelProperty(value = "密码")
     private String password;
 
     /**
@@ -40,6 +44,7 @@ public class SysUser  extends BaseEntity {
      * Column:    salt
      * Nullable:  true
      */
+    @ApiModelProperty(value = "md5密码盐")
     private String salt;
 
     /**
@@ -48,6 +53,7 @@ public class SysUser  extends BaseEntity {
      * Column:    avatar
      * Nullable:  true
      */
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
     /**
@@ -56,6 +62,7 @@ public class SysUser  extends BaseEntity {
      * Column:    email
      * Nullable:  true
      */
+    @ApiModelProperty(value = "邮件")
     private String email;
 
     /**
@@ -64,6 +71,7 @@ public class SysUser  extends BaseEntity {
      * Column:    phone
      * Nullable:  true
      */
+    @ApiModelProperty(value = "电话")
     private String phone;
 
     /**
@@ -72,5 +80,6 @@ public class SysUser  extends BaseEntity {
      * Column:    realname
      * Nullable:  true
      */
+    @ApiModelProperty(value = "姓名",required = true)
     private String realname;
 }

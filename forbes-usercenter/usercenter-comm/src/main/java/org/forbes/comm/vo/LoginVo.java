@@ -25,6 +25,7 @@ public class LoginVo implements Serializable  {
 	
 	/***当前用户信息
 	 */
+	@ApiModelProperty("当前用户信息")
 	private SysUser userInfo;
 }
 
