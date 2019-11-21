@@ -21,7 +21,6 @@ public class SysRoleDto implements Serializable{
     private static final long serialVersionUID = 7046487455365110153L;
 
     @ApiModelProperty("传入角色对象")
-    @NotEmpty(message = "角色对象不能为空")
     private SysRole sysRole;
 
 }
