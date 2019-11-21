@@ -1,9 +1,10 @@
-package org.forbes.comm.model;
+package org.forbes.comm.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 
 /**
@@ -14,7 +15,8 @@ import javax.validation.constraints.NotEmpty;
  * @Version 1.0
  **/
 @ApiModel(description = "查询角色参数模型")
-public class RoleModel {
+@Data
+public class RoleDto implements Serializable{
 
     @ApiModelProperty(value="用户id",required=true)
     private Long userId;

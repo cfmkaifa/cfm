@@ -1,9 +1,11 @@
-package org.forbes.comm.model;
+package org.forbes.comm.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @ClassName
@@ -12,8 +14,9 @@ import javax.validation.constraints.NotEmpty;
  * @Date 2019/11/20 13:11
  * @Version 1.0
  **/
+@Data
 @ApiModel(description = "用户详情请求参数")
-public class UserDetailModel {
+public class UserDetailDto implements Serializable {
 
     @ApiModelProperty(value = "用户名",required = true)
     @NotEmpty(message = "用户名不能为空")

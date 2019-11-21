@@ -67,6 +67,26 @@ public class Result<T> implements Serializable {
 	public static final  String ROLE_LIST_MSG="查询所有角色成功";
 	public static final  String ROLE_LIST_ERROR_MSG="查询所有角色失败";
 
+	/******查询权限信息****/
+	public static final  String PERMISSION_MSG = "返回权限信息成功";
+	public static final  String PERMISSION_NOT_ERROR_MSG = "返回权限信息失败";
+	/******添加权限信息****/
+	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
+	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";
+	/******给角色添加权限信息****/
+	public static final  String ADD_ROLE_PERMISSION_MSG = "添加角色权限成功";
+	public static final  String ADD_ROLE_PERMISSION_NOT_ERROR_MSG = "添加角色权限失败";
+	/******修改权限内容信息****/
+	public static final  String UPDATE_PERMISSION_MSG = "修改权限内容成功";
+	public static final  String UPDATE_PERMISSION_NOT_ERROR_MSG = "修改权限内容失败";
+	/******修改角色权限信息****/
+	public static final  String UPDATE_ROLE_PERMISSION_MSG = "修改角色权限成功";
+	public static final  String UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG = "修改角色权限失败";
+	/******删除角色权限信息****/
+	public static final  String DELETE_ROLE_PERMISSION_MSG = "删除角色权限成功";
+	public static final  String DELETE_ROLE_PERMISSION_NOT_ERROR_MSG = "删除角色权限失败";
+
+
 	/**
 	 * 返回代码
 	 */

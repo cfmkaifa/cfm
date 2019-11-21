@@ -4,18 +4,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRoleService;
+import org.forbes.comm.dto.AddRoleDto;
 import org.forbes.comm.dto.DeleteRoleDto;
-import org.forbes.comm.model.AddRoleModel;
-import org.forbes.comm.model.RoleModel;
-import org.forbes.comm.model.UpdateRoleModel;
+import org.forbes.comm.dto.RoleDto;
+import org.forbes.comm.dto.UpdateRoleDto;
 import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
-import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,9 +55,9 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_ERROR_MSG),
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
-    public Result<RoleVo> selectRoleByUserId(@RequestBody @Valid RoleModel roleModel){
+    public Result<RoleVo> selectRoleByUserId(@RequestBody @Valid RoleDto roleDto){
         Result<RoleVo> result=new Result<>();
-        Long userId=roleModel.getUserId();
+        Long userId=roleDto.getUserId();
         List<SysRole> sysRoleList=sysRoleService.selectRoleByUserId(userId);
         if(sysRoleList==null){
             result.error500(Result.ROLE_ERROR_MSG);
@@ -113,9 +111,17 @@ public class RoleController {
             @ApiResponse(code=200,message = Result.ADD_ROLE_MSG),
             @ApiResponse(code=500,message = Result.ADD_ROLE_ERROR_MSG)
     })
-    public Map<String,Boolean> addRole(@RequestBody @Valid AddRoleModel addRoleModel){
+    public Map<String,Boolean> addRole(@RequestBody @Valid AddRoleDto addRoleDto){
         Map<String,Boolean> map=new HashMap<>();
         SysRole sysRole=new SysRole();
+        String roleName=addRoleDto.getRoleName();
+        String roleCode=addRoleDto.getRoleCode();
+        String description=addRoleDto.getDescription();
+        LoginVo loginVo=new LoginVo();
+       // sysRole.setCreateBy(loginVo.getUserInfo().getRealname());
+        sysRole.setDescription(description);
+        sysRole.setRoleCode(roleCode);
+        sysRole.setRoleName(roleName);
         Integer result=sysRoleService.addRole(sysRole);
         if(result==1){
             map.put("result",true);
@@ -138,12 +144,12 @@ public class RoleController {
             @ApiResponse(code=200,message = Result.UPDATE_ROLE_MSG),
             @ApiResponse(code=500,message = Result.UPDATE_ROLE_ERROR_MSG)
     })
-    public Map<String,Boolean> updateRole(@RequestBody @Valid UpdateRoleModel updateRoleModel){
+    public Map<String,Boolean> updateRole(@RequestBody @Valid UpdateRoleDto updateRoleDto){
         Map<String,Boolean> map=new HashMap<>();
        SysRole sysRole=new SysRole();
-       sysRole.setDescription(updateRoleModel.getDescription());
-       sysRole.setRoleName(updateRoleModel.getRoleName());
-       sysRole.setRoleCode(updateRoleModel.getRoleCode());
+       sysRole.setDescription(updateRoleDto.getDescription());
+       sysRole.setRoleName(updateRoleDto.getRoleName());
+       sysRole.setRoleCode(updateRoleDto.getRoleCode());
        Integer result=sysRoleService.updateRoleByRoleId(sysRole);
        if(result==1){
            map.put("result",true);

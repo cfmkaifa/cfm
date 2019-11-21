@@ -1,10 +1,11 @@
-package org.forbes.comm.model;
+package org.forbes.comm.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @ClassName
@@ -13,9 +14,9 @@ import javax.validation.constraints.NotEmpty;
  * @Date 2019/11/20 14:56
  * @Version 1.0
  **/
-@ApiModel
+@ApiModel(description = "添加角色")
 @Data
-public class AddRoleModel {
+public class AddRoleDto implements Serializable{
 
     @ApiModelProperty(value = "角色名称",required = true)
     @NotEmpty(message = "名称不能为空")

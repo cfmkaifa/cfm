@@ -19,6 +19,9 @@
     <insert id="addRole" parameterType="org.forbes.dal.entity.SysRole">
         INSERT INTO f_sys_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
             <if test="createBy != null">
                 create_by,
             </if>
@@ -42,6 +45,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
             <if test="createBy != null">
                 #{createBy,jdbcType=VARCHAR},
             </if>
