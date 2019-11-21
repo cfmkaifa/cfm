@@ -22,7 +22,6 @@ public class SysUserDto implements Serializable{
     private static final long serialVersionUID = 7046487455365110153L;
 
     @ApiModelProperty("传入用户对象")
-    @NotEmpty(message = "用户对象不能为空")
     private SysUser sysUser;
 
 }

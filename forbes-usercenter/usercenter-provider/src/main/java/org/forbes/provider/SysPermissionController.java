@@ -77,7 +77,7 @@ public class SysPermissionController {
     }
 
     @RequestMapping(value = "/AddPermissionToUser", method = RequestMethod.POST)
-    @ApiOperation("给一个用户添加一个权限")
+    @ApiOperation("给一个用户添加一些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
@@ -118,7 +118,7 @@ public class SysPermissionController {
     }
 
     @RequestMapping(value = "/UpdatePermissionToRole", method = RequestMethod.POST)
-    @ApiOperation("修改一个角色的权限")
+    @ApiOperation("修改一个角色的某些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
@@ -142,7 +142,7 @@ public class SysPermissionController {
     }
 
     @RequestMapping(value = "/DeletePermissionToRole", method = RequestMethod.POST)
-    @ApiOperation("删除一个角色的权限")
+    @ApiOperation("删除角色的一些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
