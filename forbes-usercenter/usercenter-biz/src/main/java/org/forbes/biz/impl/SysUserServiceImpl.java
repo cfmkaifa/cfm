@@ -36,4 +36,47 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<SysUser> getUserList() {
 		return sysUserExtMapper.getUserList();
 	}
+
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：username,status
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  */
+	public Integer updateUserStatus(String username, String status) {
+		return sysUserExtMapper.updateUserStatus(username,status);
+	}
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  *@ Description：
+	  */
+	public Integer addUser(SysUser sysUser) {
+		return sysUserExtMapper.addUser(sysUser);
+	}
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  *@ Description：
+	  */
+	public Integer updateUserByUsername(SysUser sysUser) {
+		return sysUserExtMapper.updateUserByUsername(sysUser);
+	}
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/11/20
+	  *@ Description：
+	  */
+	public SysUser selectUserDetailByUsername(String username) {
+		return sysUserExtMapper.selectUserDetailByUsername(username);
+	}
 }

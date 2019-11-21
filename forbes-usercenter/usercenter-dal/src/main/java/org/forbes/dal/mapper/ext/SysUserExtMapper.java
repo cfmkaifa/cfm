@@ -31,4 +31,40 @@ public interface SysUserExtMapper {
 	 * @return
 	 */
 	List<SysUser> getUserList();
+	
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  */
+	Integer updateUserStatus(@Param("username") String username,@Param("status") String status);
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：sysUsers
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  */
+	Integer addUser(SysUser sysUser);
+
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/11/19
+	 *@ Description：修改用户
+	 */
+	Integer updateUserByUsername(SysUser sysUser);
+
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：username
+	 *@ 返回值：
+	 *@ 时间：2019/11/20
+	 *@ Description：
+	 */
+	SysUser selectUserDetailByUsername(@Param("username")String username);
+
+
 }

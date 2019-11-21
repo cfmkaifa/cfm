@@ -28,7 +28,33 @@ public class Result<T> implements Serializable {
 	public static final  String LOGIN_PASS_ERROR_MSG = "用户名或密码错误";
 	public static final  String LOGIN_NOT_USER_ERROR_MSG = "该用户不存在";
 	public static final  String LOGOUT_SUCCESS_MSG = "退出登录成功！";
-	
+
+	/******修改用户状态提示信息****/
+	public static final  String UPDATE_STATUS_MSG = "状态修改成功";
+	public static final  String UPDATE_STATUS_ERROR_MSG = "状态修改失败";
+
+	/******添加用户提示信息****/
+	public static final  String ADD_USER_MSG="添加用户成功";
+	public static final  String ADD_USER_ERROR_MSG="添加用户失败";
+
+	/******修改用户提示信息****/
+	public static final  String UPDATE_USER_MSG="修改用户成功";
+	public static final  String UPDATE_USER_ERROR_MSG="修改用户失败";
+
+	/******用户详情****/
+	public static final  String DETAIL_USER_MSG="查询用户详情成功";
+	public static final  String DETAIL_USER_ERROR_MSG="查询用户详情失败";
+	public static final  String DETAIL_USER_EMPTY_MSG="未查询到该用户";
+
+	/******查询角色****/
+	public static final  String ROLE_MSG="查询角色成功";
+	public static final  String ROLE_ERROR_MSG="查询角色失败";
+	public static final  String ROLE_EMPTY_MSG="未查询到该用户的角色";
+
+	/******添加角色信息****/
+	public static final  String ADD_ROLE_MSG="添加角色成功";
+	public static final  String ADD_ROLE_ERROR_MSG="添加角色失败";
+
 	/**
 	 * 返回代码
 	 */

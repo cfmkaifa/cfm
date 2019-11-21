@@ -26,4 +26,38 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @return
 	 */
 	List<SysUser> getUserList();
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：username,status
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  */
+	Integer updateUserStatus(String username,String status);
+	
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：sysUser
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  */
+	Integer addUser(SysUser sysUser);
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/11/19
+	  *@ Description：修改用户
+	  */
+	Integer updateUserByUsername(SysUser sysUser);
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：username
+	  *@ 返回值：
+	  *@ 时间：2019/11/20
+	  *@ Description：查询用户详情
+	  */
+	SysUser selectUserDetailByUsername(String username);
 }
