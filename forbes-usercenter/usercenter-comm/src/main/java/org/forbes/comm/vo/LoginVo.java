@@ -17,7 +17,7 @@ public class LoginVo implements Serializable  {
 	
 	private static final long serialVersionUID = 7046487455365110153L;
 
-	/***
+	/**
 	 * token值
 	 */
 	@ApiModelProperty(value="token值")

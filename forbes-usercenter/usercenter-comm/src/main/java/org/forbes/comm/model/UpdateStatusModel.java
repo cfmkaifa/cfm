@@ -19,7 +19,7 @@ public class UpdateStatusModel {
     @NotEmpty(message="登录账号不能为空")
     private String username;
 
-    @ApiModelProperty(value="用户名不能为空",required=true)
+    @ApiModelProperty(value="状态不能为空",required=true)
     @NotEmpty(message="状态不能为空")
     private String status;
 

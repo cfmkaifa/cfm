@@ -2,7 +2,6 @@ package org.forbes.comm.vo;
 
 import java.io.Serializable;
 
-import io.swagger.annotations.ApiModelProperty;
 import org.forbes.comm.constant.CommonConstant;
 
 import lombok.Data;
@@ -18,13 +17,11 @@ public class Result<T> implements Serializable {
 	/**
 	 * 成功标志
 	 */
-	@ApiModelProperty("成功标志")
 	private boolean success = true;
 
 	/**
 	 * 返回处理消息
 	 */
-	@ApiModelProperty("返回处理消息")
 	private String message = "操作成功！";
 	/******登录相关提示信息****/
 	public static final  String LOGIN_MSG = "登录成功";
@@ -50,46 +47,34 @@ public class Result<T> implements Serializable {
 	public static final  String DETAIL_USER_EMPTY_MSG="未查询到该用户";
 
 	/******查询角色****/
-	public static final  String ROLE_MSG="查询角色成功";
-	public static final  String ROLE_ERROR_MSG="查询角色失败";
+	public static final  String ROLE_MSG="查询用户对应角色成功";
+	public static final  String ROLE_ERROR_MSG="查询用户对应角色失败";
 	public static final  String ROLE_EMPTY_MSG="未查询到该用户的角色";
 
 	/******添加角色信息****/
 	public static final  String ADD_ROLE_MSG="添加角色成功";
 	public static final  String ADD_ROLE_ERROR_MSG="添加角色失败";
 
+	/******修改角色信息****/
+	public static final  String UPDATE_ROLE_MSG="角色修改成功";
+	public static final  String UPDATE_ROLE_ERROR_MSG="角色修改失败";
 
+	/******删除角色信息****/
+	public static final  String DELETE_ROLE_MSG="角色删除成功";
+	public static final  String DELETE_ROLE_ERROR_MSG="角色删除失败";
 
-	/******查询权限信息****/
-	public static final  String PERMISSION_MSG = "返回权限信息成功";
-	public static final  String PERMISSION_NOT_ERROR_MSG = "返回权限信息失败";
-	/******添加权限信息****/
-	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
-	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";
-	/******给角色添加权限信息****/
-	public static final  String ADD_ROLE_PERMISSION_MSG = "添加角色权限成功";
-	public static final  String ADD_ROLE_PERMISSION_NOT_ERROR_MSG = "添加角色权限失败";
-	/******修改权限内容信息****/
-	public static final  String UPDATE_PERMISSION_MSG = "修改权限内容成功";
-	public static final  String UPDATE_PERMISSION_NOT_ERROR_MSG = "修改权限内容失败";
-	/******修改角色权限信息****/
-	public static final  String UPDATE_ROLE_PERMISSION_MSG = "修改角色权限成功";
-	public static final  String UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG = "修改角色权限失败";
-	/******删除角色权限信息****/
-	public static final  String DELETE_ROLE_PERMISSION_MSG = "删除角色权限成功";
-	public static final  String DELETE_ROLE_PERMISSION_NOT_ERROR_MSG = "删除角色权限失败";
-
+	/******查询所有角色信息****/
+	public static final  String ROLE_LIST_MSG="查询所有角色成功";
+	public static final  String ROLE_LIST_ERROR_MSG="查询所有角色失败";
 
 	/**
 	 * 返回代码
 	 */
-	@ApiModelProperty("返回代码")
 	private Integer code = CommonConstant.SC_OK_200;
 	
 	/**
 	 * 返回数据对象 data
 	 */
-	@ApiModelProperty("返回数据对象")
 	private T result;
 
 	public Result() {

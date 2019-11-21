@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="usercenter-biz" />
+        <module name="usercenter-comm" />
+        <module name="usercenter-config" />
+        <module name="usercenter-dal" />
+        <module name="usercenter-provider" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="forbes-usercenter" target="1.8" />
+      <module name="usercenter-biz" target="1.8" />
+      <module name="usercenter-comm" target="1.8" />
+      <module name="usercenter-config" target="1.8" />
+      <module name="usercenter-dal" target="1.8" />
+      <module name="usercenter-provider" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

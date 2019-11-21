@@ -2,6 +2,7 @@ package org.forbes.comm.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
  * @Version 1.0
  **/
 @ApiModel
+@Data
 public class AddRoleModel {
 
     @ApiModelProperty(value = "角色名称",required = true)
@@ -26,38 +28,5 @@ public class AddRoleModel {
     @ApiModelProperty(value = "角色描述",required = true)
     private String description;
 
-    @ApiModelProperty(value = "创建人",required = true)
-    private String createBy;
 
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
 }

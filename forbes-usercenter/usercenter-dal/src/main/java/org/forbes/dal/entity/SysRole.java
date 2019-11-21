@@ -1,6 +1,5 @@
 package org.forbes.dal.entity;
 
-import java.util.Date;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

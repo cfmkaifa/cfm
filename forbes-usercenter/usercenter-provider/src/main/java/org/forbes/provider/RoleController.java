@@ -4,23 +4,26 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRoleService;
+import org.forbes.comm.dto.DeleteRoleDto;
 import org.forbes.comm.model.AddRoleModel;
 import org.forbes.comm.model.RoleModel;
+import org.forbes.comm.model.UpdateRoleModel;
+import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,33 @@ public class RoleController {
       *@ 作者：xfx
       *@ 参数：
       *@ 返回值：
+      *@ 时间：2019/11/21
+      *@ Description：查询所有角色
+      */
+    @RequestMapping(value = "/roleList",method = RequestMethod.POST)
+    @ApiOperation("查询所有角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
+            @ApiResponse(code = 500,response =RoleListVo.class,message = Result.ROLE_LIST_ERROR_MSG)
+    })
+    public Result<RoleListVo> selectAllRole(){
+        Result<RoleListVo> result=new Result<>();
+        List<SysRole> sysRoles=sysRoleService.selectRoleList();
+        RoleListVo roleListVo=new RoleListVo();
+        if(sysRoles!=null&&sysRoles.size()!=0){
+             roleListVo.setSysRoleList(sysRoles);
+             result.setResult(roleListVo);
+             result.success(Result.ROLE_LIST_MSG);
+        }else{
+            result.error500(Result.ROLE_LIST_ERROR_MSG);
+        }
+        return result;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
       *@ 时间：2019/11/20
       *@ Description：
       */
@@ -85,21 +115,64 @@ public class RoleController {
     })
     public Map<String,Boolean> addRole(@RequestBody @Valid AddRoleModel addRoleModel){
         Map<String,Boolean> map=new HashMap<>();
-        String roleName=addRoleModel.getRoleName();
-        String roleCode=addRoleModel.getRoleCode();
-        String description=addRoleModel.getDescription();
-        String createBy=addRoleModel.getCreateBy();
         SysRole sysRole=new SysRole();
-        sysRole.setDescription(description);
-        sysRole.setRoleCode(roleCode);
-        sysRole.setRoleName(roleName);
-        RedisUtil redis=new RedisUtil();
-        //Object ss=redis.lGetIndex("PREFIX_USER_TOKE");
-        sysRole.setCreateBy(createBy);
         Integer result=sysRoleService.addRole(sysRole);
         if(result==1){
             map.put("result",true);
         }else{
+            map.put("result",false);
+        }
+        return map;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/11/21
+      *@ Description：角色修改
+      */
+    @RequestMapping(value = "/updateRole",method = RequestMethod.POST)
+    @ApiOperation("修改角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.UPDATE_ROLE_MSG),
+            @ApiResponse(code=500,message = Result.UPDATE_ROLE_ERROR_MSG)
+    })
+    public Map<String,Boolean> updateRole(@RequestBody @Valid UpdateRoleModel updateRoleModel){
+        Map<String,Boolean> map=new HashMap<>();
+       SysRole sysRole=new SysRole();
+       sysRole.setDescription(updateRoleModel.getDescription());
+       sysRole.setRoleName(updateRoleModel.getRoleName());
+       sysRole.setRoleCode(updateRoleModel.getRoleCode());
+       Integer result=sysRoleService.updateRoleByRoleId(sysRole);
+       if(result==1){
+           map.put("result",true);
+       }else {
+           map.put("result",false);
+       }
+        return map;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/11/21
+      *@ Description：删除角色
+      */
+    @RequestMapping(value = "/deleteRole",method = RequestMethod.POST)
+    @ApiOperation("删除角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.DELETE_ROLE_MSG),
+            @ApiResponse(code=500,message = Result.DELETE_ROLE_ERROR_MSG)
+    })
+    public Map<String,Boolean> deleteRoleByRoleId(@RequestBody @Valid DeleteRoleDto deleteRoleDto){
+        Map<String,Boolean> map=new HashMap<>();
+        deleteRoleDto.setId(deleteRoleDto.getId());
+        Integer result= sysRoleService.deleteRoleByRoleId(deleteRoleDto.getId());
+        if(result==1){
+            map.put("result",true);
+        }else {
             map.put("result",false);
         }
         return map;
