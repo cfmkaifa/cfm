@@ -21,9 +21,7 @@ import java.io.Serializable;
 @Data
 public class SysPermissionDto implements Serializable{
 
-    private static final long serialVersionUID = 7046487455365110153L;
-
-    @ApiModelProperty("传入权限对象")
+    @ApiModelProperty(value = "权限对象")
     private SysPermission sysPermission;
 
 }

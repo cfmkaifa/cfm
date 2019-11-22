@@ -31,7 +31,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     }
 
     /***
-     * AddPermissionToRole方法概述: TODO 给一个角色添加权限
+     * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
+     * @return List<SysPermission> 权限集合
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/11/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<SysPermission> getPermissionByRole() {
+        return sysPermissionExtMapper.getPermissionByRole();
+    }
+
+    /***
+     * addPermissionToRole方法概述: TODO 给一个角色添加权限
      * @param RoleId 角色id
      * @param PermissionId 权限id
      * @return
@@ -41,12 +53,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer AddPermissionToRole(Integer RoleId,Integer PermissionId) {
-        return sysPermissionExtMapper.AddPermissionToRole(RoleId,PermissionId);
+    public Integer addPermissionToRole(Integer RoleId,Integer PermissionId) {
+        return sysPermissionExtMapper.addPermissionToRole(RoleId,PermissionId);
     }
 
     /***
-     * AddPermission方法概述:TODO 添加一个新的权限(仅添加权限)
+     * addPermission方法概述:TODO 添加一个新的权限(仅添加权限)
      * @param sysPermission
      * @return
      * @创建人 niehy(Frunk)
@@ -55,40 +67,25 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer AddPermission(SysPermission sysPermission) {
-        return sysPermissionExtMapper.AddPermission(sysPermission);
+    public Integer addPermission(SysPermission sysPermission) {
+        return sysPermissionExtMapper.addPermission(sysPermission);
     }
 
     /***
-     * AddPermissionRole方法概述:TODO 将新的权限和角色绑定(添加中间表)
-     * @param permissionId,roleId
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @Transactional
-    public Integer AddPermissionRole(Long permissionId, Long roleId) {
-        return sysPermissionExtMapper.AddPermissionRole(permissionId,roleId);
-    }
-
-    /***
-     * UpdatePermission方法概述:TODO 通过权限id修改权限内容
-     * @param sysPermissionId 权限id
+     * updatePermission方法概述:TODO 修改权限内容
+     * @param sysPermission 权限对象
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @Transactional
-    public Integer UpdatePermissionById(Integer sysPermissionId) {
-        return sysPermissionExtMapper.UpdatePermissionById(sysPermissionId);
+    public Integer updatePermission(SysPermission sysPermission) {
+        return sysPermissionExtMapper.updatePermission(sysPermission);
     }
 
     /***
-     * UpdatePermissionToRole方法概述:TODO 修改一个角色的权限
+     * updatePermissionToRole方法概述:TODO 修改一个角色的权限
      * @param RoleId 角色di
      * @param PermissionId 权限id集合
      * @return
@@ -98,12 +95,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer UpdatePermissionToRole(Integer RoleId, Integer PermissionId) {
-        return sysPermissionExtMapper.UpdatePermissionToRole(RoleId,PermissionId);
+    public Integer updatePermissionToRole(Integer RoleId, Integer PermissionId) {
+        return sysPermissionExtMapper.updatePermissionToRole(RoleId,PermissionId);
     }
 
     /***
-     * DeletePermissionToRole方法概述:TODO 删除角色的权限
+     * deletePermissionToRole方法概述:TODO 删除角色的权限
      * @param RoleId 角色id
      * @param PermissionId 权限id
      * @return
@@ -113,8 +110,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer DeletePermissionToRole(Integer RoleId, Integer PermissionId) {
-        return sysPermissionExtMapper.DeletePermissionToRole(RoleId,PermissionId);
+    public Integer deletePermissionToRole(Integer RoleId, Integer PermissionId) {
+        return sysPermissionExtMapper.deletePermissionToRole(RoleId,PermissionId);
     }
 
 

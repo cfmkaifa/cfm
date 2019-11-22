@@ -7,8 +7,8 @@
    <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
   </sql>
 
-<!--查询一个用户的所有权限-->
-    <select id="getPermissionByUser" resultMap="BaseResultMap">
+<!--查询一个角色的所有权限-->
+    <select id="getPermissionByRoleId" resultMap="BaseResultMap" parameterType="Integer">
         SELECT
         p.parent_id,
         p.name,
@@ -27,18 +27,42 @@
         FROM f_sys_permission p
         JOIN f_sys_role_permission rp
         ON rp.role_id = p.id JOIN f_sys_role r
-        ON rp.role_id = r.id JOIN f_sys_user_role ur
-        ON r.id = ur.role_id JOIN f_sys_user u ON
-        ur.user_id = u.id WHERE u.username=#{username}
+        ON rp.role_id = r.id
+        WHERE r.id=#{RoleId}
+    </select>
+    <!--查询所有角色与其对应的所有权限-->
+    <select id="getPermissionByRole" resultMap="BaseResultMap">
+        SELECT
+        p.parent_id,
+        p.name,
+        p.perms,
+        p.icon,
+        p.component,
+        p.component_name,
+        p.always_show,
+        p.is_route,
+        p.is_leaf,
+        p.is_hidden,
+        p.sort_no,
+        p.description,
+        p.redirect,
+        p.url,
+		r.id,
+        r.role_name,
+        r.role_code
+        FROM f_sys_permission p
+        JOIN f_sys_role_permission rp
+        ON rp.role_id = p.id JOIN f_sys_role r
+        ON rp.role_id = r.id
     </select>
     <!--给一个角色添加权限-->
-    <insert id="AddPermissionToUser" parameterType="Integer">
+    <insert id="addPermissionToRole" parameterType="Integer">
       INSERT INTO f_sys_role_permission
       (role_id,permission_id)
       VALUES (#{RoleId},#{PermissionId})
     </insert>
     <!--添加一个新的权限(仅添加权限)-->
-    <insert id="AddPermission" parameterType="org.forbes.dal.entity.SysPermission">
+    <insert id="addPermission" parameterType="org.forbes.dal.entity.SysPermission">
         INSERT INTO f_sys_permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="parentId != null">
@@ -123,28 +147,8 @@
             </if>
         </trim>
     </insert>
-    <!--将新的权限和角色绑定(添加中间表)-->
-    <insert id="AddPermissionRole" parameterType="org.forbes.dal.entity.SysRolePermission">
-         INSERT INTO f_sys_role_permission
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="roleId != null">
-                role_id,
-            </if>
-            <if test="permissionId != null">
-                permission_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="roleId != null">
-                #{roleId},
-            </if>
-            <if test="permissionId != null">
-                #{permissionId},
-            </if>
-        </trim>
-    </insert>
     <!--修改权限内容-->
-    <update id="UpdatePermission" parameterType="Integer">
+    <update id="updatePermission" parameterType="Integer">
       UPDATE f_sys_permission
       <set>
           <if test="parentId != null">
@@ -190,7 +194,7 @@
         WHERE id = #{permissionId}
     </update>
     <!--修改一个角色的权限(中间表)-->
-    <update id="UpdatePermissionToUser" parameterType="Integer">
+    <update id="updatePermissionToRole" parameterType="Integer">
         UPDATE f_sys_role_permission
         <set>
             <if test="permissionId != null" >
@@ -200,7 +204,7 @@
         WHERE role_id = #{RoleId}
     </update>
     <!--删除角色的权限-->
-    <delete id="DeletePermissionToUser" parameterType="Integer">
+    <delete id="deletePermissionToRole" parameterType="Integer">
         DELETE FROM f_sys_role_permission
         WHERE role_id = #{RoleId} AND permission_id = #{PermissionId}
     </delete>

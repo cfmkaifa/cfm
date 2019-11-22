@@ -21,7 +21,17 @@ public interface SysPermissionExtMapper {
     List<SysPermission> getPermissionByRoleId(Integer RoleId);
 
     /***
-     * AddPermissionToRole方法概述:TODO 给一个角色添加权限
+     * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
+     * @return List<SysPermission> 权限集合
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/11/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    List<SysPermission> getPermissionByRole();
+
+    /***
+     * addPermissionToRole方法概述:TODO 给一个角色添加权限
      * @param RoleId 角色id
      * @param PermissionId 权限id
      * @return
@@ -30,10 +40,10 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer AddPermissionToRole(Integer RoleId,Integer PermissionId);
+    Integer addPermissionToRole(Integer RoleId,Integer PermissionId);
 
     /***
-     * AddPermission方法概述:TODO 添加一个新的权限(仅添加权限)
+     * addPermission方法概述:TODO 添加一个新的权限(仅添加权限)
      * @param sysPermission
      * @return 
      * @创建人 niehy(Frunk)
@@ -41,33 +51,21 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer AddPermission(SysPermission sysPermission);
+    Integer addPermission(SysPermission sysPermission);
 
     /***
-     * AddPermissionRole方法概述:TODO 将新的权限和角色绑定(添加中间表)
-     * @param permissionId 权限id
-     * @param roleId 角色id
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    Integer AddPermissionRole(Long permissionId, Long roleId);
-
-    /***
-     * UpdatePermission方法概述:TODO 通过权限id修改权限内容
-     * @param PermissionId 权限id
+     * updatePermission方法概述:TODO 修改权限内容
+     * @param sysPermission 权限对象
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer UpdatePermissionById(Integer PermissionId);
+    Integer updatePermission(SysPermission sysPermission);
 
     /***
-     * UpdatePermissionToRole方法概述:TODO 修改一个角色的权限
+     * updatePermissionToRole方法概述:TODO 修改一个角色的权限
      * @param RoleId 角色di
      * @param PermissionId 权限id集合
      * @return
@@ -76,10 +74,10 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer UpdatePermissionToRole(Integer RoleId,Integer PermissionId);
+    Integer updatePermissionToRole(Integer RoleId,Integer PermissionId);
 
     /***
-     * DeletePermissionToRole方法概述:TODO 删除角色的权限
+     * deletePermissionToRole方法概述:TODO 删除角色的权限
      * @param RoleId 角色id
      * @param PermissionId 权限id
      * @return
@@ -88,6 +86,6 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer DeletePermissionToRole(Integer RoleId,Integer PermissionId);
+    Integer deletePermissionToRole(Integer RoleId,Integer PermissionId);
 
 }

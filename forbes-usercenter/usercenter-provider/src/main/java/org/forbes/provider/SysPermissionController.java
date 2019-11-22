@@ -6,15 +6,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysPermissionService;
-import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.dto.RolePermissionDto;
 import org.forbes.comm.dto.SysPermissionDto;
-import org.forbes.comm.dto.SysRoleDto;
-import org.forbes.comm.dto.SysUserDto;
-import org.forbes.comm.utils.JwtUtil;
-import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.UserPermissionVo;
+import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysPermission;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,33 +34,52 @@ public class SysPermissionController {
     private RedisUtil redisUtil;
 
 
-    @RequestMapping(value = "/getPermission", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPermissionByRoleId", method = RequestMethod.POST)
     @ApiOperation("查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<UserPermissionVo> getPermissionByRoleId(@RequestBody @Valid Integer RoleId){
-        Result<UserPermissionVo> result = new Result<>();
+    public Result<SysRolePermissionVo> getPermissionByRoleId(@RequestBody @Valid Integer RoleId){
+        Result<SysRolePermissionVo> result = new Result<>();
         List<SysPermission> permissionList = sysPermissionService.getPermissionByRoleId(RoleId);
 
-        UserPermissionVo userPermissionVo = new UserPermissionVo();
-        userPermissionVo.setSysPermissionList(permissionList);
+        SysRolePermissionVo sysRolePermissionVo = new SysRolePermissionVo();
+        sysRolePermissionVo.setSysPermissionList(permissionList);
 
-        result.setResult(userPermissionVo);
-        System.out.println(userPermissionVo.toString());
+        result.setResult(sysRolePermissionVo);
+        System.out.println(sysRolePermissionVo.toString());
         return result;
     }
 
-    @RequestMapping(value = "/AddPermission", method = RequestMethod.POST)
+    @RequestMapping(value = "/getPermissionByRole", method = RequestMethod.POST)
+    @ApiOperation("查询所有角色与其对应的所有权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
+    })
+    public Result<SysRolePermissionVo> getPermissionByRole(){
+        Result<SysRolePermissionVo> result = new Result<>();
+        List<SysPermission> permissionByRoleList = sysPermissionService.getPermissionByRole();
+
+        SysRolePermissionVo sysRolePermissionVo = new SysRolePermissionVo();
+        sysRolePermissionVo.setSysPermissionList(permissionByRoleList);
+
+        result.setResult(sysRolePermissionVo);
+        System.out.println(sysRolePermissionVo.toString());
+        return result;
+    }
+
+
+    @RequestMapping(value = "/addPermission", method = RequestMethod.POST)
     @ApiOperation("仅添加一个权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_PERMISSION_MSG)
     })
-    public Result<Integer> AddPermission(@RequestBody @Valid SysPermissionDto sysPermissionDto){
+    public Result<Integer> addPermission(@RequestBody @Valid SysPermissionDto sysPermissionDto){
         Result<Integer> result = new Result<>();
-        Integer i = sysPermissionService.AddPermission(sysPermissionDto.getSysPermission());
+        Integer i = sysPermissionService.addPermission(sysPermissionDto.getSysPermission());
         if (i!=0){
             result.success("添加权限成功！");
             result.setCode(200);
@@ -76,17 +90,17 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/AddPermissionToUser", method = RequestMethod.POST)
+    @RequestMapping(value = "/addPermissionToRole", method = RequestMethod.POST)
     @ApiOperation("给一个用户添加一些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> AddPermissionByRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
+    public Result<Integer> addPermissionByRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
         Result<Integer> result = new Result<>();
-        List<Integer> list = rolePermissionDto.getPermissionIdList();
+        List<Integer> list = rolePermissionDto.getPermissionId();
         for (Integer PermissionId:list) {
-            Integer i = sysPermissionService.AddPermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
+            Integer i = sysPermissionService.addPermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
             if (i!=0){
                 result.success("添加用户权限成功！");
                 result.setCode(200);
@@ -98,15 +112,15 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/UpdatePermissionById", method = RequestMethod.POST)
-    @ApiOperation("通过权限id修改权限内容")
+    @RequestMapping(value = "/updatePermissionById", method = RequestMethod.POST)
+    @ApiOperation("修改权限内容")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<Integer> UpdatePermission(@RequestBody @Valid Integer PermissionId){
+    public Result<Integer> UpdatePermission(@RequestBody @Valid SysPermissionDto sysPermissionDto){
         Result<Integer> result = new Result<>();
-        Integer i = sysPermissionService.UpdatePermissionById(PermissionId);
+        Integer i = sysPermissionService.updatePermission(sysPermissionDto.getSysPermission());
             if (i!=0){
                 result.success("修改权限内容成功！");
                 result.setCode(200);
@@ -117,18 +131,18 @@ public class SysPermissionController {
             return result;
     }
 
-    @RequestMapping(value = "/UpdatePermissionToRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/updatePermissionToRole", method = RequestMethod.POST)
     @ApiOperation("修改一个角色的某些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> UpdatePermissionToRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
+    public Result<Integer> updatePermissionToRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
         Result<Integer> result = new Result<>();
-        List<Integer> list = rolePermissionDto.getPermissionIdList();
+        List<Integer> list = rolePermissionDto.getPermissionId();
 
         for (Integer PermissionId:list) {
-            Integer i = sysPermissionService.UpdatePermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
+            Integer i = sysPermissionService.updatePermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
             if (i!=0){
                 result.success("修改角色权限成功！");
                 result.setCode(200);
@@ -141,17 +155,17 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/DeletePermissionToRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/deletePermissionToRole", method = RequestMethod.POST)
     @ApiOperation("删除角色的一些权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> DeletePermissionToRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
+    public Result<Integer> deletePermissionToRole(@RequestBody @Valid RolePermissionDto rolePermissionDto){
         Result<Integer> result = new Result<>();
-        List<Integer> list = rolePermissionDto.getPermissionIdList();
+        List<Integer> list = rolePermissionDto.getPermissionId();
         for (Integer PermissionId:list) {
-            Integer i = sysPermissionService.DeletePermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
+            Integer i = sysPermissionService.deletePermissionToRole(rolePermissionDto.getRoleId(),PermissionId);
             if (i!=0){
                 result.success("删除角色权限成功！");
                 result.setCode(200);

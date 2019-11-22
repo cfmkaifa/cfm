@@ -68,8 +68,10 @@ public class Result<T> implements Serializable {
 	public static final  String ROLE_LIST_ERROR_MSG="查询所有角色失败";
 
 	/******查询权限信息****/
-	public static final  String PERMISSION_MSG = "返回权限信息成功";
-	public static final  String PERMISSION_NOT_ERROR_MSG = "返回权限信息失败";
+	public static final  String PERMISSION_MSG = "查询个人权限成功";
+	public static final  String PERMISSION_NOT_ERROR_MSG = "查询个人权限成功";
+	public static final  String ALL_PERMISSION_MSG = "查询所有人权限成功";
+	public static final  String ALL_PERMISSION_NOT_ERROR_MSG = "查询所有人权限成功";
 	/******添加权限信息****/
 	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
 	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";
