@@ -25,6 +25,16 @@ public interface SysUserExtMapper {
 	 */
 	SysUser  getUserByName(@Param("username")String username);
 
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/11/22
+	 *@ Description：多条件查询用户+分页
+	 */
+	List<SysUser>  selectUserList(@Param("status")String status,@Param("roleId") Long roleId,
+								  @Param("username")String username,@Param("realname") String realname,
+								  @Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);
 
 	/***
 	 * 获取用户列表

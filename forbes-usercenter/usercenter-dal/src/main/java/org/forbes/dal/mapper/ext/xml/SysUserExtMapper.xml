@@ -17,6 +17,27 @@
 	  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
   </select>
 
+    <!--多条件查询用户+分页-->
+    <select id="selectUserList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        `f_sys_user` AS fsu
+        <where>
+            <if test="status!=null and status!=''">
+                AND fsu.status=#{status,jdbcType=VARCHAR}
+            </if>
+            <if test="roleId!=null and roleId!=''">
+                AND fsu.roleId=#{roleId,jdbcType=BIGINT}
+            </if>
+            <if test="username!=null and username!=''">
+                AND fsu.username=#{username,jdbcType=VARCHAR}
+            </if>
+            <if test="realname!=null and realname!=''">
+                AND fsu.realname=#{realname,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
     <!--根据用户名修改状态-->
     <update id="updateUserStatus" parameterType="string">
         UPDATE f_sys_user AS  fsu SET fsu.status=#{status,jdbcType=VARCHAR} WHERE fsu.username=#{username,jdbcType=VARCHAR}

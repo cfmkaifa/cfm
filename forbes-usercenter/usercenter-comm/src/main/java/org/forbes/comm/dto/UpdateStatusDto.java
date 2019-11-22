@@ -18,8 +18,8 @@ import java.io.Serializable;
 @Data
 public class UpdateStatusDto implements Serializable {
 
-    @ApiModelProperty(value="登录账号",required=true)
-    @NotEmpty(message="登录账号不能为空")
+    @ApiModelProperty(value="用户名账号",required=true)
+    @NotEmpty(message="用户名账号不能为空")
     private String username;
 
     @ApiModelProperty(value="状态不能为空",required=true)

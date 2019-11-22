@@ -18,6 +18,7 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -42,7 +43,7 @@ public class SysUserRoleController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
-    @RequestMapping("/addUserAndRole")
+    @RequestMapping(value = "/addUserAndRole",method = RequestMethod.POST)
     @ApiOperation("添加")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.ADD_USER_AND_ROLE_MSG),
@@ -64,7 +65,7 @@ public class SysUserRoleController {
         return map;
     }
 
-    @RequestMapping("/deleteUserAndRole")
+    @RequestMapping(value = "/deleteUserAndRole",method = RequestMethod.POST)
     @ApiOperation("删除")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.DELETE_USER_AND_ROLE_MSG),
@@ -81,7 +82,7 @@ public class SysUserRoleController {
         return map;
     }
 
-    @RequestMapping("/selectUserAndRoleByUserId")
+    @RequestMapping(value ="/selectUserAndRoleByUserId",method = RequestMethod.POST)
     @ApiOperation("根据用户id查询用户角色中间表")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.DELETE_USER_AND_ROLE_MSG),

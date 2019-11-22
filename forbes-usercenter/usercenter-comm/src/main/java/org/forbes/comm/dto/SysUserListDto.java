@@ -32,10 +32,11 @@ public class SysUserListDto implements Serializable{
     private String realname;
 
     @ApiModelProperty("页码")
-    @Builder.Default
+    //@Builder.Default
     Integer pageNum=1;
 
     @ApiModelProperty("默认每页显示条数")
+   // @Builder.Default
     Integer pageSize=10;
 
 

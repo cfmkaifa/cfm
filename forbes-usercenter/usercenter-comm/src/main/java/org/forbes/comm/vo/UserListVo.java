@@ -1,5 +1,6 @@
 package org.forbes.comm.vo;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +24,6 @@ public class UserListVo implements Serializable{
      *用户集合
      **/
     @ApiModelProperty("用户集合")
-    private List<SysUser> sysUserInfo;
+    private PageInfo<SysUser> sysUserInfo;
 
 }
