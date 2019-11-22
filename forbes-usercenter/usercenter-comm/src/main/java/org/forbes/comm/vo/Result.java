@@ -86,6 +86,22 @@ public class Result<T> implements Serializable {
 	public static final  String DELETE_ROLE_PERMISSION_MSG = "删除角色权限成功";
 	public static final  String DELETE_ROLE_PERMISSION_NOT_ERROR_MSG = "删除角色权限失败";
 
+	/******用户角色中间表添加****/
+	public static final  String ADD_USER_AND_ROLE_MSG = "用户角色中间表添加成功";
+	public static final  String ADD_USER_AND_ROLE_ERROR_MSG = "用户角色中间表添加失败";
+
+	/******用户角色中间表删除****/
+	public static final  String DELETE_USER_AND_ROLE_MSG = "用户角色中间表删除成功";
+	public static final  String DELETE_USER_AND_ROLE_ERROR_MSG = "用户角色中间表删除失败";
+
+	/*****用户角色中间表查询*****/
+	public static final  String SELECT_USER_AND_ROLE_MSG = "用户角色中间表查询成功";
+	public static final  String SELECT_USER_AND_ROLE_ERROR_MSG = "用户角色中间表查询失败";
+
+	/*****多条件查询用户集合*****/
+	public static final  String SELECT_LIST_USER_AND_ROLE_MSG = "多条件查询用户成功";
+	public static final  String SELECT_LIST_USER_AND_ROLE_ERROR_MSG = "多条件查询用户失败";
+
 
 	/**
 	 * 返回代码

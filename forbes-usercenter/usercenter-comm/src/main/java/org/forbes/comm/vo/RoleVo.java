@@ -1,9 +1,11 @@
 package org.forbes.comm.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.forbes.dal.entity.SysRole;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,10 +17,11 @@ import java.util.List;
  **/
 @Data
 @ApiModel(description = "角色集合")
-public class RoleVo {
+public class RoleVo implements Serializable{
 
     /**
      * 角色集合
      **/
+    @ApiModelProperty("角色集合")
     private List<SysRole> sysRoleList;
 }

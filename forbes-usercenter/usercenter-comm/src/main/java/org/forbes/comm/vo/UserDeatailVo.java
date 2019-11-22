@@ -1,6 +1,7 @@
 package org.forbes.comm.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.forbes.dal.entity.SysUser;
 
@@ -21,5 +22,6 @@ public class UserDeatailVo implements Serializable {
 
     /***当前用户信息
      */
+    @ApiModelProperty("用户详情")
     private SysUser userInfo;
 }

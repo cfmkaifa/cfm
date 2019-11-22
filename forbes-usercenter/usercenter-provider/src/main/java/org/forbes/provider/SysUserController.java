@@ -6,12 +6,10 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.ISysUserService;
-import org.forbes.comm.dto.AddUserDto;
-import org.forbes.comm.dto.UpdateStatusDto;
-import org.forbes.comm.dto.UpdateUserDto;
-import org.forbes.comm.dto.UserDetailDto;
+import org.forbes.comm.dto.*;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.UserDeatailVo;
+import org.forbes.comm.vo.UserListVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,22 @@ public class SysUserController {
     private RedisUtil redisUtil;
 
 
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/11/22
+      *@ Description：多条件查询用户+分页
+      */
+    @RequestMapping(value = "/selectUserList",method = RequestMethod.POST)
+    @ApiOperation("查询所有用户")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
+            @ApiResponse(code=500,message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
+    })
+    public Result<UserListVo> selectUserList(@RequestBody @Valid SysUserListDto sysUserListDto){
+        return null;
+    }
 
     @RequestMapping(value = "/updateUserstatus",method = RequestMethod.POST)
     @ApiOperation("根据用户名修改用户状态")
