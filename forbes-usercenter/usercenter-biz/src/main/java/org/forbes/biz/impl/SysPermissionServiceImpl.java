@@ -19,15 +19,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
 
     /***
      * getPermissionByRole方法概述: TODO 查询一个角色的所有权限
-     * @param RoleId 用户名
+     * @param roleId 用户名
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/20
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public List<SysPermission> getPermissionByRoleId(Integer RoleId) {
-        return sysPermissionExtMapper.getPermissionByRoleId(RoleId);
+    public List<SysPermission> getPermissionByRoleId(Long roleId) {
+        return sysPermissionExtMapper.getPermissionByRoleId(roleId);
     }
 
     /***
@@ -44,8 +44,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
 
     /***
      * addPermissionToRole方法概述: TODO 给一个角色添加权限
-     * @param RoleId 角色id
-     * @param PermissionId 权限id
+     * @param roleId 角色id
+     * @param permissionId 权限id
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/20
@@ -53,8 +53,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer addPermissionToRole(Integer RoleId,Integer PermissionId) {
-        return sysPermissionExtMapper.addPermissionToRole(RoleId,PermissionId);
+    public Integer addPermissionToRole(Long roleId,Long permissionId) {
+        return sysPermissionExtMapper.addPermissionToRole(roleId,permissionId);
     }
 
     /***
@@ -80,14 +80,14 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public Integer updatePermission(SysPermission sysPermission) {
-        return sysPermissionExtMapper.updatePermission(sysPermission);
+    public Integer updatePermission(SysPermission sysPermission,Long permissionId) {
+        return sysPermissionExtMapper.updatePermission(sysPermission,permissionId);
     }
 
     /***
-     * updatePermissionToRole方法概述:TODO 修改一个角色的权限
-     * @param RoleId 角色di
-     * @param PermissionId 权限id集合
+     * updatePermissionToRole方法概述:TODO 修改角色的一个权限
+     * @param roleId 角色di
+     * @param permissionId 权限id集合
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
@@ -95,14 +95,14 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer updatePermissionToRole(Integer RoleId, Integer PermissionId) {
-        return sysPermissionExtMapper.updatePermissionToRole(RoleId,PermissionId);
+    public Integer updatePermissionToRole(Long id,Long roleId, Long permissionId) {
+        return sysPermissionExtMapper.updatePermissionToRole(id,roleId,permissionId);
     }
 
     /***
-     * deletePermissionToRole方法概述:TODO 删除角色的权限
-     * @param RoleId 角色id
-     * @param PermissionId 权限id
+     * deletePermissionToRole方法概述:TODO 删除角色的一个权限
+     * @param roleId 角色id
+     * @param permissionId 权限id
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
@@ -110,8 +110,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer deletePermissionToRole(Integer RoleId, Integer PermissionId) {
-        return sysPermissionExtMapper.deletePermissionToRole(RoleId,PermissionId);
+    public Integer deletePermissionToRole(Long roleId, Long permissionId) {
+        return sysPermissionExtMapper.deletePermissionToRole(roleId,permissionId);
     }
 
 

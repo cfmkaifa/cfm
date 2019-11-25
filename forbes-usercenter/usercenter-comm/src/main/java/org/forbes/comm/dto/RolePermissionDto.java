@@ -12,24 +12,24 @@ import java.util.List;
 public class RolePermissionDto implements Serializable{
 
     @ApiModelProperty(value="角色id")
-    private Integer RoleId;
+    private Long roleId;
 
     @ApiModelProperty(value="权限id集合")
-    private List<Integer> PermissionId;
+    private List<Long> PermissionId;
 
-    public Integer getRoleId() {
-        return RoleId;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
-        RoleId = roleId;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public List<Integer> getPermissionId() {
+    public List<Long> getPermissionId() {
         return PermissionId;
     }
 
-    public void setPermissionId(List<Integer> permissionId) {
+    public void setPermissionId(List<Long> permissionId) {
         PermissionId = permissionId;
     }
 }

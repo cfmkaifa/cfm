@@ -24,11 +24,9 @@
         p.description,
         p.redirect,
         p.url
-        FROM f_sys_permission p
-        JOIN f_sys_role_permission rp
-        ON rp.role_id = p.id JOIN f_sys_role r
-        ON rp.role_id = r.id
-        WHERE r.id=#{RoleId}
+       FROM f_sys_permission p
+       JOIN f_sys_role_permission rp on p.id = rp.permission_id
+	   WHERE rp.role_id =#{roleId}
     </select>
     <!--查询所有角色与其对应的所有权限-->
     <select id="getPermissionByRole" resultMap="BaseResultMap">
@@ -59,7 +57,7 @@
     <insert id="addPermissionToRole" parameterType="Integer">
       INSERT INTO f_sys_role_permission
       (role_id,permission_id)
-      VALUES (#{RoleId},#{PermissionId})
+      VALUES (#{roleId,jdbcType=BIGINT},#{PermissionId,jdbcType=BIGINT})
     </insert>
     <!--添加一个新的权限(仅添加权限)-->
     <insert id="addPermission" parameterType="org.forbes.dal.entity.SysPermission">
@@ -148,7 +146,7 @@
         </trim>
     </insert>
     <!--修改权限内容-->
-    <update id="updatePermission" parameterType="Integer">
+    <update id="updatePermission" parameterType="org.forbes.dal.entity.SysPermission">
       UPDATE f_sys_permission
       <set>
           <if test="parentId != null">
@@ -191,21 +189,21 @@
               icon = #{icon},
           </if>
       </set>
-        WHERE id = #{permissionId}
+        WHERE id = #{permissionId,jdbcType=BIGINT}
     </update>
-    <!--修改一个角色的权限(中间表)-->
-    <update id="updatePermissionToRole" parameterType="Integer">
+    <!--修改角色的一个权限(中间表)-->
+    <update id="updatePermissionToRole" parameterType="Long">
         UPDATE f_sys_role_permission
         <set>
             <if test="permissionId != null" >
-                permission_id = #{permissionId},
+                permission_id = #{permissionId,jdbcType=BIGINT},
             </if>
         </set>
-        WHERE role_id = #{RoleId}
+        WHERE role_id = #{roleId,jdbcType=BIGINT} AND id = #{id,jdbcType=BIGINT}
     </update>
-    <!--删除角色的权限-->
-    <delete id="deletePermissionToRole" parameterType="Integer">
+    <!--删除角色的一个权限(中间表)-->
+    <delete id="deletePermissionToRole" parameterType="Long">
         DELETE FROM f_sys_role_permission
-        WHERE role_id = #{RoleId} AND permission_id = #{PermissionId}
+        WHERE role_id = #{roleId,jdbcType=BIGINT} AND permission_id = #{permissionId,jdbcType=BIGINT}
     </delete>
 </mapper>
