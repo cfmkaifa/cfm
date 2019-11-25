@@ -146,7 +146,7 @@
         </trim>
     </insert>
     <!--修改权限内容-->
-    <update id="updatePermission" parameterType="org.forbes.dal.entity.SysPermission">
+    <update id="updatePermissionById" parameterType="org.forbes.dal.entity.SysPermission">
       UPDATE f_sys_permission
       <set>
           <if test="parentId != null">
