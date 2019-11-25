@@ -40,7 +40,7 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<SysRolePermissionVo> getPermissionByRoleId(@RequestBody @Valid Integer RoleId){
+    public Result<SysRolePermissionVo> getPermissionByRoleId(Integer RoleId){
         Result<SysRolePermissionVo> result = new Result<>();
         List<SysPermission> permissionList = sysPermissionService.getPermissionByRoleId(RoleId);
 
