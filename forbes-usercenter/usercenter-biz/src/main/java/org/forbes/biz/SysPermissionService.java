@@ -53,14 +53,13 @@ public interface SysPermissionService extends IService<SysPermission> {
 
     /***
      * updatePermission方法概述:TODO 修改权限内容
-     * @param sysPermission 权限对象
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updatePermissionById(SysPermission sysPermission,Long permissionId);
+    Integer updatePermissionById(Integer parentId,String name,String description,Long permissionId);
 
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限

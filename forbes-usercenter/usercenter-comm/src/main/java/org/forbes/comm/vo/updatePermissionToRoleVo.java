@@ -4,18 +4,14 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+@ApiModel("修改角色的一个权限接收参数")
 @Data
 public class updatePermissionToRoleVo implements Serializable{
-    /**
-     * 中间表id
-     */
-    @ApiModelProperty("主键Id")
-    private Long id;
-
     /**
      * 角色ID
      * Table:     f_sys_role_permission

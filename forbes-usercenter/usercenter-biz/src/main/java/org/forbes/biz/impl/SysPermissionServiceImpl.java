@@ -1,6 +1,7 @@
 package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.mapper.SysPermissionMapper;
@@ -73,15 +74,14 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
 
     /***
      * updatePermission方法概述:TODO 修改权限内容
-     * @param sysPermission 权限对象
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public Integer updatePermissionById(SysPermission sysPermission,Long permissionId) {
-        return sysPermissionExtMapper.updatePermissionById(sysPermission,permissionId);
+    public Integer updatePermissionById(Integer parentId,String name,String description,Long permissionId) {
+        return sysPermissionExtMapper.updatePermissionById(parentId,name,description,permissionId);
     }
 
     /***

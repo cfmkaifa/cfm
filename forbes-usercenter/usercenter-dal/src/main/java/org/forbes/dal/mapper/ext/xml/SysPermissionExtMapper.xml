@@ -54,10 +54,10 @@
         ON rp.role_id = r.id
     </select>
     <!--给一个角色添加权限-->
-    <insert id="addPermissionToRole" parameterType="Integer">
+    <insert id="addPermissionToRole" parameterType="org.forbes.comm.dto.RolePermissionDto">
       INSERT INTO f_sys_role_permission
       (role_id,permission_id)
-      VALUES (#{roleId,jdbcType=BIGINT},#{PermissionId,jdbcType=BIGINT})
+      VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
     </insert>
     <!--添加一个新的权限(仅添加权限)-->
     <insert id="addPermission" parameterType="org.forbes.dal.entity.SysPermission">
@@ -146,59 +146,17 @@
         </trim>
     </insert>
     <!--修改权限内容-->
-    <update id="updatePermissionById" parameterType="org.forbes.dal.entity.SysPermission">
-      UPDATE f_sys_permission
-      <set>
-          <if test="parentId != null">
-              parent_id = #{parentId},
-          </if>
-          <if test="name != null">
-              name = #{name},
-          </if>
-          <if test="perms != null">
-              perms = #{perms},
-          </if>
-          <if test="component != null">
-              component = #{component},
-          </if>
-          <if test="componentName != null">
-              component_name = #{componentName},
-          </if>
-          <if test="isRoute != null">
-              is_route = #{isRoute},
-          </if>
-          <if test="isLeaf != null">
-              is_leaf = #{isLeaf},
-          </if>
-          <if test="isHidden != null">
-              is_hidden = #{isHidden},
-          </if>
-          <if test="sortNo != null">
-              sort_no = #{sortNo},
-          </if>
-          <if test="description != null">
-              description = #{description},
-          </if>
-          <if test="redirect != null">
-              redirect = #{redirect},
-          </if>
-          <if test="url != null">
-              url = #{url},
-          </if>
-          <if test="icon != null">
-              icon = #{icon},
-          </if>
-      </set>
+    <update id="updatePermissionById" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
+      UPDATE f_sys_permission SET
+        parent_id = #{parentId},
+        name = #{name},
+        description=#{description}
         WHERE id = #{permissionId,jdbcType=BIGINT}
     </update>
     <!--修改角色的一个权限(中间表)-->
     <update id="updatePermissionToRole" parameterType="Long">
         UPDATE f_sys_role_permission
-        <set>
-            <if test="permissionId != null" >
-                permission_id = #{permissionId,jdbcType=BIGINT},
-            </if>
-        </set>
+        SET permission_id = #{permissionId,jdbcType=BIGINT}
         WHERE role_id = #{roleId,jdbcType=BIGINT} AND id = #{id,jdbcType=BIGINT}
     </update>
     <!--删除角色的一个权限(中间表)-->
