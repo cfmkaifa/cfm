@@ -12,6 +12,7 @@ import org.forbes.comm.dto.RoleDto;
 import org.forbes.comm.dto.UpdateRoleDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -151,10 +152,8 @@ public class RoleController {
         Map<String,Boolean> map=new HashMap<>();
         Result<CommVo> result=new Result<CommVo>();
         CommVo comm=new CommVo();
-       SysRole sysRole=new SysRole();
-       sysRole.setDescription(updateRoleDto.getDescription());
-       sysRole.setRoleName(updateRoleDto.getRoleName());
-       sysRole.setRoleCode(updateRoleDto.getRoleCode());
+        SysRole sysRole=new SysRole();
+        BeanUtils.copyProperties(updateRoleDto,sysRole);
        Integer res=sysRoleService.updateRoleByRoleId(sysRole);
         if(res==1){
             map.put("result",true);

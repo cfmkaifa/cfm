@@ -157,10 +157,7 @@ public class SysUserController {
         Result<CommVo> result=new Result<CommVo>();
         CommVo comm=new CommVo();
         SysUser sysUser=new SysUser();
-        sysUser.setAvatar(updateUserDto.getAvatar());
-        sysUser.setPassword(updateUserDto.getPassword());
-        sysUser.setPhone(updateUserDto.getPhone());
-        sysUser.setUsername(updateUserDto.getUsername());
+        BeanUtils.copyProperties(updateUserDto,sysUser);
         Integer res=sysUserService.updateUserByUsername(sysUser);
         if(res==1){
             map.put("result",true);

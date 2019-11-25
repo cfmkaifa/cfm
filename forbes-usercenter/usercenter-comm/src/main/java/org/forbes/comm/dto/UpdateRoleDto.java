@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @ClassName
@@ -19,7 +20,6 @@ import java.io.Serializable;
 public class UpdateRoleDto implements Serializable {
 
     @ApiModelProperty(value = "角色名称",required = true)
-    @NotEmpty(message = "角色名称不能为空")
     private String roleName;
 
     @ApiModelProperty(value = "角色编码",required = true)
@@ -28,27 +28,12 @@ public class UpdateRoleDto implements Serializable {
     @ApiModelProperty(value = "描述",required = true)
     private String description;
 
-    public String getRoleName() {
-        return roleName;
-    }
+    @ApiModelProperty(value = "更新时间",required = true)
+    private Date updateTime;
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
+    @ApiModelProperty(value = "修改人",required = true)
+    private String updateBy;
 
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    @ApiModelProperty(value = "角色id",required = true)
+    private Long id;
 }

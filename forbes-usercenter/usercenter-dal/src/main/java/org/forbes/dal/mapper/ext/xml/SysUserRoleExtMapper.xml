@@ -60,13 +60,13 @@
 
     <!--根据用户id，角色id删除用户角色中间表-->
     <delete id="deleteUserAndRole" parameterType="long">
-        DELETE FROM f_sys_user_role WHERE user_id=#{userId,jdbcType=BIGINT} AND role_id#{roleId,jdbcType=BIGINT}
+        DELETE FROM f_sys_user_role WHERE user_id=#{userId,jdbcType=BIGINT} AND role_id=#{roleId,jdbcType=BIGINT}
     </delete>
 
     <!--根据用户的id查询用户角色中间表集合-->
     <select id="selectUserRoleListByUserId" parameterType="long" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List" />
-        FROM f_sys_user_role AS  fsur WHERE fsur.user_id=#{user_id,jdbcType=BIGINT}
+        FROM f_sys_user_role AS fsur WHERE fsur.user_id=#{userId,jdbcType=BIGINT}
     </select>
 </mapper>

@@ -23,7 +23,7 @@ public interface SysUserRoleExtMapper {
      *@ 时间：2019/11/22
      *@ Description：用户角色中间表删除
      */
-    Integer deleteUserAndRole(Long userId,Long roleId);
+    Integer deleteUserAndRole(@Param("userId") Long userId,@Param("roleId") Long roleId);
 
     /**
      *@ 作者：xfx

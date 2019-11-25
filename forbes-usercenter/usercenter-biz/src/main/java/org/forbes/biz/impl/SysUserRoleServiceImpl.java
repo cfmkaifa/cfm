@@ -47,7 +47,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      *@ 时间：2019/11/22
      *@ Description：根据用户id查询用户角色中间表集合
      */
-    public List<SysUserRole> selectUserRoleListByUserId(Long userId) {
+    public List<SysUserRole> selectUserRoleListByUserId(@Param("userId") Long userId) {
         return sysUserRoleExtMapper.selectUserRoleListByUserId(userId);
     }
 }

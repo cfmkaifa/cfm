@@ -18,6 +18,5 @@ import javax.validation.constraints.NotEmpty;
 public class SelectUserAndRoleDto {
 
     @ApiModelProperty("用户id")
-    @NotEmpty(message = "用户id不能为空")
     private Long userId;
 }
