@@ -1,7 +1,5 @@
 package org.forbes.biz;
 
-import com.github.pagehelper.PageInfo;
-import org.forbes.comm.dto.SysUserListDto;
 import org.forbes.dal.entity.SysUser;
 
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -30,7 +28,7 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ 时间：2019/11/22
 	  *@ Description：多条件查询用户+分页
 	  */
-	PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize);
+	List<SysUser> selectUserList(String status, Long roleId, String username, String realname);
 
 	/**
 	  *@ 作者：xfx

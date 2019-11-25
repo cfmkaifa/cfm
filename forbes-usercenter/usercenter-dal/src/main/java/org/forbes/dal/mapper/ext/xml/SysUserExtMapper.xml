@@ -45,7 +45,7 @@
 
     <!--添加用户-->
     <insert id="addUser" parameterType="org.forbes.dal.entity.SysUser">
-        insert into f_sys_user
+        INSERT INTO f_sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,

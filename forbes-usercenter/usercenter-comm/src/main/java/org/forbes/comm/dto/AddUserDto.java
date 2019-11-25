@@ -31,40 +31,9 @@ public class AddUserDto implements Serializable{
     private String avatar;
 
     @ApiModelProperty(value = "联系方式",required = true)
-    @NotEmpty(message = "联系方式")
     private String phone;
 
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    @ApiModelProperty(value = "角色id",required = true)
+    private Long roleId;
 
 }
