@@ -77,9 +77,9 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_PERMISSION_MSG)
     })
-    public Result<Integer> addPermission(@RequestBody @Valid SysPermissionDto sysPermissionDto){
+    public Result<Integer> addPermission(@RequestBody @Valid SysPermission sysPermission){
         Result<Integer> result = new Result<>();
-        Integer i = sysPermissionService.addPermission(sysPermissionDto.getSysPermission());
+        Integer i = sysPermissionService.addPermission(sysPermission);
         if (i!=0){
             result.success("添加权限成功！");
             result.setCode(200);
