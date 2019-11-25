@@ -54,7 +54,7 @@
         ON rp.role_id = r.id
     </select>
     <!--给一个角色添加权限-->
-    <insert id="addPermissionToRole" parameterType="org.forbes.comm.dto.RolePermissionDto">
+    <insert id="addPermissionToRole" parameterType="Integer">
       INSERT INTO f_sys_role_permission
       (role_id,permission_id)
       VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
@@ -147,7 +147,9 @@
     </insert>
     <!--修改权限内容-->
     <update id="updatePermissionById" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
-      UPDATE f_sys_permission SET
+      UPDATE f_sys_permission
+        <set>
+        <if test="parentId != null">
         parent_id = #{parentId},
         name = #{name},
         description=#{description}
