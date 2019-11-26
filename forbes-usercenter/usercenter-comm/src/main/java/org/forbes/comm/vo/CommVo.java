@@ -19,6 +19,7 @@ import java.util.Map;
 public class CommVo implements Serializable{
 
     private static final long serialVersionUID = -8166576612294212470L;
+
     @ApiModelProperty("封装map")
     private Map<String,Boolean> mapInfo;
 }

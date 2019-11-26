@@ -20,6 +20,7 @@ import java.io.Serializable;
 public class SysUserListDto implements Serializable{
 
     private static final long serialVersionUID = 4511975727752590523L;
+
     @ApiModelProperty("用户状态")
     private String status ;
 

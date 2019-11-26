@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class UserDetailDto implements Serializable {
 
     private static final long serialVersionUID = -4013216358690192922L;
+
     @ApiModelProperty(value = "用户名",required = true)
     @NotEmpty(message = "用户名不能为空")
     private String username;

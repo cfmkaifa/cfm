@@ -20,6 +20,7 @@ import java.util.List;
 public class RoleVo implements Serializable{
 
     private static final long serialVersionUID = -3657719596986178689L;
+
     /**
      * 角色集合
      **/

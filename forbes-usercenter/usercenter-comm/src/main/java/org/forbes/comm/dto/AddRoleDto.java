@@ -20,6 +20,7 @@ public class AddRoleDto implements Serializable{
 
     private static final long serialVersionUID = -5312771729107023541L;
 
+
     @ApiModelProperty(value = "角色名称",required = true)
     @NotEmpty(message = "名称不能为空")
     private String roleName;

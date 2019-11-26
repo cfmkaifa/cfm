@@ -18,6 +18,7 @@ import lombok.Data;
 public class SysRoleDto implements Serializable{
 
     private static final long serialVersionUID = 3951834472182006533L;
+
     @ApiModelProperty("传入角色对象")
     private SysRole sysRole;
 

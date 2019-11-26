@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class AddUserRoleDto implements Serializable{
 
     private static final long serialVersionUID = 5601288102119484469L;
+
     @ApiModelProperty(value = "用户id")
     @NotEmpty(message = "用户id不能为空")
     private Long userId;
