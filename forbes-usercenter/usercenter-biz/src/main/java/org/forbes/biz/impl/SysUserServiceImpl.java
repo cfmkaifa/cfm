@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import java.util.List;
-
 
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
@@ -31,6 +29,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return sysUserExtMapper.getUserByName(username);
 	}
 
+<<<<<<< HEAD
+	
+	
+//	public PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize) {
+//		PageHelper.startPage(pageNum,pageSize);
+//		List<SysUser> userlist=sysUserExtMapper.selectUserList(status,roleId,username,realname,pageNum,pageSize);
+//		PageInfo<SysUser> sysUserInfo=new PageInfo<>(userlist);
+//		return sysUserInfo;
+//	}
+=======
 	/**
 	 *@ 作者：xfx
 	 *@ 参数：
@@ -41,6 +49,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<SysUser> selectUserList(String status, Long roleId, String username, String realname) {
 		return sysUserExtMapper.selectUserList(status,roleId,username,realname);
 	}
+>>>>>>> 107fa499178a9afb1c430a34abed739f02ddd71f
 
 	/**
 	  *@ 作者：xfx

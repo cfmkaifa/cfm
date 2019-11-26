@@ -60,8 +60,15 @@ public class SysUserController {
         String status=sysUserListDto.getStatus();
         Long roleId=sysUserListDto.getRoleId();
         String realname=sysUserListDto.getRealname();
+<<<<<<< HEAD
+        Integer pageNum=sysUserListDto.getPageNum();
+        Integer pageSize=sysUserListDto.getPageSize();
+        PageInfo<SysUser> sysUsers = null;
+        //PageInfo<SysUser> sysUsers=sysUserService.selectUserList(status,roleId,username,realname,pageNum,pageSize);
+=======
 
         List<SysUser> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
+>>>>>>> 107fa499178a9afb1c430a34abed739f02ddd71f
         UserListVo obj=new UserListVo();
         if(sysUsers!=null){
             obj.setSysUserInfo(sysUsers);
