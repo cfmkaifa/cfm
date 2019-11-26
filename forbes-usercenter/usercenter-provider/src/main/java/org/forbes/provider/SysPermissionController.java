@@ -98,8 +98,11 @@ public class SysPermissionController {
         Result<Integer> result = new Result<>();
 
         Integer i = sysPermissionService.addPermissionToRole(rolePermissionDto.getRoleId(),rolePermissionDto.getPermissionId());
-
-
+        if (i!=0){
+            result.success("添加权限成功！");
+        }else {
+            result.error500("添加权限失败！");
+        }
         return result;
     }
 
