@@ -1,7 +1,6 @@
 package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.mapper.SysPermissionMapper;

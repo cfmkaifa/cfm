@@ -11,7 +11,6 @@ import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
-import org.forbes.comm.vo.updatePermissionToRoleVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRolePermission;

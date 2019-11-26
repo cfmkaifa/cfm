@@ -8,9 +8,16 @@ import org.forbes.dal.entity.SysPermission;
 import java.io.Serializable;
 import java.util.List;
 
+/***
+ * @创建人 niehy(Frunk)
+ * @创建时间 2019/11/26
+ * @修改人 (修改了该文件，请填上修改人的名字)
+ * @修改日期 (请填上修改该文件时的日期)
+ */
 @ApiModel(description="权限返回对象")
 @Data
 public class SysRolePermissionVo implements Serializable {
+    private static final long serialVersionUID = 4783400975725108257L;
     /**
      * 权限实体
      */
