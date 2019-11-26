@@ -19,7 +19,8 @@ import java.io.Serializable;
 @Data
 public class SysUserDto implements Serializable{
 
-    private static final long serialVersionUID = 7046487455365110153L;
+
+    private static final long serialVersionUID = 1077950871191386830L;
 
     @ApiModelProperty("传入用户对象")
     private SysUser sysUser;

@@ -18,6 +18,7 @@ import java.io.Serializable;
 @Data
 public class RoleDto implements Serializable{
 
+    private static final long serialVersionUID = -7360307154626516168L;
     @ApiModelProperty(value="用户id",required=true)
     private Long userId;
 

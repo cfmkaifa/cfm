@@ -19,6 +19,7 @@ import java.io.Serializable;
 @ApiModel("多条件查询用户请求参数")
 public class SysUserListDto implements Serializable{
 
+    private static final long serialVersionUID = 4511975727752590523L;
     @ApiModelProperty("用户状态")
     private String status ;
 

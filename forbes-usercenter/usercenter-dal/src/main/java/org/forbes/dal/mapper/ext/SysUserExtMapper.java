@@ -1,5 +1,8 @@
 package org.forbes.dal.mapper.ext;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.dal.entity.SysUser;
 
@@ -9,9 +12,9 @@ import java.util.List;
  * SysUserExtMapper概要说明：扩展类
  * @author Huanghy
  */
-public interface SysUserExtMapper {
+public interface SysUserExtMapper extends BaseMapper<SysUser>{
 
-	
+	List<SysUser> selectByMyWrapper(@Param(Constants.WRAPPER) Wrapper<SysUser> userWrapper);
 	
 	
 	/***

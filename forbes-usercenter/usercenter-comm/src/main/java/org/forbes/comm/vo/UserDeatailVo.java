@@ -20,6 +20,7 @@ import java.io.Serializable;
 @Data
 public class UserDeatailVo implements Serializable {
 
+    private static final long serialVersionUID = 2804937542306643999L;
     /***当前用户信息
      */
     @ApiModelProperty("用户详情")

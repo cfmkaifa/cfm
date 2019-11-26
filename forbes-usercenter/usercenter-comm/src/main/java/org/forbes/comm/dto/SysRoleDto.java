@@ -18,8 +18,8 @@ import java.io.Serializable;
 @ApiModel("传入角色对象")
 @Data
 public class SysRoleDto implements Serializable{
-    private static final long serialVersionUID = 7046487455365110153L;
 
+    private static final long serialVersionUID = 3951834472182006533L;
     @ApiModelProperty("传入角色对象")
     private SysRole sysRole;
 

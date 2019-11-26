@@ -19,6 +19,7 @@ import java.util.Date;
 @Data
 public class UpdateRoleDto implements Serializable {
 
+    private static final long serialVersionUID = -3137827571067901729L;
     @ApiModelProperty(value = "角色名称",required = true)
     private String roleName;
 

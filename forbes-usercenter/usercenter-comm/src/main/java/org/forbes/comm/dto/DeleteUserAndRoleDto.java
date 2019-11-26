@@ -17,6 +17,7 @@ import java.io.Serializable;
 @Data
 public class DeleteUserAndRoleDto implements Serializable{
 
+    private static final long serialVersionUID = -1855934229421660793L;
     @ApiModelProperty(value = "用户id")
     private Long userId;
 

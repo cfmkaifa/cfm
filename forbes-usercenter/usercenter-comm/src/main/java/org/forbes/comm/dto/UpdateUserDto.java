@@ -17,6 +17,7 @@ import java.io.Serializable;
 @ApiModel(description = "修改用户信息传参")
 @Data
 public class UpdateUserDto implements Serializable {
+    private static final long serialVersionUID = 6344108326364152869L;
     @ApiModelProperty(value="登录账号",required=true)
     @NotEmpty(message="登录账号不能为空")
     private String username;
