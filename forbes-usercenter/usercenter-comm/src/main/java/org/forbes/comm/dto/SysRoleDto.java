@@ -5,6 +5,7 @@ import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.forbes.dal.entity.SysRole;
 
 /***
  * @类描述 角色传入model
