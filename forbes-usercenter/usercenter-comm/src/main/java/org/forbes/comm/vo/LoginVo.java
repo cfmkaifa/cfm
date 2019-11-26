@@ -2,12 +2,11 @@ package org.forbes.comm.vo;
 
 import java.io.Serializable;
 
-import org.forbes.dal.entity.SysUser;
+import org.springframework.stereotype.Component;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 /***登录返回信息
  * LoginVo概要说明：
@@ -29,6 +28,6 @@ public class LoginVo implements Serializable  {
 	/***当前用户信息
 	 */
 	@ApiModelProperty("当前用户信息")
-	private SysUser userInfo;
+	private SysUserVo userInfo;
 }
 

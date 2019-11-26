@@ -9,8 +9,10 @@ import org.forbes.comm.utils.JwtUtil;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.SysUserVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysUser;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,7 +82,9 @@ public class LoginController {
 			redisUtil.expire(CommonConstant.PREFIX_USER_TOKEN + token, JwtUtil.EXPIRE_TIME/1000);
 			LoginVo obj = new LoginVo();
 			obj.setToken(token);
-			obj.setUserInfo(sysUser);
+			SysUserVo sysUserVo = new SysUserVo();
+			BeanUtils.copyProperties(sysUser, sysUserVo);
+			obj.setUserInfo(sysUserVo);
 			result.setResult(obj);
 			result.success(Result.LOGIN_MSG);
 		}

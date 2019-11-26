@@ -1,12 +1,10 @@
 package org.forbes.comm.dto;
 
+import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.forbes.dal.entity.SysRole;
-
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 /***
  * @类描述 角色传入model
