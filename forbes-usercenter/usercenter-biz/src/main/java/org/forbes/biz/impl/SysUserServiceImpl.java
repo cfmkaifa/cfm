@@ -1,6 +1,4 @@
 package org.forbes.biz.impl;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.forbes.biz.ISysUserService;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.mapper.SysUserMapper;
@@ -9,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import java.util.List;
 
 
 @Service
@@ -33,19 +29,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return sysUserExtMapper.getUserByName(username);
 	}
 
-	/**
-	 *@ 作者：xfx
-	 *@ 参数：
-	 *@ 返回值：
-	 *@ 时间：2019/11/22
-	 *@ Description：多条件查询用户+分页
-	 */
-	public PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize) {
-		PageHelper.startPage(pageNum,pageSize);
-		List<SysUser> userlist=sysUserExtMapper.selectUserList(status,roleId,username,realname,pageNum,pageSize);
-		PageInfo<SysUser> sysUserInfo=new PageInfo<>(userlist);
-		return sysUserInfo;
-	}
+	
+	
+//	public PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize) {
+//		PageHelper.startPage(pageNum,pageSize);
+//		List<SysUser> userlist=sysUserExtMapper.selectUserList(status,roleId,username,realname,pageNum,pageSize);
+//		PageInfo<SysUser> sysUserInfo=new PageInfo<>(userlist);
+//		return sysUserInfo;
+//	}
 
 	/**
 	  *@ 作者：xfx
