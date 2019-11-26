@@ -1,12 +1,11 @@
 package org.forbes.comm.vo;
 
+import java.io.Serializable;
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.forbes.dal.entity.SysUser;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * @ClassName
@@ -23,6 +22,6 @@ public class UserListVo implements Serializable{
      *用户集合
      **/
     @ApiModelProperty("用户集合")
-    private List<SysUser> sysUserInfo;
+    private List<SysUserVo> sysUserInfo;
 
 }
