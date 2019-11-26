@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.ws.rs.HEAD;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -60,15 +61,8 @@ public class SysUserController {
         String status=sysUserListDto.getStatus();
         Long roleId=sysUserListDto.getRoleId();
         String realname=sysUserListDto.getRealname();
-<<<<<<< HEAD
-        Integer pageNum=sysUserListDto.getPageNum();
-        Integer pageSize=sysUserListDto.getPageSize();
-        PageInfo<SysUser> sysUsers = null;
-        //PageInfo<SysUser> sysUsers=sysUserService.selectUserList(status,roleId,username,realname,pageNum,pageSize);
-=======
-
         List<SysUser> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
->>>>>>> 107fa499178a9afb1c430a34abed739f02ddd71f
+
         UserListVo obj=new UserListVo();
         if(sysUsers!=null){
             obj.setSysUserInfo(sysUsers);
