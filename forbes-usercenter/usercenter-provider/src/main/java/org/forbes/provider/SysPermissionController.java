@@ -61,13 +61,12 @@ public class SysPermissionController {
     })
     public Result<SysRolePermissionVo> getPermissionByRole(){
         Result<SysRolePermissionVo> result = new Result<>();
-        List<SysPermission> permissionByRoleList = sysPermissionService.getPermissionByRole();
+        List<SysPermission> roleList = sysPermissionService.getPermissionByRole();
 
-        SysRolePermissionVo sysRolePermissionVo = new SysRolePermissionVo();
-        sysRolePermissionVo.setSysPermissionList(permissionByRoleList);
+        SysRolePermissionVo rolePermVo = new SysRolePermissionVo();
 
-        result.setResult(sysRolePermissionVo);
-        System.out.println(sysRolePermissionVo.toString());
+        rolePermVo.setSysPermissionList(roleList);
+        result.setResult(rolePermVo);
         return result;
     }
 
@@ -83,10 +82,8 @@ public class SysPermissionController {
         Integer i = sysPermissionService.addPermission(sysPermission);
         if (i!=0){
             result.success("添加权限成功！");
-            result.setCode(200);
         }else {
-            result.error("添加权限失败！");
-            result.setCode(500);
+            result.error500("添加权限失败！");
         }
         return result;
     }
@@ -117,10 +114,8 @@ public class SysPermissionController {
         Integer i = sysPermissionService.updatePermissionById(updatePermissionDto.getParentId(),updatePermissionDto.getName(),updatePermissionDto.getDescription(),updatePermissionDto.getPermissionId());
             if (i!=0){
                 result.success("修改权限内容成功！");
-                result.setCode(200);
             }else {
-                result.error("修改权限内容失败！");
-                result.setCode(500);
+                result.error500("修改权限内容失败！");
             }
             return result;
     }
@@ -137,10 +132,8 @@ public class SysPermissionController {
             Integer i = sysPermissionService.updatePermissionToRole(updatePermissionToRoleDto.getId(),updatePermissionToRoleDto.getRoleId(),updatePermissionToRoleDto.getPermissionId());
             if (i!=0){
                 result.success("修改角色权限成功！");
-                result.setCode(200);
             }else {
-                result.error("修改角色权限失败！");
-                result.setCode(500);
+                result.error500("修改角色权限失败！");
             }
 
         return result;
