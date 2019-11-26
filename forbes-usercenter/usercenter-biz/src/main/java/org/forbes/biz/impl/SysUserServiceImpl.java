@@ -29,6 +29,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return sysUserExtMapper.getUserByName(username);
 	}
 
+<<<<<<< HEAD
 	
 	
 //	public PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize) {
@@ -37,6 +38,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 //		PageInfo<SysUser> sysUserInfo=new PageInfo<>(userlist);
 //		return sysUserInfo;
 //	}
+=======
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/11/22
+	 *@ Description：多条件查询用户+分页
+	 */
+	public List<SysUser> selectUserList(String status, Long roleId, String username, String realname) {
+		return sysUserExtMapper.selectUserList(status,roleId,username,realname);
+	}
+>>>>>>> 107fa499178a9afb1c430a34abed739f02ddd71f
 
 	/**
 	  *@ 作者：xfx

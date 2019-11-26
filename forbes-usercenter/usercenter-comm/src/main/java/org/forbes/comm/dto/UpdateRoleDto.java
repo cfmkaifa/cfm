@@ -23,7 +23,6 @@ public class UpdateRoleDto implements Serializable {
     private String roleName;
 
     @ApiModelProperty(value = "角色编码",required = true)
-    @NotEmpty(message = "角色编码不能为空")
     private String roleCode;
 
     @ApiModelProperty(value = "描述",required = true)

@@ -33,8 +33,7 @@ public interface SysUserExtMapper {
 	 *@ Description：多条件查询用户+分页
 	 */
 	List<SysUser>  selectUserList(@Param("status")String status,@Param("roleId") Long roleId,
-								  @Param("username")String username,@Param("realname") String realname,
-								  @Param("pageNum") Integer pageNum,@Param("pageSize") Integer pageSize);
+								  @Param("username")String username,@Param("realname") String realname);
 
 	/***
 	 * 获取用户列表

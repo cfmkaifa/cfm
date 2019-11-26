@@ -26,7 +26,11 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ 时间：2019/11/22
 	  *@ Description：多条件查询用户+分页
 	  */
+<<<<<<< HEAD
 	//PageInfo<SysUser> selectUserList(String status, Long roleId, String username, String realname, Integer pageNum, Integer pageSize);
+=======
+	List<SysUser> selectUserList(String status, Long roleId, String username, String realname);
+>>>>>>> 107fa499178a9afb1c430a34abed739f02ddd71f
 
 	/**
 	  *@ 作者：xfx

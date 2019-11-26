@@ -10,10 +10,7 @@ import org.forbes.comm.dto.AddRoleDto;
 import org.forbes.comm.dto.DeleteRoleDto;
 import org.forbes.comm.dto.RoleDto;
 import org.forbes.comm.dto.UpdateRoleDto;
-import org.forbes.comm.vo.LoginVo;
-import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.RoleListVo;
-import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,7 +46,7 @@ public class RoleController {
       *@ 时间：2019/11/20
       *@ Description：根据用户id查询对应的角色
       */
-    @RequestMapping(value = "/getRoleList",method = RequestMethod.POST)
+    @RequestMapping(value = "/get_role_list",method = RequestMethod.POST)
     @ApiOperation("查询用户对应角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.ROLE_ERROR_MSG),
@@ -78,7 +75,7 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：查询所有角色
       */
-    @RequestMapping(value = "/roleList",method = RequestMethod.POST)
+    @RequestMapping(value = "/role_list",method = RequestMethod.POST)
     @ApiOperation("查询所有角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
@@ -105,14 +102,16 @@ public class RoleController {
       *@ 时间：2019/11/20
       *@ Description：
       */
-    @RequestMapping(value = "/addRole",method = RequestMethod.POST)
+    @RequestMapping(value = "/add_role",method = RequestMethod.POST)
     @ApiOperation("添加角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.ADD_ROLE_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.ADD_ROLE_MSG),
             @ApiResponse(code=500,message = Result.ADD_ROLE_ERROR_MSG)
     })
-    public Map<String,Boolean> addRole(@RequestBody @Valid AddRoleDto addRoleDto){
+    public  Result<CommVo> addRole(@RequestBody @Valid AddRoleDto addRoleDto){
         Map<String,Boolean> map=new HashMap<>();
+        Result<CommVo> result=new Result<CommVo>();
+        CommVo comm=new CommVo();
         SysRole sysRole=new SysRole();
         String roleName=addRoleDto.getRoleName();
         String roleCode=addRoleDto.getRoleCode();
@@ -122,13 +121,17 @@ public class RoleController {
         sysRole.setDescription(description);
         sysRole.setRoleCode(roleCode);
         sysRole.setRoleName(roleName);
-        Integer result=sysRoleService.addRole(sysRole);
-        if(result==1){
+        Integer res=sysRoleService.addRole(sysRole);
+        if(res==1){
             map.put("result",true);
+            comm.setMapInfo(map);
+            result.setResult(comm);
+            result.success(Result.UPDATE_STATUS_MSG);
         }else{
+            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
             map.put("result",false);
         }
-        return map;
+        return result;
     }
 
     /**
@@ -138,25 +141,31 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：角色修改
       */
-    @RequestMapping(value = "/updateRole",method = RequestMethod.POST)
+    @RequestMapping(value = "/update_role",method = RequestMethod.POST)
     @ApiOperation("修改角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.UPDATE_ROLE_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.UPDATE_ROLE_MSG),
             @ApiResponse(code=500,message = Result.UPDATE_ROLE_ERROR_MSG)
     })
-    public Map<String,Boolean> updateRole(@RequestBody @Valid UpdateRoleDto updateRoleDto){
+    public  Result<CommVo> updateRole(@RequestBody @Valid UpdateRoleDto updateRoleDto){
         Map<String,Boolean> map=new HashMap<>();
+        Result<CommVo> result=new Result<CommVo>();
+        CommVo comm=new CommVo();
        SysRole sysRole=new SysRole();
        sysRole.setDescription(updateRoleDto.getDescription());
        sysRole.setRoleName(updateRoleDto.getRoleName());
        sysRole.setRoleCode(updateRoleDto.getRoleCode());
-       Integer result=sysRoleService.updateRoleByRoleId(sysRole);
-       if(result==1){
-           map.put("result",true);
-       }else {
-           map.put("result",false);
-       }
-        return map;
+       Integer res=sysRoleService.updateRoleByRoleId(sysRole);
+        if(res==1){
+            map.put("result",true);
+            comm.setMapInfo(map);
+            result.setResult(comm);
+            result.success(Result.UPDATE_STATUS_MSG);
+        }else{
+            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            map.put("result",false);
+        }
+        return result;
     }
 
     /**
@@ -166,21 +175,27 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：删除角色
       */
-    @RequestMapping(value = "/deleteRole",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete_role",method = RequestMethod.POST)
     @ApiOperation("删除角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.DELETE_ROLE_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.DELETE_ROLE_MSG),
             @ApiResponse(code=500,message = Result.DELETE_ROLE_ERROR_MSG)
     })
-    public Map<String,Boolean> deleteRoleByRoleId(@RequestBody @Valid DeleteRoleDto deleteRoleDto){
+    public  Result<CommVo> deleteRoleByRoleId(@RequestBody @Valid DeleteRoleDto deleteRoleDto){
         Map<String,Boolean> map=new HashMap<>();
+        Result<CommVo> result=new Result<CommVo>();
+        CommVo comm=new CommVo();
         deleteRoleDto.setId(deleteRoleDto.getId());
-        Integer result= sysRoleService.deleteRoleByRoleId(deleteRoleDto.getId());
-        if(result==1){
+        Integer res= sysRoleService.deleteRoleByRoleId(deleteRoleDto.getId());
+        if(res==1){
             map.put("result",true);
-        }else {
+            comm.setMapInfo(map);
+            result.setResult(comm);
+            result.success(Result.UPDATE_STATUS_MSG);
+        }else{
+            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
             map.put("result",false);
         }
-        return map;
+        return result;
     }
 }
