@@ -13,15 +13,16 @@ import java.util.Date;
 
 /***
  * @创建人 niehy(Frunk)
- * @创建时间 2019/11/22
+ * @创建时间 2019/11/26
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
-@ApiModel("修改角色的一个权限传入参数")
+@ApiModel(description="删除角色权限传入参数")
 @Data
-public class UpdatePermissionToRoleDto  implements Serializable {
+public class DeletePermissionToRoleDto implements Serializable{
 
-    private static final long serialVersionUID = -1361652913559943696L;
+    private static final long serialVersionUID = 7892623815115984475L;
+
     /**
      * id
      */
@@ -29,16 +30,6 @@ public class UpdatePermissionToRoleDto  implements Serializable {
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Long id;
-
-    /**
-     * 更新人
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     /**
      * 角色ID
@@ -57,5 +48,4 @@ public class UpdatePermissionToRoleDto  implements Serializable {
      */
     @ApiModelProperty(value = "权限ID")
     private Long permissionId;
-
 }

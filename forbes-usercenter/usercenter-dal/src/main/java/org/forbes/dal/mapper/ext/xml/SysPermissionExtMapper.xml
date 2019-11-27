@@ -32,7 +32,7 @@
         ON rp.role_id = r.id
     </select>
     <!--给一个角色添加权限-->
-    <insert id="addPermissionToRole" parameterType="Integer">
+    <insert id="addPermissionToRole" parameterType="org.forbes.comm.dto.AddPermissionToRoleDto">
       INSERT INTO f_sys_role_permission
       (role_id,permission_id)
       VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
@@ -124,21 +124,21 @@
         </trim>
     </insert>
     <!--修改权限内容-->
-    <update id="updatePermissionById" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
-      UPDATE f_sys_permission
-        parent_id = #{parentId},
-        name = #{name},
-        description=#{description}
-        WHERE id = #{permissionId,jdbcType=BIGINT}
+    <update id="updatePermission" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
+      UPDATE f_sys_permission SET
+      parent_id = #{parentId},
+      name = #{name},
+      description=#{description}
+      WHERE id = #{id}
     </update>
     <!--修改角色的一个权限(中间表)-->
-    <update id="updatePermissionToRole" parameterType="Long">
+    <update id="updatePermissionToRole" parameterType="org.forbes.comm.dto.UpdatePermissionToRoleDto">
         UPDATE f_sys_role_permission
         SET permission_id = #{permissionId,jdbcType=BIGINT}
         WHERE role_id = #{roleId,jdbcType=BIGINT} AND id = #{id,jdbcType=BIGINT}
     </update>
     <!--删除角色的一个权限(中间表)-->
-    <delete id="deletePermissionToRole" parameterType="Long">
+    <delete id="deletePermissionToRole" parameterType="org.forbes.comm.dto.DeletePermissionToRoleDto">
         DELETE FROM f_sys_role_permission
         WHERE role_id = #{roleId,jdbcType=BIGINT} AND permission_id = #{permissionId,jdbcType=BIGINT}
     </delete>
