@@ -42,13 +42,11 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<List<SysPermission>> getPermissionByRoleId(@Valid Long roleId){
-        Result<List<SysPermission>> result = new Result<>();
-        List<SysPermission> permissionList = sysPermissionService.getPermissionByRoleId(roleId);
-
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@Valid Long roleId){
+        Result<List<SysRolePermissionVo>> result = new Result<>();
+        List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleId(roleId);
         result.setResult(permissionList);
-        System.out.println(permissionList.toString());
-
+        System.out.println(permissionList);
         return result;
     }
 
@@ -58,14 +56,10 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
     })
-    public Result<SysRolePermissionVo> getPermissionByRole(){
-        Result<SysRolePermissionVo> result = new Result<>();
-        List<SysPermission> roleList = sysPermissionService.getPermissionByRole();
-
-        SysRolePermissionVo rolePermVo = new SysRolePermissionVo();
-
-        rolePermVo.setSysPermissionList(roleList);
-        result.setResult(rolePermVo);
+    public Result<List<SysRolePermissionVo>> getPermissionByRole(){
+        Result<List<SysRolePermissionVo>> result = new Result<>();
+        List<SysRolePermissionVo> sysPermList = sysPermissionService.getPermissionByRole();
+        result.setResult(sysPermList);
         return result;
     }
 

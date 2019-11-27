@@ -1,6 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysPermission> getPermissionByRoleId(Long roleId);
+    List<SysRolePermissionVo> getPermissionByRoleId(Long roleId);
 
     /***
      * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
@@ -26,7 +27,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysPermission> getPermissionByRole();
+    List<SysRolePermissionVo> getPermissionByRole();
 
     /***
      * addPermissionToRole方法概述:TODO 给一个角色添加权限

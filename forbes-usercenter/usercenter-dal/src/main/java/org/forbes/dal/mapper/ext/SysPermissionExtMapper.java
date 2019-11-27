@@ -1,6 +1,7 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysPermission> getPermissionByRoleId(@Param("roleId") Long roleId);
+    List<SysRolePermissionVo> getPermissionByRoleId(@Param("roleId") Long roleId);
 
     /***
      * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
@@ -29,7 +30,7 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysPermission> getPermissionByRole();
+    List<SysRolePermissionVo> getPermissionByRole();
 
     /***
      * addPermissionToRole方法概述:TODO 给一个角色添加权限
