@@ -10,26 +10,15 @@
 <!--查询一个角色的所有权限-->
     <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo" parameterType="Integer">
         SELECT
-        p.id
-        p.parent_id,
+        p.id,
         p.name,
-        p.perms,
-        p.icon,
-        p.component,
-        p.component_name,
-        p.always_show,
-        p.is_route,
-        p.is_leaf,
-        p.is_hidden,
-        p.sort_no,
-        p.description,
-        p.redirect,
-        p.url
-       FROM f_sys_role_permission rp
-       JOIN f_sys_permission p
-       ON p.id = rp.permission_id JOIN f_sys_role r
-       ON rp.role_id = r.id
-	   WHERE rp.role_id =#{roleId}
+        r.id,
+        r.role_name,
+        r.description
+        FROM f_sys_role_permission rp JOIN f_sys_role r
+        ON rp.role_id = r.id JOIN f_sys_permission p OM
+        rp.permission_id = p.id
+        WHERE r.id =#{roleId}
     </select>
     <!--查询所有角色与其对应的所有权限-->
     <select id="getPermissionByRole" resultMap="BaseResultMap">
