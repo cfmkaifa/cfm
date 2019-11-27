@@ -1,4 +1,4 @@
-package org.forbes.comm.vo;
+package org.forbes.comm.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -17,10 +17,11 @@ import java.util.Date;
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
-@ApiModel(description="角色-权限返回对象")
+@ApiModel(description="删除角色权限传入参数")
 @Data
-public class SysRolePermissionVo implements Serializable {
-    private static final long serialVersionUID = 4783400975725108257L;
+public class DeletePermissionToRoleDto implements Serializable{
+
+    private static final long serialVersionUID = 7892623815115984475L;
 
     /**
      * id
@@ -28,34 +29,24 @@ public class SysRolePermissionVo implements Serializable {
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("权限id")
+    @ApiModelProperty("主键id，不需要传值")
     private Long id;
 
     /**
-     * 资源名称
-     * Table:     f_sys_permission
-     * Column:    name
+     * 角色ID
+     * Table:     f_sys_role_permission
+     * Column:    role_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "资源名称")
-    private String name;
+    @ApiModelProperty(value = "角色ID")
+    private Long roleId;
 
     /**
-     * 描述
-     * Table:     f_sys_permission
-     * Column:    description
+     * 权限ID
+     * Table:     f_sys_role_permission
+     * Column:    permission_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "描述")
-    private String description;
-
-    /**
-     * 角色名称
-     * Table:     f_sys_role
-     * Column:    role_name
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
-
+    @ApiModelProperty(value = "权限ID")
+    private Long permissionId;
 }

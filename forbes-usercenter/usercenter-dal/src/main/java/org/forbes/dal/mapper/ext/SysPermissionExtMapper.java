@@ -1,6 +1,10 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.dto.AddPermissionToRoleDto;
+import org.forbes.comm.dto.DeletePermissionToRoleDto;
+import org.forbes.comm.dto.UpdatePermissionDto;
+import org.forbes.comm.dto.UpdatePermissionToRoleDto;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
@@ -34,15 +38,13 @@ public interface SysPermissionExtMapper {
 
     /***
      * addPermissionToRole方法概述:TODO 给一个角色添加权限
-     * @param roleId 角色id
-     * @param permissionId 权限id
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/20
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer addPermissionToRole(@Param("roleId")Long roleId,@Param("permissionId")Long permissionId);
+    Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto);
 
     /***
      * addPermission方法概述:TODO 添加一个新的权限(仅添加权限)
@@ -63,33 +65,26 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updatePermissionById(@Param("parentId")Integer parentId,
-                                 @Param("name")String name,
-                                 @Param("description")String description,
-                                 @Param("permissionId")Long permissionId);
+    Integer updatePermission(UpdatePermissionDto updatePermissionDto);
 
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限
-     * @param roleId 角色di
-     * @param permissionId 权限id集合
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updatePermissionToRole(@Param("id")Long id,@Param("roleId")Long roleId,@Param("permissionId")Long permissionId);
+    Integer updatePermissionToRole(UpdatePermissionToRoleDto updatePermissionToRoleDto);
 
     /***
      * deletePermissionToRole方法概述:TODO 删除角色的一个权限
-     * @param roleId 角色id
-     * @param permissionId 权限id
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/11/21
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer deletePermissionToRole(@Param("roleId")Long roleId,@Param("permissionId")Long permissionId);
+    Integer deletePermissionToRole(DeletePermissionToRoleDto deletePermissionToRoleDto);
 
 }

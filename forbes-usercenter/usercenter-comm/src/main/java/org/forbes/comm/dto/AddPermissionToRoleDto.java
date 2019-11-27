@@ -10,26 +10,38 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-
 /***
  * @创建人 niehy(Frunk)
- * @创建时间 2019/11/22
+ * @创建时间 2019/11/26
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
-@ApiModel("修改角色的一个权限传入参数")
+@ApiModel(description="给角色添加权限传入参数")
 @Data
-public class UpdatePermissionToRoleDto  implements Serializable {
+public class AddPermissionToRoleDto implements Serializable{
 
-    private static final long serialVersionUID = -1361652913559943696L;
+    private static final long serialVersionUID = -6733387652543628699L;
     /**
      * id
      */
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id，自增不需传值")
+    @ApiModelProperty("主键id，不需要传值")
     private Long id;
+
+    /**
+     * 创建人
+     */
+    @ApiModelProperty("创建人，不需要传值")
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
 
     /**
      * 更新人
@@ -60,5 +72,4 @@ public class UpdatePermissionToRoleDto  implements Serializable {
      */
     @ApiModelProperty(value = "权限ID")
     private Long permissionId;
-
 }
