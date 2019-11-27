@@ -1,6 +1,8 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 
 import java.math.BigInteger;
@@ -14,7 +16,7 @@ public interface SysRoleExtMapper {
      *@ 时间：2019/11/20
      *@ Description：
      */
-    List<SysRole> selectRoleByUserId(@Param("userId")Long userId);
+    List<RoleVo> selectRoleByUserId(@Param("userId")Long userId);
 
     /**
      *@ 作者：xfx
@@ -50,5 +52,5 @@ public interface SysRoleExtMapper {
      *@ 时间：2019/11/21
      *@ Description：查询所有角色
      */
-    List<SysRole> selectRoleList();
+    List<RoleListVo> selectRoleList();
 }

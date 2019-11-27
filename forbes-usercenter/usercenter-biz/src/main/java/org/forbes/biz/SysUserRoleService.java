@@ -1,6 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
 
 import java.util.List;
@@ -32,5 +33,5 @@ public interface SysUserRoleService extends IService<SysUserRole> {
       *@ 时间：2019/11/22
       *@ Description：根据用户id查询用户角色中间表集合
       */
-    List<SysUserRole>  selectUserRoleListByUserId(Long userId);
+    List<UserAndRoleVo>  selectUserRoleListByUserId(Long userId);
 }

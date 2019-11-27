@@ -23,22 +23,7 @@ public class RolePermissionDto implements Serializable{
     private Long roleId;
 
     @ApiModelProperty(value="权限id集合")
-    @NotNull(message = "权限id集合不能为空")
+    @NotNull(message = "权限id不能为空")
     private Long PermissionId;
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public Long getPermissionId() {
-        return PermissionId;
-    }
-
-    public void setPermissionId(Long permissionId) {
-        PermissionId = permissionId;
-    }
 }

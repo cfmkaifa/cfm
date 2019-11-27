@@ -101,14 +101,12 @@ public class SysUserRoleController {
             @ApiResponse(code=200,message = Result.DELETE_USER_AND_ROLE_MSG),
             @ApiResponse(code=500,message = Result.DELETE_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<UserAndRoleVo> selectUserAndRoleByUserId(@RequestBody @Valid SelectUserAndRoleDto selectUserAndRoleDto){
-        Result<UserAndRoleVo> result=new Result<>();
+    public Result<List<UserAndRoleVo>> selectUserAndRoleByUserId(@RequestBody @Valid SelectUserAndRoleDto selectUserAndRoleDto){
+        Result<List<UserAndRoleVo>> result=new Result<>();
         Long userId=selectUserAndRoleDto.getUserId();
-        List<SysUserRole> sysUserRoles=sysUserRoleService.selectUserRoleListByUserId(userId);
-        UserAndRoleVo userAndRoleVo=new UserAndRoleVo();
+        List<UserAndRoleVo> sysUserRoles=sysUserRoleService.selectUserRoleListByUserId(userId);
         if(sysUserRoles!=null&&sysUserRoles.size()!=0){
-            userAndRoleVo.setSysUserRoleList(sysUserRoles);
-            result.setResult(userAndRoleVo);
+            result.setResult(sysUserRoles);
             result.success(Result.SELECT_USER_AND_ROLE_MSG);
         }else {
             result.error500(Result.SELECT_USER_AND_ROLE_ERROR_MSG);

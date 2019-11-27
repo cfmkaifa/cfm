@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.forbes.dal.mapper.ext.SysUserRoleExtMapper" >
-    <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUserRole" extends="org.forbes.dal.mapper.SysUserRoleMapper.BaseResultMap">
+    <resultMap id="BaseResultMap" type="org.forbes.comm.vo.UserAndRoleVo" extends="org.forbes.dal.mapper.SysUserRoleMapper.BaseResultMap">
     </resultMap>
     <sql id="Base_Column_List" >
         <include refid="org.forbes.dal.mapper.SysUserRoleMapper.Base_Column_List" />

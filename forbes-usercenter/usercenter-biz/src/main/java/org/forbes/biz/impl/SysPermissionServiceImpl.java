@@ -2,6 +2,7 @@ package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.biz.SysPermissionService;
+import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.mapper.SysPermissionMapper;
 import org.forbes.dal.mapper.ext.SysPermissionExtMapper;
@@ -26,7 +27,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public List<SysPermission> getPermissionByRoleId(Long roleId) {
+    public List<SysRolePermissionVo> getPermissionByRoleId(Long roleId) {
         return sysPermissionExtMapper.getPermissionByRoleId(roleId);
     }
 
@@ -38,7 +39,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    public List<SysPermission> getPermissionByRole() {
+    public List<SysRolePermissionVo> getPermissionByRole() {
         return sysPermissionExtMapper.getPermissionByRole();
     }
 

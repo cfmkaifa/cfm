@@ -2,6 +2,8 @@ package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.biz.SysRoleService;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.mapper.SysRoleMapper;
 import org.forbes.dal.mapper.ext.SysRoleExtMapper;
@@ -22,7 +24,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
       *@ 时间：2019/11/20
       *@ Description：查询用户角色
       */
-    public List<SysRole> selectRoleByUserId(Long userId) {
+    public List<RoleVo> selectRoleByUserId(Long userId) {
         return sysRoleExtMapper.selectRoleByUserId(userId);
     }
 
@@ -68,7 +70,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      *@ 时间：2019/11/21
      *@ Description：查询所有角色
      */
-    public List<SysRole> selectRoleList() {
+    public List<RoleListVo> selectRoleList() {
         return sysRoleExtMapper.selectRoleList();
     }
 }
