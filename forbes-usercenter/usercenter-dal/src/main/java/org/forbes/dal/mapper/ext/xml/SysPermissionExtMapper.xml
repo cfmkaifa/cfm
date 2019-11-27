@@ -8,7 +8,7 @@
   </sql>
 
 <!--查询一个角色的所有权限-->
-    <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo" parameterType="Integer">
+    <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
         p.id,
         p.name,
@@ -21,7 +21,7 @@
         WHERE r.id =#{roleId}
     </select>
     <!--查询所有角色与其对应的所有权限-->
-    <select id="getPermissionByRole" resultMap="BaseResultMap">
+    <select id="getPermissionByRole" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
         p.parent_id,
         p.name,
