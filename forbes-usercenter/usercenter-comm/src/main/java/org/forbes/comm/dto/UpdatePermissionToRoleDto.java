@@ -28,16 +28,19 @@ public class UpdatePermissionToRoleDto  implements Serializable {
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty("主键id，自增不需传值")
     private Long id;
 
     /**
      * 更新人
      */
+    @ApiModelProperty("更新人，不需要传值")
     private String updateBy;
 
     /**
      * 更新时间
      */
+    @ApiModelProperty("更新时间，不需要传值")
     private Date updateTime;
 
     /**
