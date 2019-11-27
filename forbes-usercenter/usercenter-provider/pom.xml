@@ -6,7 +6,6 @@
     <groupId>org.forbes</groupId>
     <artifactId>forbes-usercenter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>org.forbes</groupId>
   <artifactId>usercenter-provider</artifactId>
@@ -42,25 +41,25 @@
   	<plugins>
 		<!-- 打包跳过测试 -->
           <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
+        <groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-       <skipTests>true</skipTests>
-        </configuration>
+					<mainClass>org.forbes.ForbesApplication</mainClass>
+		</configuration>
 		<dependencies>
+		   <dependency>
+	         	<groupId>org.forbes</groupId>
+	         	<artifactId>usercenter-comm</artifactId>
+	         	<version>0.0.1-SNAPSHOT</version>
+	         	<scope>system</scope>
+	         	<systemPath>${parentPath}usercenter-comm/target/usercenter-comm-0.0.1-SNAPSHOT.jar</systemPath>
+	         </dependency>
 			<dependency>
 	         	<groupId>org.forbes</groupId>
 	         	<artifactId>usercenter-dal</artifactId>
 	         	<version>0.0.1-SNAPSHOT</version>
 	         	<scope>system</scope>
 	         	<systemPath>${parentPath}usercenter-dal/target/usercenter-dal-0.0.1-SNAPSHOT.jar</systemPath>
-	         </dependency>
-	         <dependency>
-	         	<groupId>org.forbes</groupId>
-	         	<artifactId>usercenter-comm</artifactId>
-	         	<version>0.0.1-SNAPSHOT</version>
-	         	<scope>system</scope>
-	         	<systemPath>${parentPath}usercenter-comm/target/usercenter-comm-0.0.1-SNAPSHOT.jar</systemPath>
 	         </dependency>
 	         <dependency>
 	         	<groupId>org.forbes</groupId>
@@ -71,7 +70,7 @@
 	         </dependency>
 	         <dependency>
 	         	<groupId>org.forbes</groupId>
-	         	<artifactId>usercenter-comm</artifactId>
+	         	<artifactId>usercenter-config</artifactId>
 	         	<version>0.0.1-SNAPSHOT</version>
 	         	<scope>system</scope>
 	         	<systemPath>${parentPath}usercenter-config/target/usercenter-config-0.0.1-SNAPSHOT.jar</systemPath>

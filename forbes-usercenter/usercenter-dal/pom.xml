@@ -32,6 +32,15 @@
         <configuration>
        <skipTests>true</skipTests>
         </configuration>
+        <dependencies>
+	         <dependency>
+	         	<groupId>org.forbes</groupId>
+	         	<artifactId>usercenter-comm</artifactId>
+	         	<version>0.0.1-SNAPSHOT</version>
+	         	<scope>system</scope>
+	         	<systemPath>${parentPath}usercenter-comm/target/usercenter-comm-0.0.1-SNAPSHOT.jar</systemPath>
+	         </dependency>
+		</dependencies>
 	</plugin>
   	</plugins>
   </build>
