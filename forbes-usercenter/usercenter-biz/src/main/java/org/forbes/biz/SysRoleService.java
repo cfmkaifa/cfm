@@ -3,6 +3,8 @@ package org.forbes.biz;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 
 import java.math.BigInteger;
@@ -17,7 +19,7 @@ public interface SysRoleService  extends IService<SysRole> {
       *@ 时间：2019/11/20
       *@ Description：角色查询
       */
-    List<SysRole> selectRoleByUserId(Long userId);
+    List<RoleVo> selectRoleByUserId(Long userId);
 
     /**
       *@ 作者：xfx
@@ -53,6 +55,6 @@ public interface SysRoleService  extends IService<SysRole> {
       *@ 时间：2019/11/21
       *@ Description：查询所有角色
       */
-    List<SysRole> selectRoleList();
+    List<RoleListVo> selectRoleList();
 
 }

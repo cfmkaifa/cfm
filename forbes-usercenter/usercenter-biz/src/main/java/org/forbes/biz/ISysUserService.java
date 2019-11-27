@@ -1,5 +1,7 @@
 package org.forbes.biz;
 
+import org.forbes.comm.vo.UserDeatailVo;
+import org.forbes.comm.vo.UserListVo;
 import org.forbes.dal.entity.SysUser;
 
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -28,7 +30,7 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ 时间：2019/11/22
 	  *@ Description：多条件查询用户+分页
 	  */
-	List<SysUser> selectUserList(String status, Long roleId, String username, String realname);
+	List<UserListVo> selectUserList(String status, Long roleId, String username, String realname);
 
 
 	/**
@@ -63,5 +65,5 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ 时间：2019/11/20
 	  *@ Description：查询用户详情
 	  */
-	SysUser selectUserDetailByUsername(String username);
+	UserDeatailVo selectUserDetailByUsername(String username);
 }

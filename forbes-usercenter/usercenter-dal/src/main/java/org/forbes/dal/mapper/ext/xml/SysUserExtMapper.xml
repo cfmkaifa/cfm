@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.forbes.dal.mapper.ext.SysUserExtMapper" >
-  <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUser" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
+  <resultMap id="BaseResultMap" type="org.forbes.comm.vo.UserListVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
   </resultMap>
+    <resultMap id="BaseResultMaps" type="org.forbes.comm.vo.UserDeatailVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
+    </resultMap>
   <sql id="Base_Column_List" >
    <include refid="org.forbes.dal.mapper.SysUserMapper.Base_Column_List" />
   </sql>
@@ -169,7 +171,8 @@
          username = #{username,jdbcType=VARCHAR}
     </update>
 
-    <select id="selectUserDetailByUsername" parameterType="string" resultMap="BaseResultMap">
+    <!--查询用户详情-->
+    <select id="selectUserDetailByUsername" parameterType="string" resultMap="BaseResultMaps">
         SELECT
         <include refid="Base_Column_List" />
         FROM

@@ -53,18 +53,16 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_ERROR_MSG),
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
-    public Result<RoleVo> selectRoleByUserId(@RequestBody @Valid RoleDto roleDto){
-        Result<RoleVo> result=new Result<>();
+    public Result<List<RoleVo>> selectRoleByUserId(@RequestBody @Valid RoleDto roleDto){
+        Result<List<RoleVo>> result=new Result<>();
         Long userId=roleDto.getUserId();
-        List<SysRole> sysRoleList=sysRoleService.selectRoleByUserId(userId);
+        List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
         if(sysRoleList==null){
             result.error500(Result.ROLE_ERROR_MSG);
             return  result;
         }else{
-            RoleVo roleVo=new RoleVo();
-            roleVo.setSysRoleList(sysRoleList);
             result.success(Result.ROLE_MSG);
-            result.setResult(roleVo);
+            result.setResult(sysRoleList);
         }
         return result;
     }
@@ -82,13 +80,11 @@ public class RoleController {
             @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
             @ApiResponse(code = 500,response =RoleListVo.class,message = Result.ROLE_LIST_ERROR_MSG)
     })
-    public Result<RoleListVo> selectAllRole(){
-        Result<RoleListVo> result=new Result<>();
-        List<SysRole> sysRoles=sysRoleService.selectRoleList();
-        RoleListVo roleListVo=new RoleListVo();
+    public Result<List<RoleListVo>> selectAllRole(){
+        Result<List<RoleListVo>> result=new Result<>();
+        List<RoleListVo> sysRoles=sysRoleService.selectRoleList();
         if(sysRoles!=null&&sysRoles.size()!=0){
-             roleListVo.setSysRoleList(sysRoles);
-             result.setResult(roleListVo);
+             result.setResult(sysRoles);
              result.success(Result.ROLE_LIST_MSG);
         }else{
             result.error500(Result.ROLE_LIST_ERROR_MSG);

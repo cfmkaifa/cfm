@@ -3,6 +3,7 @@ package org.forbes.biz.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysUserRoleService;
+import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
 import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserRoleExtMapper;
@@ -47,7 +48,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      *@ 时间：2019/11/22
      *@ Description：根据用户id查询用户角色中间表集合
      */
-    public List<SysUserRole> selectUserRoleListByUserId(@Param("userId") Long userId) {
+    public List<UserAndRoleVo> selectUserRoleListByUserId(@Param("userId") Long userId) {
         return sysUserRoleExtMapper.selectUserRoleListByUserId(userId);
     }
 }

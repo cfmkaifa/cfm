@@ -55,18 +55,16 @@ public class SysUserController {
             @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
             @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<UserListVo> selectUserList(@RequestBody @Valid SysUserListDto sysUserListDto){
-        Result<UserListVo> result=new Result<>();
+    public Result<List<UserListVo>> selectUserList(@RequestBody @Valid SysUserListDto sysUserListDto){
+        Result<List<UserListVo>> result=new Result<>();
         String username=sysUserListDto.getUsername();
         String status=sysUserListDto.getStatus();
         Long roleId=sysUserListDto.getRoleId();
         String realname=sysUserListDto.getRealname();
-        List<SysUser> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
+        List<UserListVo> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
 
-        UserListVo obj=new UserListVo();
         if(sysUsers!=null){
-            obj.setSysUserInfo(sysUsers);
-            result.setResult(obj);
+            result.setResult(sysUsers);
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
         }else {
             result.error500(Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG);
@@ -188,14 +186,12 @@ public class SysUserController {
     public Result<UserDeatailVo> selectUserByUsername(@RequestBody @Valid UserDetailDto userDetailDto){
         Result<UserDeatailVo> result = new Result<UserDeatailVo>();
         String username = userDetailDto.getUsername();
-        SysUser sysUser = sysUserService.selectUserDetailByUsername(username);
+        UserDeatailVo sysUser = sysUserService.selectUserDetailByUsername(username);
         if(sysUser==null) {
             result.error500(Result.DETAIL_USER_EMPTY_MSG);
             return result;
         }else {
-            UserDeatailVo uservo=new UserDeatailVo();
-            uservo.setUserInfo(sysUser);
-            result.setResult(uservo);
+            result.setResult(sysUser);
             result.success(Result.DETAIL_USER_MSG);
         }
         return  result;
