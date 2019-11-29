@@ -14,7 +14,6 @@ import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysPermission;
-import org.forbes.dal.entity.SysRolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +36,7 @@ public class SysPermissionController {
     private RedisUtil redisUtil;
 
 
-    @RequestMapping(value = "/getPermissionByRoleId", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_permission_by_role_id", method = RequestMethod.POST)
     @ApiOperation("查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
@@ -47,11 +46,10 @@ public class SysPermissionController {
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleId(roleId);
         result.setResult(permissionList);
-        System.out.println(permissionList);
         return result;
     }
 
-    @RequestMapping(value = "/getPermissionByRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/get_permission_by_role", method = RequestMethod.POST)
     @ApiOperation("查询所有角色与其对应的所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
@@ -65,7 +63,7 @@ public class SysPermissionController {
     }
 
 
-    @RequestMapping(value = "/addPermission", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_permission", method = RequestMethod.POST)
     @ApiOperation("仅添加一个权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
@@ -82,7 +80,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/addPermissionToRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/add_permission_to_role", method = RequestMethod.POST)
     @ApiOperation("给一个角色添加一个权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
@@ -100,7 +98,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/updatePermission", method = RequestMethod.POST)
+    @RequestMapping(value = "/update_permission", method = RequestMethod.POST)
     @ApiOperation("修改权限内容")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
@@ -117,7 +115,7 @@ public class SysPermissionController {
             return result;
     }
 
-    @RequestMapping(value = "/updatePermissionToRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/update_permission_to_role", method = RequestMethod.POST)
     @ApiOperation("修改角色的一个权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
@@ -136,7 +134,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/deletePermissionToRole", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete_permission_to_role", method = RequestMethod.POST)
     @ApiOperation("删除角色的一个权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
