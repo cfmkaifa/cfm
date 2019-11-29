@@ -31,12 +31,9 @@
   <build>
   	<plugins>
 		<!-- 打包跳过测试 -->
-          <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-       <skipTests>true</skipTests>
-        </configuration>
+        <plugin>
+        	<groupId>org.apache.maven.plugins</groupId>
+		     <artifactId>maven-surefire-plugin</artifactId>
 		<dependencies>
 			<dependency>
 	         	<groupId>org.forbes</groupId>

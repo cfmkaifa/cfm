@@ -1,29 +1,15 @@
 package org.forbes.comm.dto;
-
-<<<<<<< HEAD
 import java.io.Serializable;
+import java.util.Date;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-=======
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
->>>>>>> 8055dcebb8a7918cc5673d577fc618c1830ee42d
-
 /***
  * @创建人 niehy(Frunk)
  * @创建时间 2019/11/26

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.forbes.comm.constant.CommonConstant;
+import org.forbes.comm.utils.ConvertUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,10 @@ public class Swagger2Config implements WebMvcConfigurer {
 
 	@Value("${spring.application.name}")
 	private String applicationName;
+	@Value("${agency_port}")
+	private String AGENCY_PORT;
 	private static final String APPLICATIO_NNAME_CODE = "applicationName";
+	private static final String AGENCY_PORT_CODE = "agencyPort";
 	
 	/**
 	 *
@@ -90,8 +94,12 @@ public class Swagger2Config implements WebMvcConfigurer {
 	 */
 	@SuppressWarnings("rawtypes")
 	private ApiInfo apiInfo() {
-		VendorExtension<String> extension = new StringVendorExtension(APPLICATIO_NNAME_CODE,applicationName);
 		List<VendorExtension> extensions = Lists.newArrayList();
+		if(ConvertUtils.isNotEmpty(AGENCY_PORT)){
+			VendorExtension<String> extension = new StringVendorExtension(AGENCY_PORT_CODE,AGENCY_PORT);
+			extensions.add(extension);
+		}
+		VendorExtension<String> extension = new StringVendorExtension(APPLICATIO_NNAME_CODE,applicationName);
 		extensions.add(extension);
 		return new ApiInfoBuilder()
 				// //大标题
