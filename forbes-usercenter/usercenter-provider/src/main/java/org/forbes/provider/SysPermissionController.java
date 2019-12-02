@@ -1,5 +1,7 @@
 package org.forbes.provider;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -37,7 +39,7 @@ public class SysPermissionController {
 
 
     @RequestMapping(value = "/get_permission_by_role_id", method = RequestMethod.POST)
-    @ApiOperation("查询角色所有权限")
+    @ApiOperation("通过角色id查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
@@ -45,6 +47,18 @@ public class SysPermissionController {
     public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@Valid Long roleId){
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleId(roleId);
+        result.setResult(permissionList);
+        return result;
+    }
+    @RequestMapping(value = "/get_permission_by_role_name", method = RequestMethod.POST)
+    @ApiOperation("通过角色名字查询角色所有权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
+    })
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Valid String roleName){
+        Result<List<SysRolePermissionVo>> result = new Result<>();
+        List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleName(roleName);
         result.setResult(permissionList);
         return result;
     }
