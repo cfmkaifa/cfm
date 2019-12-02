@@ -27,7 +27,7 @@ public interface SysPermissionService extends IService<SysPermission> {
     List<PermissionVo> getPermission();
 
     /***
-     * getPermissionByRole方法概述:TODO 查询一个角色的所有权限
+     * getPermissionByRole方法概述:TODO 通过角色id查询一个角色的所有权限
      * @param roleId 角色id
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
@@ -38,7 +38,7 @@ public interface SysPermissionService extends IService<SysPermission> {
     List<SysRolePermissionVo> getPermissionByRoleId(Long roleId);
 
     /***
-     * getPermissionByRole方法概述:TODO 查询一个角色的所有权限
+     * getPermissionByRole方法概述:TODO 通过角色名查询一个角色的所有权限
      * @param roleName 角色名
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
