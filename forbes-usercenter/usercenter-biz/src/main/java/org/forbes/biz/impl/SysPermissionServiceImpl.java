@@ -82,6 +82,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
+    @Transactional
     public Integer updatePermission(UpdatePermissionDto updatePermissionDto) {
         return sysPermissionExtMapper.updatePermission(updatePermissionDto);
     }
