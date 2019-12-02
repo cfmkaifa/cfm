@@ -39,7 +39,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     }
 
     /***
-     * getPermissionByRoleId方法概述: TODO 查询一个角色的所有权限
+     * getPermissionByRoleId方法概述: TODO 通过角色id查询一个角色的所有权限
      * @param roleId 用户名
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
@@ -51,7 +51,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
         return sysPermissionExtMapper.getPermissionByRoleId(roleId);
     }
     /***
-     * getPermissionByRoleName方法概述: TODO 查询一个角色的所有权限
+     * getPermissionByRoleName方法概述: TODO 通过角色名查询一个角色的所有权限
      * @param roleName 角色名
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
