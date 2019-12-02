@@ -1,15 +1,24 @@
 package org.forbes.provider;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysUserRoleService;
-import org.forbes.comm.dto.*;
-import org.forbes.comm.vo.*;
-import org.forbes.config.RedisUtil;
+import org.forbes.comm.dto.AddUserDto;
+import org.forbes.comm.dto.SysUserListDto;
+import org.forbes.comm.dto.UpdateStatusDto;
+import org.forbes.comm.dto.UpdateUserDto;
+import org.forbes.comm.vo.CommVo;
+import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.UserDeatailVo;
+import org.forbes.comm.vo.UserListVo;
+import org.forbes.comm.vo.UserPermissonVo;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
@@ -17,18 +26,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/user")
 @Api(tags={"用户管理"})
-@Slf4j
 public class SysUserController {
 
     @Autowired
@@ -36,9 +43,6 @@ public class SysUserController {
 
     @Autowired
     private SysUserRoleService sysUserRoleService;
-
-    @Autowired
-    private RedisUtil redisUtil;
 
 
     /**
@@ -176,15 +180,14 @@ public class SysUserController {
       *@ 时间：2019/11/20
       *@ Description：
       */
-    @RequestMapping(value = "/user-by-name",method = RequestMethod.POST)
+    @RequestMapping(value = "/user-by-name",method = RequestMethod.GET)
     @ApiOperation("查询用户详情")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.DETAIL_USER_ERROR_MSG),
             @ApiResponse(code=200,message = Result.DETAIL_USER_MSG)
     })
-    public Result<UserDeatailVo> selectUserByUsername(@RequestBody @Valid UserDetailDto userDetailDto){
+    public Result<UserDeatailVo> selectUserByUsername(@RequestParam(name="username",required=true)String username){
         Result<UserDeatailVo> result = new Result<UserDeatailVo>();
-        String username = userDetailDto.getUsername();
         UserDeatailVo sysUser = sysUserService.selectUserDetailByUsername(username);
         if(sysUser==null) {
             result.error500(Result.DETAIL_USER_EMPTY_MSG);
@@ -210,9 +213,8 @@ public class SysUserController {
             @ApiResponse(code=200,message = Result.ROLE_MSG)
     }
     )
-    public Result<List<RoleVo>>  getRoleListByUsername(@RequestBody @Valid RoleDto roleDto){
+    public Result<List<RoleVo>>  getRoleListByUsername(@RequestParam(name="username",required=true)String username){
         Result<List<RoleVo>> result=new Result<>();
-        String  username=roleDto.getUsername();
         List<RoleVo> sysRoleList=sysUserService.getRoleListByName(username);
         if(sysRoleList==null){
             result.error500(Result.ROLE_ERROR_MSG);
@@ -239,9 +241,8 @@ public class SysUserController {
             @ApiResponse(code=200,message = Result.PERMISSIONS_MSG)
     }
     )
-    public Result<List<UserPermissonVo>>  getPermissionByUsername(@RequestBody @Valid RoleDto roleDto){
+    public Result<List<UserPermissonVo>>  getPermissionByUsername(@RequestParam(name="username",required=true)String username){
         Result<List<UserPermissonVo>> result=new Result<>();
-        String username=roleDto.getUsername();
         List<UserPermissonVo> sysPerList=sysUserService.getPermissonListByUsername(username);
         if(sysPerList==null){
             result.error500(Result.PERMISSIONS_NOT_ERROR_MSG);
