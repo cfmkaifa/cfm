@@ -23,4 +23,6 @@ public class RoleDto implements Serializable{
     @ApiModelProperty(value="用户id",required=true)
     private Long userId;
 
+    @ApiModelProperty(value="用户名称",required=true)
+    private String username;
 }

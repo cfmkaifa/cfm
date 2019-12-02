@@ -1,7 +1,6 @@
 package org.forbes.biz;
 
-import org.forbes.comm.vo.UserDeatailVo;
-import org.forbes.comm.vo.UserListVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -66,4 +65,22 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ Description：查询用户详情
 	  */
 	UserDeatailVo selectUserDetailByUsername(String username);
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/12/2
+	  *@ Description：
+	  */
+	List<RoleVo>  getRoleListByName(String username);
+
+	/**
+	  *@ 作者：xfx
+	  *@ 参数：
+	  *@ 返回值：
+	  *@ 时间：2019/12/2
+	  *@ Description：根据用户名查询权限
+	  */
+	List<UserPermissonVo> getPermissonListByUsername(String username);
 }

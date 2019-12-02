@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.vo.UserDeatailVo;
-import org.forbes.comm.vo.UserListVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 
 import java.util.List;
@@ -80,5 +79,22 @@ public interface SysUserExtMapper extends BaseMapper<SysUser>{
 	 */
 	UserDeatailVo selectUserDetailByUsername(@Param("username")String username);
 
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/12/2
+	 *@ Description：
+	 */
+	List<RoleVo>  getRoleListByName(@Param("username")String username);
+
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/12/2
+	 *@ Description：根据用户名查询权限
+	 */
+	List<UserPermissonVo> getPermissonListByUsername(@Param("username")String username);
 
 }

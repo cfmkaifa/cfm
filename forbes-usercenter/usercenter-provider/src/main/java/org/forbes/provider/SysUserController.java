@@ -176,7 +176,7 @@ public class SysUserController {
       *@ 时间：2019/11/20
       *@ Description：
       */
-    @RequestMapping(value = "/get_user_details",method = RequestMethod.POST)
+    @RequestMapping(value = "/user-by-name",method = RequestMethod.POST)
     @ApiOperation("查询用户详情")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.DETAIL_USER_ERROR_MSG),
@@ -194,5 +194,61 @@ public class SysUserController {
             result.success(Result.DETAIL_USER_MSG);
         }
         return  result;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/12/2
+      *@ Description：根据用户名查询角色
+      */
+    @RequestMapping(value = "/role-by-name",method = RequestMethod.POST)
+    @ApiOperation("查询用户角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message = Result.ROLE_ERROR_MSG),
+            @ApiResponse(code=200,message = Result.ROLE_MSG)
+    }
+    )
+    public Result<List<RoleVo>>  getRoleListByUsername(@RequestBody @Valid RoleDto roleDto){
+        Result<List<RoleVo>> result=new Result<>();
+        String  username=roleDto.getUsername();
+        List<RoleVo> sysRoleList=sysUserService.getRoleListByName(username);
+        if(sysRoleList==null){
+            result.error500(Result.ROLE_ERROR_MSG);
+            return  result;
+        }else{
+            result.success(Result.ROLE_MSG);
+            result.setResult(sysRoleList);
+        }
+        return result;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/12/2
+      *@ Description：根据用户名查询查询权限
+      */
+    @RequestMapping(value = "/permission-by-name",method = RequestMethod.POST)
+    @ApiOperation("查询用户权限")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message = Result.PERMISSIONS_NOT_ERROR_MSG),
+            @ApiResponse(code=200,message = Result.PERMISSIONS_MSG)
+    }
+    )
+    public Result<List<UserPermissonVo>>  getPermissionByUsername(@RequestBody @Valid RoleDto roleDto){
+        Result<List<UserPermissonVo>> result=new Result<>();
+        String username=roleDto.getUsername();
+        List<UserPermissonVo> sysPerList=sysUserService.getPermissonListByUsername(username);
+        if(sysPerList==null){
+            result.error500(Result.PERMISSIONS_NOT_ERROR_MSG);
+            return  result;
+        }else{
+            result.success(Result.PERMISSIONS_MSG);
+            result.setResult(sysPerList);
+        }
+        return result;
     }
 }

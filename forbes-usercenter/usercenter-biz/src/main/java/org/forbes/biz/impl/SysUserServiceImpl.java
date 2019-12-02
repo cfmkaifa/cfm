@@ -1,7 +1,6 @@
 package org.forbes.biz.impl;
 import org.forbes.biz.ISysUserService;
-import org.forbes.comm.vo.UserDeatailVo;
-import org.forbes.comm.vo.UserListVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.mapper.SysUserMapper;
 import org.forbes.dal.mapper.ext.SysUserExtMapper;
@@ -84,5 +83,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	  */
 	public UserDeatailVo selectUserDetailByUsername(String username) {
 		return sysUserExtMapper.selectUserDetailByUsername(username);
+	}
+
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/12/2
+	 *@ Description：
+	 */
+	@Override
+	public List<RoleVo> getRoleListByName(String username) {
+		return sysUserExtMapper.getRoleListByName(username);
+	}
+
+	/**
+	 *@ 作者：xfx
+	 *@ 参数：
+	 *@ 返回值：
+	 *@ 时间：2019/12/2
+	 *@ Description：根据用户名查询权限
+	 */
+	@Override
+	public List<UserPermissonVo> getPermissonListByUsername(String username) {
+		return sysUserExtMapper.getPermissonListByUsername(username);
 	}
 }

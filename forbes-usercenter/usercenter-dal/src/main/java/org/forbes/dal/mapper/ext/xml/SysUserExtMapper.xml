@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.forbes.dal.mapper.ext.SysUserExtMapper" >
-  <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUser" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
-  </resultMap>
+      <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUser" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
+      </resultMap>
     <resultMap id="BaseResultMaps" type="org.forbes.comm.vo.UserDeatailVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
     </resultMap>
   <sql id="Base_Column_List" >
    <include refid="org.forbes.dal.mapper.SysUserMapper.Base_Column_List" />
   </sql>
+
+    <!--角色-->
+    <resultMap id="Role_BaseResultMap" type="org.forbes.comm.vo.RoleVo" extends="org.forbes.dal.mapper.SysRoleMapper.BaseResultMap">
+    </resultMap>
+    <sql id="Role_Base_Column_List" >
+        <include refid="org.forbes.dal.mapper.SysRoleMapper.Base_Column_List" />
+    </sql>
+
+    <!--权限-->
+    <resultMap id="Per_BaseResultMap" type="org.forbes.comm.vo.UserPermissonVo" extends="org.forbes.dal.mapper.SysPermissionMapper.BaseResultMap">
+    </resultMap>
+    <sql id="Per_Base_Column_List" >
+        <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
+    </sql>
+
+
+    <!--根据用户名查询权限-->
+    <select id="getPermissonListByUsername" parameterType="string" resultMap="Per_BaseResultMap">
+        SELECT
+        p.id, p.create_by, p.create_time, p.update_by, p.update_time, p.parent_id, p.name, p.perms, p.component,
+    p.component_name, p.always_show, p.is_route, p.is_leaf, p.is_hidden, p.sort_no, p.description,
+    p.redirect, p.url,p.icon
+        FROM f_sys_permission p JOIN f_sys_role_permission rp
+        ON p.id = rp.permission_id
+        JOIN f_sys_role r
+        ON rp.role_id = r.id JOIN f_sys_user_role ur
+        ON r.id = ur.role_id JOIN f_sys_user u
+        ON ur.user_id = u.id
+        WHERE u.username=#{username,jdbcType=VARCHAR}
+    </select>
+
+    <!--根据用户名查询角色-->
+    <select id="getRoleListByName" parameterType="string" resultMap="Role_BaseResultMap">
+        SELECT
+        <include refid="Role_Base_Column_List" />
+        FROM
+        f_sys_role fsr WHERE fsr.id IN (
+            SELECT fsur.role_id FROM f_sys_user_role AS fsur WHERE fsur.user_id IN (
+             SELECT fsu.id FROM f_sys_user fsu WHERE fsu.username=#{username,jdbcType=VARCHAR}))
+    </select>
   <!--根据用户名查询用户-->
   <select id="getUserByName" resultMap="BaseResultMap">
   	SELECT 
