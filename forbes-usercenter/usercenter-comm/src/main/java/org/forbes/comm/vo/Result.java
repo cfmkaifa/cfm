@@ -105,6 +105,10 @@ public class Result<T> implements Serializable {
 	public static final  String SELECT_LIST_USER_AND_ROLE_ERROR_MSG = "多条件查询用户失败";
 
 
+	/*****公共操作结果信息*****/
+	public static final  String COMM_ACTION_MSG = "操作成功";
+	public static final  String COMM_ACTION_ERROR_MSG = "操作失败";
+
 	/**
 	 * 返回代码
 	 */

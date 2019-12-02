@@ -22,4 +22,5 @@ public class SelectUserAndRoleDto implements Serializable{
 
     @ApiModelProperty("用户id")
     private Long userId;
+
 }

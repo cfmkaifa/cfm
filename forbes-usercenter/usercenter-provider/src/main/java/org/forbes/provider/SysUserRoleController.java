@@ -47,8 +47,8 @@ public class SysUserRoleController {
     @RequestMapping(value = "/add_user_role",method = RequestMethod.POST)
     @ApiOperation("添加")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.ADD_USER_AND_ROLE_MSG),
-            @ApiResponse(code=500,message = Result.ADD_USER_AND_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public Result<CommVo> addUserAndRole(@RequestBody @Valid AddUserRoleDto addUserRoleDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -64,9 +64,9 @@ public class SysUserRoleController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
@@ -75,8 +75,8 @@ public class SysUserRoleController {
     @RequestMapping(value = "/delete_user_role",method = RequestMethod.POST)
     @ApiOperation("删除")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.DELETE_USER_AND_ROLE_MSG),
-            @ApiResponse(code=500,message = Result.DELETE_USER_AND_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<CommVo> deleteUserAndRole(@RequestBody @Valid DeleteUserAndRoleDto deleteUserAndRoleDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -87,9 +87,9 @@ public class SysUserRoleController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }) })
 public class MybatisInterceptor implements Interceptor {
 
-	
+
 	public static final String CREATE_BY = "createBy";
 	public static final String CREATE_BY_TABLE = "create_by";
 	public static final String CREATE_TIME_TABLE = "create_time";
@@ -42,9 +42,9 @@ public class MybatisInterceptor implements Interceptor {
 	 */
 	private static final String DEFAULT_SYS_USER = "system";
 	private static final String DEFAULT_EMPTY = "";
-	
+
 	/***
-	 * 
+	 *
 	 */
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -66,8 +66,8 @@ public class MybatisInterceptor implements Interceptor {
 		}
 		return invocation.proceed();
 	}
-	
-	
+
+
 	/***
 	 * receFields方法慨述:
 	 * @param obj
@@ -81,8 +81,8 @@ public class MybatisInterceptor implements Interceptor {
 		Field[] fields = (Field[]) ArrayUtils.addAll(obj.getClass().getDeclaredFields(), obj.getClass().getSuperclass().getDeclaredFields());
 		return Arrays.asList(fields);
 	}
-	
-	
+
+
 	/***
 	 * insertInvocation方法慨述:
 	 * @param parameter
@@ -93,32 +93,32 @@ public class MybatisInterceptor implements Interceptor {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	private void insertInvocation(Object parameter,List<Field> fields){
-		fields.stream().filter(fieldt -> CREATE_BY.equals(fieldt.getName()) 
+		fields.stream().filter(fieldt -> CREATE_BY.equals(fieldt.getName())
 				|| CREATE_BY.equals(fieldt.getName())).forEach(tfieldt -> {
-					try {
+			try {
+				tfieldt.setAccessible(true);
+				Object fieldVal = tfieldt.get(parameter);
+				tfieldt.setAccessible(false);
+				if (CREATE_TIME.equals(tfieldt.getName())) {
+					if(ConvertUtils.isEmpty(fieldVal)){
 						tfieldt.setAccessible(true);
-						Object fieldVal = tfieldt.get(parameter);
+						tfieldt.set(parameter, DEFAULT_SYS_USER);
 						tfieldt.setAccessible(false);
-						if (CREATE_TIME.equals(tfieldt.getName())) {
-							if(ConvertUtils.isEmpty(fieldVal)){
-								tfieldt.setAccessible(true);
-								tfieldt.set(parameter, DEFAULT_SYS_USER);
-								tfieldt.setAccessible(false);
-							}
-						}
-						if (CREATE_TIME.equals(tfieldt.getName())) {
-							if(ConvertUtils.isEmpty(fieldVal)){
-								tfieldt.setAccessible(true);
-								tfieldt.set(parameter, new Date());
-								tfieldt.setAccessible(false);
-							}
-						}
-					}catch(Exception e){
-						throw new ForbesException(e);
 					}
-				});
+				}
+				if (CREATE_TIME.equals(tfieldt.getName())) {
+					if(ConvertUtils.isEmpty(fieldVal)){
+						tfieldt.setAccessible(true);
+						tfieldt.set(parameter, new Date());
+						tfieldt.setAccessible(false);
+					}
+				}
+			}catch(Exception e){
+				throw new ForbesException(e);
+			}
+		});
 	}
-	
+
 	/***
 	 * upInvocation方法慨述:
 	 * @param parameter
@@ -129,30 +129,30 @@ public class MybatisInterceptor implements Interceptor {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	private void upInvocation(Object parameter,List<Field> fields){
-		fields.stream().filter(fieldt -> UPDATE_BY.equals(fieldt.getName()) 
+		fields.stream().filter(fieldt -> UPDATE_BY.equals(fieldt.getName())
 				|| UPDATE_TIME.equals(fieldt.getName())).forEach(tfieldt -> {
-					try{
+			try{
+				tfieldt.setAccessible(true);
+				Object fieldVal = tfieldt.get(parameter);
+				tfieldt.setAccessible(false);
+				if (UPDATE_BY.equals(tfieldt.getName())) {
+					if(ConvertUtils.isEmpty(fieldVal)){
 						tfieldt.setAccessible(true);
-						Object fieldVal = tfieldt.get(parameter);
+						tfieldt.set(parameter, DEFAULT_SYS_USER);
 						tfieldt.setAccessible(false);
-						if (UPDATE_BY.equals(tfieldt.getName())) {
-							if(ConvertUtils.isEmpty(fieldVal)){
-								tfieldt.setAccessible(true);
-								tfieldt.set(parameter, DEFAULT_SYS_USER);
-								tfieldt.setAccessible(false);
-							}
-						}
-						if (UPDATE_TIME.equals(tfieldt.getName())) {
-							if(ConvertUtils.isEmpty(fieldVal)){
-								tfieldt.setAccessible(true);
-								tfieldt.set(parameter, new Date());
-								tfieldt.setAccessible(false);
-							}
-						}
-					}catch(Exception e){
-						throw new ForbesException(e);
 					}
-				});
+				}
+				if (UPDATE_TIME.equals(tfieldt.getName())) {
+					if(ConvertUtils.isEmpty(fieldVal)){
+						tfieldt.setAccessible(true);
+						tfieldt.set(parameter, new Date());
+						tfieldt.setAccessible(false);
+					}
+				}
+			}catch(Exception e){
+				throw new ForbesException(e);
+			}
+		});
 	}
 
 	@Override

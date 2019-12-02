@@ -102,8 +102,8 @@ public class RoleController {
     @RequestMapping(value = "/add_role",method = RequestMethod.POST)
     @ApiOperation("添加角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.ADD_ROLE_MSG),
-            @ApiResponse(code=500,message = Result.ADD_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<CommVo> addRole(@RequestBody @Valid AddRoleDto addRoleDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -123,9 +123,9 @@ public class RoleController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
@@ -141,8 +141,8 @@ public class RoleController {
     @RequestMapping(value = "/update_role",method = RequestMethod.POST)
     @ApiOperation("修改角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.UPDATE_ROLE_MSG),
-            @ApiResponse(code=500,message = Result.UPDATE_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<CommVo> updateRole(@RequestBody @Valid UpdateRoleDto updateRoleDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -155,9 +155,9 @@ public class RoleController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
@@ -173,8 +173,8 @@ public class RoleController {
     @RequestMapping(value = "/delete_role",method = RequestMethod.POST)
     @ApiOperation("删除角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.DELETE_ROLE_MSG),
-            @ApiResponse(code=500,message = Result.DELETE_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<CommVo> deleteRoleByRoleId(@RequestBody @Valid DeleteRoleDto deleteRoleDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -186,9 +186,9 @@ public class RoleController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;

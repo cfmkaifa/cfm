@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.ws.rs.HEAD;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -76,8 +75,8 @@ public class SysUserController {
     @RequestMapping(value = "/update_userstatus",method = RequestMethod.POST)
     @ApiOperation("根据用户名修改用户状态")
     @ApiResponses(value = {
-            @ApiResponse(code=500,message = Result.UPDATE_STATUS_ERROR_MSG),
-            @ApiResponse(code=200,response = CommVo.class,message = Result.UPDATE_STATUS_MSG)
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
     public Result<CommVo> updateStausByUsername(@RequestBody @Valid UpdateStatusDto updateStatusDto){
         Result<CommVo> result=new Result<CommVo>();
@@ -90,9 +89,9 @@ public class SysUserController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
@@ -108,8 +107,8 @@ public class SysUserController {
     @RequestMapping(value = "/add_users",method = RequestMethod.POST)
     @ApiOperation("添加用户")
     @ApiResponses(value = {
-            @ApiResponse(code=500,message = Result.ADD_USER_ERROR_MSG),
-            @ApiResponse(code=200,response = CommVo.class,message = Result.ADD_USER_MSG)
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
     public Result<CommVo> addUser(@RequestBody @Valid AddUserDto addUserDto){
         Result<CommVo> result=new Result<CommVo>();
@@ -130,9 +129,9 @@ public class SysUserController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.ADD_USER_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.ADD_USER_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
@@ -148,8 +147,8 @@ public class SysUserController {
     @RequestMapping(value = "/update_users",method = RequestMethod.POST)
     @ApiOperation("修改用户")
     @ApiResponses(value = {
-            @ApiResponse(code=500,message = Result.UPDATE_USER_ERROR_MSG),
-            @ApiResponse(code=200,response = CommVo.class,message = Result.UPDATE_USER_MSG)
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
+            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
     public  Result<CommVo> updateUser(@RequestBody @Valid UpdateUserDto updateUserDto){
         Map<String,Boolean> map=new HashMap<>();
@@ -162,9 +161,9 @@ public class SysUserController {
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
-            result.success(Result.UPDATE_STATUS_MSG);
+            result.success(Result.COMM_ACTION_MSG);
         }else{
-            result.error500(Result.UPDATE_STATUS_ERROR_MSG);
+            result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
         }
         return result;
