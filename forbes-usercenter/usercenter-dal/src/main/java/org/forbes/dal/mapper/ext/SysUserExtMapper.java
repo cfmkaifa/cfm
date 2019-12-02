@@ -15,6 +15,7 @@ import java.util.List;
  */
 public interface SysUserExtMapper extends BaseMapper<SysUser>{
 
+
 	List<SysUser> selectByMyWrapper(@Param(Constants.WRAPPER) Wrapper<SysUser> userWrapper);
 	
 	

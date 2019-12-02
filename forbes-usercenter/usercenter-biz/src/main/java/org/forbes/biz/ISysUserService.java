@@ -22,6 +22,7 @@ public interface ISysUserService extends IService<SysUser> {
 	 */
 	SysUser  getUserByName(String username);
 
+
 	/**
 	  *@ 作者：xfx
 	  *@ 参数：

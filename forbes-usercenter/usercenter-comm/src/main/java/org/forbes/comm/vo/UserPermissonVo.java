@@ -18,6 +18,7 @@ import java.util.Date;
  * @Date 2019/12/2 14:06
  * @Version 1.0
  **/
+
 @Data
 @ApiModel(description = "用户权限返回结果")
 public class UserPermissonVo implements Serializable{

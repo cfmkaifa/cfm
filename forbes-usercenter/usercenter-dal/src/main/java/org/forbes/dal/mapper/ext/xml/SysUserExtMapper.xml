@@ -24,6 +24,7 @@
     </sql>
 
 
+
     <!--根据用户名查询权限-->
     <select id="getPermissonListByUsername" parameterType="string" resultMap="Per_BaseResultMap">
         SELECT

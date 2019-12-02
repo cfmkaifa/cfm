@@ -17,6 +17,7 @@ import java.util.List;
  */
 public interface SysPermissionExtMapper {
 
+
     /***
      * getPermission方法概述:TODO 查询所有权限
      * @return
