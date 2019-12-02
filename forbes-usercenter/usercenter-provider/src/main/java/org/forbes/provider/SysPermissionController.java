@@ -38,7 +38,7 @@ public class SysPermissionController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @RequestMapping(value = "/select_permission", method = RequestMethod.POST)
+    @RequestMapping(value = "/select_permission", method = RequestMethod.GET)
     @ApiOperation("查询所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
@@ -51,7 +51,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.POST)
+    @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.GET)
     @ApiOperation("通过角色id查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
@@ -63,7 +63,7 @@ public class SysPermissionController {
         result.setResult(permissionList);
         return result;
     }
-    @RequestMapping(value = "/select_permission_by_role_name", method = RequestMethod.POST)
+    @RequestMapping(value = "/select_permission_by_role_name", method = RequestMethod.GET)
     @ApiOperation("通过角色名字查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
@@ -76,7 +76,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.POST)
+    @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.GET)
     @ApiOperation("查询所有角色与其对应的所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
@@ -88,7 +88,6 @@ public class SysPermissionController {
         result.setResult(sysPermList);
         return result;
     }
-
 
     @RequestMapping(value = "/add_permission", method = RequestMethod.POST)
     @ApiOperation("仅添加一个权限")
