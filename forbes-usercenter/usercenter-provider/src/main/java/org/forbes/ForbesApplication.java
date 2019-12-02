@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @MapperScan(basePackages={"org.forbes.dal.mapper"})
 public class ForbesApplication {
-	
+
 	/***启动类
 	 * main方法慨述:
 	 * @param args void

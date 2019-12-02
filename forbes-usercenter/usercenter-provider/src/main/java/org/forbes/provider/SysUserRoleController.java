@@ -95,7 +95,7 @@ public class SysUserRoleController {
         return result;
     }
 
-    @RequestMapping(value ="/select_user_role_userid",method = RequestMethod.POST)
+    @RequestMapping(value ="/select_user_role_userid",method = RequestMethod.GET)
     @ApiOperation("根据用户id查询用户角色中间表")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.DELETE_USER_AND_ROLE_MSG),

@@ -52,7 +52,7 @@ public class SysUserController {
       *@ 时间：2019/11/22
       *@ Description：多条件查询用户+分页
       */
-    @RequestMapping(value = "/select_userlist",method = RequestMethod.POST)
+    @RequestMapping(value = "/select_userlist",method = RequestMethod.GET)
     @ApiOperation("多条件查询用户")
     @ApiResponses(value = {
             @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
@@ -65,7 +65,6 @@ public class SysUserController {
         Long roleId=sysUserListDto.getRoleId();
         String realname=sysUserListDto.getRealname();
         List<UserListVo> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
-
         if(sysUsers!=null){
             result.setResult(sysUsers);
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
@@ -206,7 +205,7 @@ public class SysUserController {
       *@ 时间：2019/12/2
       *@ Description：根据用户名查询角色
       */
-    @RequestMapping(value = "/role-by-name",method = RequestMethod.POST)
+    @RequestMapping(value = "/role-by-name",method = RequestMethod.GET)
     @ApiOperation("查询用户角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.ROLE_ERROR_MSG),
@@ -232,9 +231,9 @@ public class SysUserController {
       *@ 参数：
       *@ 返回值：
       *@ 时间：2019/12/2
-      *@ Description：根据用户名查询查询权限
+      *@ Description：根据用户名查询权限
       */
-    @RequestMapping(value = "/permission-by-name",method = RequestMethod.POST)
+    @RequestMapping(value = "/permission-by-name",method = RequestMethod.GET)
     @ApiOperation("查询用户权限")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.PERMISSIONS_NOT_ERROR_MSG),

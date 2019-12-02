@@ -47,7 +47,7 @@ public class RoleController {
       *@ 时间：2019/11/20
       *@ Description：根据用户id查询对应的角色
       */
-    @RequestMapping(value = "/get_role_list",method = RequestMethod.POST)
+    @RequestMapping(value = "/get_role_list",method = RequestMethod.GET)
     @ApiOperation("查询用户对应角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.ROLE_ERROR_MSG),
@@ -74,7 +74,7 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：查询所有角色
       */
-    @RequestMapping(value = "/role_list",method = RequestMethod.POST)
+    @RequestMapping(value = "/role_list",method = RequestMethod.GET)
     @ApiOperation("查询所有角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
