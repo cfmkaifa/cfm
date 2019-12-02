@@ -7,7 +7,18 @@
    <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
   </sql>
 
-<!--查询一个角色的所有权限-->
+<!--查询所有权限-->
+    <select id="getPermission" resultType="org.forbes.comm.vo.PermissionVo">
+        SELECT
+        id,
+        parent_id,
+        name,
+        description,
+        perms,
+        url,
+        icon
+        FROM f_sys_permission
+    </select><!--通过角色id查询一个角色的所有权限-->
     <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
         p.id,
@@ -18,6 +29,19 @@
         ON rp.role_id = r.id JOIN f_sys_permission p ON
         rp.permission_id = p.id
         WHERE r.id =#{roleId}
+    </select>
+
+    <!--通过角色名称查询一个角色的所有权限-->
+    <select id="getPermissionByRoleName" resultType="org.forbes.comm.vo.SysRolePermissionVo">
+        SELECT
+        p.id,
+        p.name,
+        p.description,
+        r.role_name
+        FROM f_sys_role_permission rp JOIN f_sys_role r
+        ON rp.role_id = r.id JOIN f_sys_permission p ON
+        rp.permission_id = p.id
+        WHERE r.role_name =#{roleName}
     </select>
     <!--查询所有角色与其对应的所有权限-->
     <select id="getPermissionByRole" resultType="org.forbes.comm.vo.SysRolePermissionVo">

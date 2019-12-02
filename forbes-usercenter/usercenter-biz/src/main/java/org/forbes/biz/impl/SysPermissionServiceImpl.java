@@ -1,11 +1,15 @@
 package org.forbes.biz.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.catalina.User;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.mapper.SysPermissionMapper;
@@ -23,7 +27,19 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     SysPermissionExtMapper sysPermissionExtMapper;
 
     /***
-     * getPermissionByRole方法概述: TODO 查询一个角色的所有权限
+     * getPermission方法概述:TODO 查询所有权限
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/2
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<PermissionVo> getPermission() {
+        return sysPermissionExtMapper.getPermission();
+    }
+
+    /***
+     * getPermissionByRoleId方法概述: TODO 查询一个角色的所有权限
      * @param roleId 用户名
      * @return List<SysPermission> 权限集合
      * @创建人 niehy(Frunk)
@@ -33,6 +49,18 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     public List<SysRolePermissionVo> getPermissionByRoleId(Long roleId) {
         return sysPermissionExtMapper.getPermissionByRoleId(roleId);
+    }
+    /***
+     * getPermissionByRoleName方法概述: TODO 查询一个角色的所有权限
+     * @param roleName 角色名
+     * @return List<SysPermission> 权限集合
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/11/20
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<SysRolePermissionVo> getPermissionByRoleName(String roleName) {
+        return sysPermissionExtMapper.getPermissionByRoleName(roleName);
     }
 
     /***

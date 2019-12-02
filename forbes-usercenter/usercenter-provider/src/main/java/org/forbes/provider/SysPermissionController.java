@@ -1,5 +1,7 @@
 package org.forbes.provider;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +12,7 @@ import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
@@ -35,9 +38,21 @@ public class SysPermissionController {
     @Autowired
     private RedisUtil redisUtil;
 
+    @RequestMapping(value = "/select_permission", method = RequestMethod.POST)
+    @ApiOperation("查询所有权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+    })
+    public Result<List<PermissionVo>> getPermission(){
+        Result<List<PermissionVo>> result = new Result<>();
+        List<PermissionVo> permissionList = sysPermissionService.getPermission();
+        result.setResult(permissionList);
+        return result;
+    }
 
-    @RequestMapping(value = "/get_permission_by_role_id", method = RequestMethod.POST)
-    @ApiOperation("查询角色所有权限")
+    @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.POST)
+    @ApiOperation("通过角色id查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
@@ -48,8 +63,20 @@ public class SysPermissionController {
         result.setResult(permissionList);
         return result;
     }
+    @RequestMapping(value = "/select_permission_by_role_name", method = RequestMethod.POST)
+    @ApiOperation("通过角色名字查询角色所有权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
+    })
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Valid String roleName){
+        Result<List<SysRolePermissionVo>> result = new Result<>();
+        List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleName(roleName);
+        result.setResult(permissionList);
+        return result;
+    }
 
-    @RequestMapping(value = "/get_permission_by_role", method = RequestMethod.POST)
+    @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.POST)
     @ApiOperation("查询所有角色与其对应的所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
