@@ -5,6 +5,7 @@ import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
@@ -69,6 +70,26 @@ public interface SysPermissionExtMapper {
      * @修改日期 (请填上修改该文件时的日期)
      */
     List<SysRolePermissionVo> getPermissionByRole();
+
+    /***
+     * getPermissionInRole方法概述:TODO 查询一个角色拥有的权限
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/3
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    List<PermissionInRoleVo> getPermissionInRole(@Param("roleId") Long roleId);
+
+    /***
+     * getPermissionNotInRole方法概述:TODO 查询一个角色未拥有的权限
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/3
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    List<PermissionInRoleVo> getPermissionNotInRole(@Param("roleId") Long roleId);
 
     /***
      * addPermissionToRole方法概述:TODO 给一个角色添加权限

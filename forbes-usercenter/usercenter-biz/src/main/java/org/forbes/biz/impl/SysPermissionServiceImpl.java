@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.catalina.User;
+import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
@@ -73,6 +75,30 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     public List<SysRolePermissionVo> getPermissionByRole() {
         return sysPermissionExtMapper.getPermissionByRole();
+    }
+
+    /***
+     * getPermissionInRole方法概述:TODO 查询一个角色拥有的权限
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/3
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<PermissionInRoleVo> getPermissionInRole(Long roleId) {
+        return sysPermissionExtMapper.getPermissionInRole(roleId);
+    }
+
+    /***
+     * getPermissionNotInRole方法概述:TODO 查询一个角色未拥有的权限
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/3
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<PermissionInRoleVo> getPermissionNotInRole(Long roleId) {
+        return sysPermissionExtMapper.getPermissionNotInRole(roleId);
     }
 
     /***

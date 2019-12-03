@@ -7,11 +7,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
@@ -80,12 +82,38 @@ public class SysPermissionController {
     @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.GET)
     @ApiOperation("查询所有角色与其对应的所有权限")
     @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
+            @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
     })
     public Result<List<SysRolePermissionVo>> getPermissionByRole(){
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> sysPermList = sysPermissionService.getPermissionByRole();
+        result.setResult(sysPermList);
+        return result;
+    }
+
+    @RequestMapping(value = "/select_permission_in_role", method = RequestMethod.GET)
+    @ApiOperation("查询角色所已拥有的权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
+    })
+    public Result<List<PermissionInRoleVo>> getPermissionInRole(@Param("roleId") Long roleId){
+        Result<List<PermissionInRoleVo>> result = new Result<>();
+        List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionInRole(roleId);
+        result.setResult(sysPermList);
+        return result;
+    }
+
+    @RequestMapping(value = "/select_permission_not_in_role", method = RequestMethod.GET)
+    @ApiOperation("查询角色未拥有的权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
+    })
+    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@Param("roleId") Long roleId){
+        Result<List<PermissionInRoleVo>> result = new Result<>();
+        List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionNotInRole(roleId);
         result.setResult(sysPermList);
         return result;
     }

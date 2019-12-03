@@ -71,11 +71,14 @@ public class Result<T> implements Serializable {
 	public static final  String PERMISSIONS_MSG = "查询所有权限成功";
 	public static final  String PERMISSIONS_NOT_ERROR_MSG = "查询所有权限成功";
 
-	public static final  String PERMISSION_MSG = "查询个人权限成功";
-	public static final  String PERMISSION_NOT_ERROR_MSG = "查询个人权限成功";
+	public static final  String PERMISSION_MSG = "通过角色id查询角色所有权限成功";
+	public static final  String PERMISSION_NOT_ERROR_MSG = "通过角色id查询角色所有权限失败";
 
-	public static final  String ALL_PERMISSION_MSG = "查询所有人权限成功";
-	public static final  String ALL_PERMISSION_NOT_ERROR_MSG = "查询所有人权限成功";
+	public static final  String ALL_PERMISSION_MSG = "查询所有角色对应权限成功";
+	public static final  String ALL_PERMISSION_NOT_ERROR_MSG = "查询所有角色对应权限失败";
+
+	public static final  String IN_PERMISSION_MSG = "查询角色已拥有权限成功";
+	public static final  String NOT_IN_PERMISSION_NOT_ERROR_MSG = "查询角色未拥有权限失败";
 	/******添加权限信息****/
 	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
 	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";
