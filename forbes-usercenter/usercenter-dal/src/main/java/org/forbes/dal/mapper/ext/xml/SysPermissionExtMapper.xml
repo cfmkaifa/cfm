@@ -20,11 +20,11 @@
         FROM f_sys_permission
     </select><!--通过角色id查询一个角色的所有权限-->
     <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo">
-        SELECT
-        p.id,
-        p.name,
-        p.description,
-        r.role_name
+       SELECT
+              r.id,
+			  r.role_name,
+              GROUP_CONCAT(p.name) as name,
+              GROUP_CONCAT(p.description) as description
         FROM f_sys_role_permission rp JOIN f_sys_role r
         ON rp.role_id = r.id JOIN f_sys_permission p ON
         rp.permission_id = p.id
@@ -35,8 +35,8 @@
     <select id="getPermissionByRoleName" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
         p.id,
-        p.name,
-        p.description,
+        GROUP_CONCAT(p.name) as name,
+        GROUP_CONCAT(p.description) as description
         r.role_name
         FROM f_sys_role_permission rp JOIN f_sys_role r
         ON rp.role_id = r.id JOIN f_sys_permission p ON
@@ -47,9 +47,9 @@
     <select id="getPermissionByRole" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
         p.id,
-        p.name,
-        p.description,
-        r.role_name
+        GROUP_CONCAT(p.name) as name,
+        GROUP_CONCAT(p.description)as description,
+        GROUP_CONCAT(r.role_name) as role_name
         FROM f_sys_permission p
         JOIN f_sys_role_permission rp
         ON rp.permission_id = p.id JOIN f_sys_role r

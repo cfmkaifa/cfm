@@ -85,6 +85,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     @Transactional
     public Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto) {
+        addPermissionToRoleDto.getId();//主键id
+        addPermissionToRoleDto.getUpdateBy();//修改人
+        addPermissionToRoleDto.getUpdateTime();//修改时间
+        addPermissionToRoleDto.getCreateBy();//创建人
+        addPermissionToRoleDto.getCreateTime();//创建时间
+
         return sysPermissionExtMapper.addPermissionToRole(addPermissionToRoleDto);
     }
 
