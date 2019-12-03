@@ -1,9 +1,6 @@
 package org.forbes.provider;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -13,6 +10,7 @@ import org.forbes.comm.dto.AddUserDto;
 import org.forbes.comm.dto.SysUserListDto;
 import org.forbes.comm.dto.UpdateStatusDto;
 import org.forbes.comm.dto.UpdateUserDto;
+import org.forbes.comm.utils.UUIDGenerator;
 import org.forbes.comm.vo.CommVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.RoleVo;
@@ -119,16 +117,17 @@ public class SysUserController {
         Map<String,Boolean> map=new HashMap<>();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(addUserDto,sysUser);
+        sysUser.setSalt(new UUIDGenerator().generateString(16));
+        sysUser.setCreateTime(new Date());
         Integer res=sysUserService.addUser(sysUser);
-        Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
         //向用户角色中间表中添加一条记录
+        Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
         SysUserRole sysUserRole=new SysUserRole();
-        sysUserRole.setCreateTime(new Date());
-       // sysUserRole.setCreateBy();
-        sysUserRole.setUserId(user_id);
         sysUserRole.setRoleId(addUserDto.getRoleId());
-        Integer res_user_role=sysUserRoleService.addUserAndRole(sysUserRole);
-        if(res==1&&res_user_role==1){
+        sysUserRole.setUserId(user_id);
+        sysUserRole.setCreateTime(new Date());
+        Integer user_role_res=sysUserRoleService.addUserAndRole(sysUserRole);
+        if(res==1&&user_role_res==1){
             map.put("result",true);
             comm.setMapInfo(map);
             result.setResult(comm);
@@ -159,6 +158,7 @@ public class SysUserController {
         CommVo comm=new CommVo();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(updateUserDto,sysUser);
+        sysUser.setUpdateTime(new Date());
         Integer res=sysUserService.updateUserByUsername(sysUser);
         if(res==1){
             map.put("result",true);
@@ -224,7 +224,6 @@ public class SysUserController {
         }
         return result;
     }
-
 
     /**
       *@ 作者：xfx

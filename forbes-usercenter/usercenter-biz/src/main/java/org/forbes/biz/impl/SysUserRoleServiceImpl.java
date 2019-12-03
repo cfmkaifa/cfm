@@ -10,6 +10,7 @@ import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserRoleExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      *@ 时间：2019/11/22
      *@ Description：添加用户角色中间表所需参数
      */
+    @Transactional
     public Integer addUserAndRole(SysUserRole sysUserRole) {
         return sysUserRoleExtMapper.addUserAndRole(sysUserRole);
     }
@@ -38,6 +40,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      *@ 时间：2019/11/22
      *@ Description：用户角色中间表删除
      */
+    @Transactional
     public Integer deleteUserAndRole(@Param("userId") Long userId, @Param("roleId") Long roleId) {
         return sysUserRoleExtMapper.deleteUserAndRole(userId,roleId);
     }

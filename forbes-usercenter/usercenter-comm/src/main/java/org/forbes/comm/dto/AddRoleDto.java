@@ -25,10 +25,6 @@ public class AddRoleDto implements Serializable{
     @NotEmpty(message = "名称不能为空")
     private String roleName;
 
-    @ApiModelProperty(value = "角色编码",required = true)
-    @NotEmpty(message = "角色编码不能为空")
-    private String roleCode;
-
     @ApiModelProperty(value = "角色描述",required = true)
     private String description;
 

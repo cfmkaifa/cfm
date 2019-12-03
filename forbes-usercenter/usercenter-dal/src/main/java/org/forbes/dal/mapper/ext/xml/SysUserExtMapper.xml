@@ -3,15 +3,14 @@
 <mapper namespace="org.forbes.dal.mapper.ext.SysUserExtMapper" >
       <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUser" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
       </resultMap>
-    <resultMap id="BaseResultMaps" type="org.forbes.comm.vo.UserDeatailVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
-    </resultMap>
-  <sql id="Base_Column_List" >
-   <include refid="org.forbes.dal.mapper.SysUserMapper.Base_Column_List" />
-  </sql>
+      <resultMap id="BaseResultMaps" type="org.forbes.comm.vo.UserDeatailVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
+      </resultMap>
+      <sql id="Base_Column_List" >
+       <include refid="org.forbes.dal.mapper.SysUserMapper.Base_Column_List" />
+      </sql>
+        <resultMap id="Role_BaseResultMap" type="org.forbes.comm.vo.RoleVo" extends="org.forbes.dal.mapper.SysRoleMapper.BaseResultMap">
+        </resultMap>
 
-    <!--角色-->
-    <resultMap id="Role_BaseResultMap" type="org.forbes.comm.vo.RoleVo" extends="org.forbes.dal.mapper.SysRoleMapper.BaseResultMap">
-    </resultMap>
     <sql id="Role_Base_Column_List" >
         <include refid="org.forbes.dal.mapper.SysRoleMapper.Base_Column_List" />
     </sql>
@@ -22,8 +21,6 @@
     <sql id="Per_Base_Column_List" >
         <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
     </sql>
-
-
 
     <!--根据用户名查询权限-->
     <select id="getPermissonListByUsername" parameterType="string" resultMap="Per_BaseResultMap">
@@ -61,11 +58,24 @@
   </select>
 
     <!--多条件查询用户+分页-->
-    <select id="selectUserList" resultMap="BaseResultMap">
+    <select id="selectUserList" resultType="org.forbes.comm.vo.UserListVo" >
         SELECT
-        <include refid="Base_Column_List" />
+          fsu.id,
+          fsu.username,
+          fsu.status,
+          fsu.create_by,
+          fsu.create_time,
+          fsu.update_by,
+          fsu.update_time,
+          fsu.password,
+          fsu.salt,
+          fsu.avatar,
+          fsu.email,
+          fsu.phone,
+          fsu.realname,
+        GROUP_CONCAT(fsr.role_name)AS role_name
         FROM
-        `f_sys_user` AS fsu
+        f_sys_user AS fsu LEFT JOIN f_sys_user_role AS fsur ON fsur.user_id=fsu.id LEFT JOIN f_sys_role AS fsr ON fsr.id=fsur.role_id
         <where>
             <if test="status!=null and status!=''">
                 AND fsu.status=#{status,jdbcType=VARCHAR}

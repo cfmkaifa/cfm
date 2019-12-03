@@ -2,6 +2,7 @@ package org.forbes.comm.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -23,6 +24,37 @@ import lombok.Data;
 public class UserListVo implements Serializable{
 
     private static final long serialVersionUID = -8223687868762203414L;
+
+    /**
+     * id
+     */
+    @TableId(type = IdType.AUTO)
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Long id;
+
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
+
+    /**
+     * 更新人
+     */
+    private String updateBy;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     /**
      * 登录账号
@@ -96,36 +128,7 @@ public class UserListVo implements Serializable{
     @ApiModelProperty(value = "姓名",required = true)
     private String realname;
 
-    /**
-     * id
-     */
-    @TableId(type = IdType.AUTO)
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Long id;
-
-
-    /**
-     * 创建人
-     */
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
+    @ApiModelProperty(value = "用户对应角色集合",required = true)
+    private String roleName;
 
 }

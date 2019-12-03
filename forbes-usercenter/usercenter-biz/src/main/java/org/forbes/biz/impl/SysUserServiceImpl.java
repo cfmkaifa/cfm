@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	  *@ 返回值：
 	  *@ 时间：2019/11/19
 	  */
+	@Transactional
 	public Integer updateUserStatus(String username, String status) {
 		return sysUserExtMapper.updateUserStatus(username,status);
 	}
@@ -60,6 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	  *@ 时间：2019/11/19
 	  *@ Description：
 	  */
+	@Transactional
 	public Integer addUser(SysUser sysUser) {
 		return sysUserExtMapper.addUser(sysUser);
 	}
@@ -71,6 +74,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	  *@ 时间：2019/11/19
 	  *@ Description：
 	  */
+	@Transactional
 	public Integer updateUserByUsername(SysUser sysUser) {
 		return sysUserExtMapper.updateUserByUsername(sysUser);
 	}

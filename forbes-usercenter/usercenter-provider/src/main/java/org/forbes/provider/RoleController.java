@@ -12,6 +12,8 @@ import org.forbes.comm.dto.RoleDto;
 import org.forbes.comm.dto.UpdateRoleDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
+import org.forbes.dal.entity.SysUser;
+import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,16 +112,10 @@ public class RoleController {
         Map<String,Boolean> map=new HashMap<>();
         Result<CommVo> result=new Result<CommVo>();
         CommVo comm=new CommVo();
-        SysRole sysRole=new SysRole();
-        String roleName=addRoleDto.getRoleName();
-        String roleCode=addRoleDto.getRoleCode();
-        String description=addRoleDto.getDescription();
-        LoginVo loginVo=new LoginVo();
-       // sysRole.setCreateBy(loginVo.getUserInfo().getRealname());
-        sysRole.setDescription(description);
-        sysRole.setRoleCode(roleCode);
-        sysRole.setRoleName(roleName);
-        Integer res=sysRoleService.addRole(sysRole);
+        SysRole sysrole=new SysRole();
+        BeanUtils.copyProperties(addRoleDto,sysrole);
+        sysrole.setCreateTime(new Date());
+        Integer res=sysRoleService.addRole(sysrole);
         if(res==1){
             map.put("result",true);
             comm.setMapInfo(map);

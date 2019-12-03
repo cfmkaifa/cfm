@@ -9,6 +9,7 @@ import org.forbes.dal.mapper.SysRoleMapper;
 import org.forbes.dal.mapper.ext.SysRoleExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      *@ 时间：2019/11/20
      *@ Description：添加一个角色
      */
+    @Transactional
     public Integer addRole(SysRole sysRole) {
         return sysRoleExtMapper.addRole(sysRole);
     }
@@ -47,6 +49,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      *@ 时间：2019/11/21
      *@ Description：角色修改
      */
+    @Transactional
     public Integer updateRoleByRoleId(SysRole sysRole) {
 
         return sysRoleExtMapper.updateRoleByRoleId(sysRole);
@@ -59,6 +62,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      *@ 时间：2019/11/21
      *@ Description：删除一个角色
      */
+    @Transactional
     public Integer deleteRoleByRoleId(Long id) {
         return sysRoleExtMapper.deleteRoleByRoleId(id);
     }
