@@ -69,4 +69,18 @@
         <include refid="Base_Column_List" />
         FROM f_sys_user_role AS fsur WHERE fsur.user_id=#{userId,jdbcType=BIGINT}
     </select>
+
+    <!--查询用户所没有的角色-->
+    <select id="selectUserNotRole" parameterType="long" resultType="org.forbes.comm.vo.RoleVo">
+       SELECT
+       id,
+       create_by,
+       create_time,
+       update_by,
+       update_time,
+       role_name,
+       role_code,
+       description
+       FROM f_sys_role AS fsr WHERE fsr.id NOT IN (SELECT fsur.role_id FROM f_sys_user_role AS fsur WHERE fsur.user_id=#{userId,jdbcType=BIGINT})
+    </select>
 </mapper>

@@ -8,12 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysUserRoleService;
 import org.forbes.comm.dto.AddUserRoleDto;
 import org.forbes.comm.dto.DeleteUserAndRoleDto;
+import org.forbes.comm.dto.RoleDto;
 import org.forbes.comm.dto.SelectUserAndRoleDto;
 import org.forbes.comm.utils.JwtUtil;
-import org.forbes.comm.vo.CommVo;
-import org.forbes.comm.vo.LoginVo;
-import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.UserAndRoleVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUserRole;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +109,26 @@ public class SysUserRoleController {
         }else {
             result.error500(Result.SELECT_USER_AND_ROLE_ERROR_MSG);
             return result;
+        }
+        return result;
+    }
+
+    @RequestMapping(value ="/select_User_NotRole",method = RequestMethod.GET)
+    @ApiOperation("查询用户所没有的角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.SELECT_USER_NotRole_MSG),
+            @ApiResponse(code=500,message = Result.SELECT_USER_NotRole_ERROR_MSG)
+    })
+    public Result<List<RoleVo>> selectUserNotRole(@RequestBody @Valid RoleDto roleDto){
+        Result<List<RoleVo>> result=new Result<>();
+        Long userId=roleDto.getUserId();
+        List<RoleVo> sysNotRoleList=sysUserRoleService.selectUserNotRole(userId);
+        if(sysNotRoleList==null){
+            result.error500(Result.NOT_ROLE_ERROR_MSG);
+            return  result;
+        }else{
+            result.success(Result.NOT_ROLE_MSG);
+            result.setResult(sysNotRoleList);
         }
         return result;
     }

@@ -3,6 +3,7 @@ package org.forbes.biz.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysUserRoleService;
+import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
 import org.forbes.dal.mapper.SysUserRoleMapper;
@@ -50,5 +51,18 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      */
     public List<UserAndRoleVo> selectUserRoleListByUserId(@Param("userId") Long userId) {
         return sysUserRoleExtMapper.selectUserRoleListByUserId(userId);
+    }
+
+    /***
+     * selectUserNotRole方法概述:查询用户所没有的角色
+     * @param
+     * @return
+     * @创建人 Tom
+     * @创建时间 2019/12/3 15:02
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    public List<RoleVo> selectUserNotRole(Long userId) {
+        return sysUserRoleExtMapper.selectUserNotRole(userId);
     }
 }

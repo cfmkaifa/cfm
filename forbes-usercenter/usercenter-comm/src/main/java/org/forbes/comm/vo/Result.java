@@ -48,7 +48,9 @@ public class Result<T> implements Serializable {
 
 	/******查询角色****/
 	public static final  String ROLE_MSG="查询用户对应角色成功";
-	public static final  String ROLE_ERROR_MSG="查询用户对应角色失败";
+	public static final  String ROLE_ERROR_MSG="查询用户所缺角色失败";
+	public static final  String NOT_ROLE_MSG="查询用户所缺角色成功";
+	public static final  String NOT_ROLE_ERROR_MSG="查询用户所缺对应角色失败";
 	public static final  String ROLE_EMPTY_MSG="未查询到该用户的角色";
 
 	/******添加角色信息****/
@@ -106,6 +108,9 @@ public class Result<T> implements Serializable {
 	/*****用户角色中间表查询*****/
 	public static final  String SELECT_USER_AND_ROLE_MSG = "用户角色中间表查询成功";
 	public static final  String SELECT_USER_AND_ROLE_ERROR_MSG = "用户角色中间表查询失败";
+
+	public static final  String SELECT_USER_NotRole_MSG = "用户所缺角色中间表查询成功";
+	public static final  String SELECT_USER_NotRole_ERROR_MSG = "用户所缺角色中间表查询失败";
 
 	/*****多条件查询用户集合*****/
 	public static final  String SELECT_LIST_USER_AND_ROLE_MSG = "多条件查询用户成功";
