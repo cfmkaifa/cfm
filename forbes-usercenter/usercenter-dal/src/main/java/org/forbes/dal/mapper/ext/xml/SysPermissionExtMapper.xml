@@ -18,6 +18,7 @@
         url,
         icon
         FROM f_sys_permission
+        WHERE id=#{roleId}
     </select>
     <!--查询所有权限-->
     <select id="getPermission" resultType="org.forbes.comm.vo.PermissionVo">
