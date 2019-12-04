@@ -28,6 +28,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     @Autowired
     SysPermissionExtMapper sysPermissionExtMapper;
 
+    @Override
+    public List<PermissionVo> getPermissionById(@Param("id") Long id) {
+        return sysPermissionExtMapper.getPermissionById(id);
+    }
+
     /***
      * getPermission方法概述:TODO 查询所有权限
      * @return

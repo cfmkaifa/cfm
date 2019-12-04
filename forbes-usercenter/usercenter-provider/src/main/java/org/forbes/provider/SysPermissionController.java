@@ -54,6 +54,19 @@ public class SysPermissionController {
         return result;
     }
 
+    @RequestMapping(value = "/select_permission_by_id", method = RequestMethod.GET)
+    @ApiOperation("通过权限id查询权限内容")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+    })
+    public Result<List<PermissionVo>> getPermissionById(){
+        Result<List<PermissionVo>> result = new Result<>();
+        List<PermissionVo> permissionList = sysPermissionService.getPermissionById();
+        result.setResult(permissionList);
+        return result;
+    }
+
     @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.GET)
     @ApiOperation("通过角色id查询角色所有权限")
     @ApiResponses(value={

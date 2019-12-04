@@ -29,7 +29,7 @@ public class DeletePermissionToRoleDto implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id，不需要传值")
+    @ApiModelProperty("主键id")
     private Long id;
 
     /**

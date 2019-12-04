@@ -39,7 +39,7 @@ public class UpdatePermissionDto implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id，自增不需传值")
+    @ApiModelProperty("主键id")
     private Long id;
 
     /**
