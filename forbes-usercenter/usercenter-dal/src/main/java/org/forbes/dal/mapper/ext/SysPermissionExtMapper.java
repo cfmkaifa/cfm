@@ -21,6 +21,7 @@ public interface SysPermissionExtMapper {
 
     /***
      * 方法概述:TODO 通过权限id查询权限内容
+     * @param id 权限id
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/12/2

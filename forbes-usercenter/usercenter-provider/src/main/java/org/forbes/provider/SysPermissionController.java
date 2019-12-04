@@ -57,12 +57,12 @@ public class SysPermissionController {
     @RequestMapping(value = "/select_permission_by_id", method = RequestMethod.GET)
     @ApiOperation("通过权限id查询权限内容")
     @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+            @ApiResponse(code=500,message= Result.PERMISSION_BY_ID_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_BY_ID_MSG)
     })
-    public Result<List<PermissionVo>> getPermissionById(){
+    public Result<List<PermissionVo>> getPermissionById(@Param("id") @Valid Long id){
         Result<List<PermissionVo>> result = new Result<>();
-        List<PermissionVo> permissionList = sysPermissionService.getPermissionById();
+        List<PermissionVo> permissionList = sysPermissionService.getPermissionById(id);
         result.setResult(permissionList);
         return result;
     }
@@ -85,7 +85,7 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Valid String roleName){
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Param("roleName")@Valid String roleName){
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleName(roleName);
         result.setResult(permissionList);
@@ -111,7 +111,7 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
     })
-    public Result<List<PermissionInRoleVo>> getPermissionInRole(@Param("roleId") Long roleId){
+    public Result<List<PermissionInRoleVo>> getPermissionInRole(@Param("roleId") @Valid Long roleId){
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionInRole(roleId);
         result.setResult(sysPermList);
@@ -124,7 +124,7 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
     })
-    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@Param("roleId") Long roleId){
+    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@Param("roleId") @Valid Long roleId){
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionNotInRole(roleId);
         result.setResult(sysPermList);
