@@ -1,5 +1,6 @@
 package org.forbes.dal.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
  * Table: f_sys_user
  */
 @Data
+@TableName("f_sys_user")
 public class SysUser  extends BaseEntity {
 
 	private static final long serialVersionUID = 6199785596106991966L;

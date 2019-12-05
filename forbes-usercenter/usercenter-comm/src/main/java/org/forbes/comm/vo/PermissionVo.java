@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
+
 /***
  * @创建人 niehy(Frunk)
  * @创建时间 2019/11/26
@@ -31,6 +33,28 @@ public class PermissionVo implements Serializable{
     private Long id;
 
     /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
+
+    /**
+     * 更新人
+     */
+    private String updateBy;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+
+    /**
      * 父级id
      * Table:     f_sys_permission
      * Column:    parent_id
@@ -47,6 +71,15 @@ public class PermissionVo implements Serializable{
      */
     @ApiModelProperty(value = "资源名称")
     private String name;
+
+    /**
+     * 是否隐藏
+     * Table:     f_sys_permission
+     * Column:    is_hidden
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "是否隐藏")
+    private String isHidden;
 
     /**
      * 描述
@@ -76,6 +109,15 @@ public class PermissionVo implements Serializable{
     private String url;
 
     /**
+     * 路由请求地址
+     * Table:     f_sys_permission
+     * Column:    redirect
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "后台请求地址")
+    private String redirect;
+
+    /**
      * 菜单图标
      * Table:     f_sys_permission
      * Column:    icon
@@ -83,4 +125,13 @@ public class PermissionVo implements Serializable{
      */
     @ApiModelProperty(value = "菜单图标")
     private byte[] icon;
+
+    /**
+     * 菜单图标
+     * Table:     f_sys_permission
+     * Column:    type
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "类型(1目录2页面3按钮)")
+    private Integer type;
 }

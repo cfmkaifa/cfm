@@ -1,18 +1,14 @@
 package org.forbes.provider;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
-import org.forbes.comm.dto.AddPermissionToRoleDto;
-import org.forbes.comm.dto.DeletePermissionToRoleDto;
-import org.forbes.comm.dto.UpdatePermissionDto;
-import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.dto.*;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
@@ -20,10 +16,7 @@ import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysPermission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -40,6 +33,28 @@ public class SysPermissionController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+
+    @RequestMapping(value = "/select_page", method = RequestMethod.GET)
+    @ApiOperation("分页查询权限")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+    })
+    public Result<IPage<SysPermission>> selectPage(@RequestBody PageDto pageDto){
+        Result<IPage<SysPermission>> result = new Result<>();
+        QueryWrapper qw = new QueryWrapper();
+        if(pageDto.getType()!=null){
+            qw.eq("type",pageDto.getType());
+        }
+        if(pageDto.getName()!=null && pageDto.getName()!=""){
+            qw.like("name",pageDto.getName());
+        }
+        IPage page = new Page(pageDto.getCurrent(),pageDto.getSize());
+        IPage<SysPermission> s = sysPermissionService.page(page,qw);
+        result.setResult(s);
+        return result;
+    }
 
     @RequestMapping(value = "/select_permission", method = RequestMethod.GET)
     @ApiOperation("查询所有权限")

@@ -1,5 +1,7 @@
 package org.forbes.biz.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,SysPermission> implements SysPermissionService{
@@ -28,7 +31,16 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     @Autowired
     SysPermissionExtMapper sysPermissionExtMapper;
 
-    @Override
+
+    /***
+     * getPermissionById方法概述:TODO 通过权限id查询权限内容
+     * @param id 权限id
+     * @return
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019/12/5
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
     public List<PermissionVo> getPermissionById(@Param("id") Long id) {
         return sysPermissionExtMapper.getPermissionById(id);
     }

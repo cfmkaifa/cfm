@@ -1,5 +1,6 @@
 package org.forbes.dal.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
  * Table: f_sys_user_role
  */
 @Data
+@TableName("f_sys_user_role")
 public class SysUserRole extends BaseEntity {
     /** 
 	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)

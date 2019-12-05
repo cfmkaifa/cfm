@@ -1,5 +1,7 @@
 package org.forbes.biz;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -14,6 +16,7 @@ import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysPermissionService extends IService<SysPermission> {
 
@@ -25,7 +28,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<PermissionVo> getPermissionById(@Param("id") Long id);
+    List<PermissionVo> getPermissionById(Long id);
 
     /***
      * getPermission方法概述:TODO 查询所有权限
