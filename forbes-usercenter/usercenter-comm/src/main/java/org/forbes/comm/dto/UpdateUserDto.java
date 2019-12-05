@@ -20,7 +20,7 @@ public class UpdateUserDto implements Serializable {
 
     private static final long serialVersionUID = 6344108326364152869L;
 
-    @ApiModelProperty(value="登录账号",required=true)
+    @ApiModelProperty(value="登录账号(必传)",required=true)
     @NotEmpty(message="登录账号不能为空")
     private String username;
 
@@ -32,5 +32,11 @@ public class UpdateUserDto implements Serializable {
 
     @ApiModelProperty(value = "联系方式",required = true)
     private String phone;
+
+    @ApiModelProperty(value = "姓名",required = true)
+    private String realname;
+
+    @ApiModelProperty(value = "邮箱",required = true)
+    private String email;
 
 }

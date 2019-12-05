@@ -56,7 +56,7 @@ public class SysUserController {
             @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
             @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<List<UserListVo>> selectUserList(@RequestBody @Valid SysUserListDto sysUserListDto){
+    public Result<List<UserListVo>> selectUserList(@RequestBody(required = false) @Valid SysUserListDto sysUserListDto){
         Result<List<UserListVo>> result=new Result<>();
         String username=sysUserListDto.getUsername();
         String status=sysUserListDto.getStatus();
@@ -144,7 +144,7 @@ public class SysUserController {
       *@ 参数：
       *@ 返回值：
       *@ 时间：2019/11/19
-      *@ Description：修改用户,传参不完整
+      *@ Description：修改用户
       */
     @RequestMapping(value = "/update_users",method = RequestMethod.POST)
     @ApiOperation("修改用户")

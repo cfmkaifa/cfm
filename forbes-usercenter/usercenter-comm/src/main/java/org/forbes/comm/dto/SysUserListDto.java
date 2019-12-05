@@ -34,5 +34,4 @@ public class SysUserListDto implements Serializable{
     private String realname;
 
 
-
 }

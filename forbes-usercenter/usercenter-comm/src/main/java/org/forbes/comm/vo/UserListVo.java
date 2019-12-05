@@ -128,7 +128,7 @@ public class UserListVo implements Serializable{
     @ApiModelProperty(value = "姓名",required = true)
     private String realname;
 
-    @ApiModelProperty(value = "用户对应角色集合",required = true)
+    @ApiModelProperty(value = "用户对应角色",required = true)
     private String roleName;
 
 }

@@ -20,11 +20,11 @@ public class AddUserDto implements Serializable{
 
     private static final long serialVersionUID = 4184537728091189698L;
 
-    @ApiModelProperty(value="登录账号",required=true)
+    @ApiModelProperty(value="登录账号(必传)",required=true)
     @NotEmpty(message="登录账号不能为空")
     private String username;
 
-    @ApiModelProperty(value="登录密码",required=true)
+    @ApiModelProperty(value="登录密码(必传)",required=true)
     @NotEmpty(message="登录密码不能为空")
     private String password;
 
@@ -32,13 +32,13 @@ public class AddUserDto implements Serializable{
     @NotEmpty(message = "工厂头像或公司头像")
     private String avatar;
 
-    @ApiModelProperty(value = "联系方式",required = true)
+    @ApiModelProperty(value = "联系方式(必传)",required = true)
     private String phone;
 
     @ApiModelProperty(value = "角色id",required = true)
     private Long roleId;
 
-    @ApiModelProperty(value = "状态",required = true)
+    @ApiModelProperty(value = "状态(必传)",required = true)
     private String status;
 
 }
