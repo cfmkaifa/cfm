@@ -18,7 +18,7 @@
         url,
         icon
         FROM f_sys_permission
-        WHERE id=#{roleId}
+        WHERE id=#{id}
     </select>
     <!--查询所有权限-->
     <select id="getPermission" resultType="org.forbes.comm.vo.PermissionVo">
@@ -50,7 +50,7 @@
         SELECT
         p.id,
         GROUP_CONCAT(p.name) as name,
-        GROUP_CONCAT(p.description) as description
+        GROUP_CONCAT(p.description) as description,
         r.role_name
         FROM f_sys_role_permission rp JOIN f_sys_role r
         ON rp.role_id = r.id JOIN f_sys_permission p ON
@@ -60,7 +60,7 @@
     <!--查询所有角色与其对应的所有权限-->
     <select id="getPermissionByRole" resultType="org.forbes.comm.vo.SysRolePermissionVo">
         SELECT
-        p.id,
+        GROUP_CONCAT(p.id) as id,
         GROUP_CONCAT(p.name) as name,
         GROUP_CONCAT(p.description)as description,
         GROUP_CONCAT(r.role_name) as role_name
