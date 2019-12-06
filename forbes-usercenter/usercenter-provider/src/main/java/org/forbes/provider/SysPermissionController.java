@@ -3,6 +3,7 @@ package org.forbes.provider;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -91,9 +92,9 @@ public class SysPermissionController {
         Result<Integer> result = new Result<>();
         Integer i = sysPermissionService.addPermission(sysPermission);
         if (i!=0){
-            result.success("添加权限成功！");
+            result.success(Result.ADD_PERMISSION_MSG);
         }else {
-            result.error500("添加权限失败！");
+            result.error500(Result.ADD_PERMISSION_NOT_ERROR_MSG);
         }
         return result;
     }
@@ -109,14 +110,14 @@ public class SysPermissionController {
         Result<Integer> result = new Result<>();
         Integer i = sysPermissionService.updatePermission(updatePermissionDto);
         if (i!=0){
-            result.success("修改权限内容成功！");
+            result.success(Result.UPDATE_PERMISSION_MSG);
         }else {
-            result.error500("修改权限内容失败！");
+            result.error500(Result.UPDATE_PERMISSION_NOT_ERROR_MSG);
         }
         return result;
     }
 
-    @RequestMapping(value = "/update_permission", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete_permission", method = RequestMethod.POST)
     @ApiOperation("删除一个权限")
     @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
@@ -126,10 +127,12 @@ public class SysPermissionController {
     public Result<Integer> DeletePermission(@Valid Long id){
         Result<Integer> result = new Result<>();
         Integer i = sysPermissionService.deletePermission(id);
-        if (i!=0){
-            result.success("删除权限成功！");
-        }else {
-            result.error500("删除权限失败！");
+        if (i ==1 ){
+            result.success(Result.DELETE_PERMISSION_MSG);
+        }else if(i == -1 ){
+            result.error500(Result.DELETE_IF_PERMISSION_NOT_ERROR_MSG);
+        }else if (i == 0){
+            result.error500(Result.DELETE_PERMISSION_NOT_ERROR_MSG);
         }
         return result;
     }
@@ -141,17 +144,16 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_PERMISSION_MSG)
     })
-    public Result<Integer> DeletePermissions(@Valid List<Long> ids){
+    public Result<Integer> DeletePermissions(@RequestBody @Valid List<Long> ids){
         Result<Integer> result = new Result<>();
-        for (Long id : ids) {
-            Integer i = sysPermissionService.deletePermission(id);
-            if (i!=0){
-                result.success("删除权限成功！");
-            }else {
-                result.error500("删除权限失败！");
+            Integer i = sysPermissionService.deletePermissions(ids);
+            if (i ==1 ){
+                result.success(Result.DELETE_PERMISSION_MSG);
+            }else if(i == -1 ){
+                result.error500(Result.DELETE_IF_PERMISSION_NOT_ERROR_MSG);
+            }else if (i ==0 ){
+                result.error500(Result.DELETE_PERMISSION_NOT_ERROR_MSG);
             }
-        }
-
         return result;
     }
 }

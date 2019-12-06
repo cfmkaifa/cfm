@@ -96,6 +96,7 @@ public class Result<T> implements Serializable {
 	/******删除权限内容信息****/
 	public static final  String DELETE_PERMISSION_MSG = "删除权限成功";
 	public static final  String DELETE_PERMISSION_NOT_ERROR_MSG = "删除权限失败";
+	public static final  String DELETE_IF_PERMISSION_NOT_ERROR_MSG = "请先移除和该权限相关的角色权限信息";
 	/******修改角色权限信息****/
 	public static final  String UPDATE_ROLE_PERMISSION_MSG = "修改角色权限成功";
 	public static final  String UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG = "修改角色权限失败";
