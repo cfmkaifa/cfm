@@ -1,9 +1,9 @@
 package org.forbes.provider;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
@@ -11,6 +11,7 @@ import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.comm.dto.*;
 import org.forbes.comm.vo.*;
+import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -251,4 +252,39 @@ public class RoleController {
         }
         return result;
     }
+
+    /***
+     * selectRolePage方法概述:角色分页查询
+     * @param
+     * @return
+     * @创建人 Tom
+     * @创建时间 2019/12/6 10:01
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select_Role_Page", method = RequestMethod.GET)
+    @ApiOperation("分页查询权限")
+    @ApiImplicitParam(name = "rolePageDto",value = "角色多条件分页查询传入参数")
+    @ApiResponses(value={
+            @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
+    })
+    public Result<IPage<SysRole>> selectRolePage(@RequestBody RolePageDto rolePageDto){
+        Result<IPage<SysRole>> result = new Result<>();
+        QueryWrapper qw = new QueryWrapper();
+        if(rolePageDto.getRoleName()!=null){
+            qw.like("roleName",rolePageDto.getRoleName());
+        }
+        if(rolePageDto.getRoleCode()!=null && rolePageDto.getRoleCode()!=""){
+            qw.like("roleCode",rolePageDto.getRoleCode());
+        }
+        if(rolePageDto.getDescription()!=null && rolePageDto.getDescription()!=""){
+            qw.like("description",rolePageDto.getDescription());
+        }
+        IPage page = new Page(rolePageDto.getCurrent(),rolePageDto.getSize());
+        IPage<SysRole> s = sysRolePermissionService.page(page,qw);
+        result.setResult(s);
+        return result;
+    }
+
 }
