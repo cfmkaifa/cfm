@@ -79,4 +79,15 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         return sysRoleExtMapper.selectRoleList();
     }
 
+    /**
+     *@ 作者：lzw
+     *@ 参数：
+     *@ 返回值：
+     *@ 时间：2019/11/21
+     *@ Description：删除多个角色
+     */
+    public Integer deleteRoleByRoleIds(Long id) {
+        return sysRoleExtMapper.deleteRoleByRoleIds(id);
+    }
+
 }

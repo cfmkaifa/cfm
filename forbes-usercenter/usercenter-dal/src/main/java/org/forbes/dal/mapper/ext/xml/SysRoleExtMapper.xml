@@ -114,4 +114,10 @@
         FROM
         f_sys_role
     </select>
+
+    <!--删除多个角色-->
+    <delete id="deleteRoleByRoleIds" parameterType="long">
+        DELETE FROM f_sys_role  WHERE id=#{id,jdbcType=BIGINT}
+    </delete>
+
 </mapper>

@@ -20,7 +20,6 @@ public class DeleteRoleDto implements Serializable{
 
     private static final long serialVersionUID = 4266736212045696576L;
 
-
     @ApiModelProperty(value = "角色id",required = true)
     private Long id;
 
