@@ -37,7 +37,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "pageDto",value = "多条件分页查询传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+            @ApiResponse(code=200,response=SysPermission.class, message = Result.PERMISSIONS_MSG)
     })
     public Result<IPage<SysPermission>> selectPage(@RequestBody PageDto pageDto){
         Result<IPage<SysPermission>> result = new Result<>();
@@ -58,7 +58,7 @@ public class SysPermissionController {
     @ApiOperation("查询所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+            @ApiResponse(code=200,response=PermissionVo.class, message = Result.PERMISSIONS_MSG)
     })
     public Result<List<PermissionVo>> getPermission(){
         Result<List<PermissionVo>> result = new Result<>();
@@ -72,7 +72,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_BY_ID_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_BY_ID_MSG)
+            @ApiResponse(code=200,response=PermissionVo.class, message = Result.PERMISSION_BY_ID_MSG)
     })
     public Result<List<PermissionVo>> getPermissionById(@Param("id") @Valid Long id){
         Result<List<PermissionVo>> result = new Result<>();
@@ -86,7 +86,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "sysPermission",value = "权限实体")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.ADD_PERMISSION_MSG)
+            @ApiResponse(code=200,response=Integer.class, message = Result.ADD_PERMISSION_MSG)
     })
     public Result<Integer> addPermission(@RequestBody @Valid SysPermission sysPermission){
         Result<Integer> result = new Result<>();
@@ -104,7 +104,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "updatePermissionDto",value = "修改权限传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
+            @ApiResponse(code=200,response=Integer.class, message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<Integer> UpdatePermission(@RequestBody @Valid UpdatePermissionDto updatePermissionDto){
         Result<Integer> result = new Result<>();
@@ -122,7 +122,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.DELETE_PERMISSION_MSG)
+            @ApiResponse(code=200,response=Integer.class, message = Result.DELETE_PERMISSION_MSG)
     })
     public Result<Integer> DeletePermission(@Valid Long id){
         Result<Integer> result = new Result<>();
@@ -142,7 +142,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "ids",value = "权限id集合")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.DELETE_PERMISSION_MSG)
+            @ApiResponse(code=200,response=Integer.class, message = Result.DELETE_PERMISSION_MSG)
     })
     public Result<Integer> DeletePermissions(@RequestBody @Valid List<Long> ids){
         Result<Integer> result = new Result<>();
