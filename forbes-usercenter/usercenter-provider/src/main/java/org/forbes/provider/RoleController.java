@@ -233,7 +233,7 @@ public class RoleController {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/update_Role_Authorization",method = RequestMethod.POST)
-    @ApiOperation("修改角色授权")
+    @ApiOperation("修改角色授权(多个)")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
