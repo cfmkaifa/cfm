@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @Date 2019/11/21 10:30
  * @Version 1.0
  **/
-@ApiModel("删除角色传参")
+@ApiModel(description = "删除角色传参")
 @Data
 public class DeleteRoleDto implements Serializable{
 

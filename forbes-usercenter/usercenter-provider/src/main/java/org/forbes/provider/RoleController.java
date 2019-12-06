@@ -264,7 +264,6 @@ public class RoleController {
      */
     @RequestMapping(value = "/select_Role_Page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
-    @ApiImplicitParam(name = "rolePageDto",value = "角色多条件分页查询传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
