@@ -34,7 +34,6 @@ public class SysPermissionController {
 
     @RequestMapping(value = "/select_page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
-    @ApiImplicitParam(name = "pageDto",value = "多条件分页查询传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=SysPermission.class, message = Result.PERMISSIONS_MSG)
@@ -83,7 +82,6 @@ public class SysPermissionController {
 
     @RequestMapping(value = "/add_permission", method = RequestMethod.POST)
     @ApiOperation("仅添加一个权限")
-    @ApiImplicitParam(name = "sysPermission",value = "权限实体")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Integer.class, message = Result.ADD_PERMISSION_MSG)
