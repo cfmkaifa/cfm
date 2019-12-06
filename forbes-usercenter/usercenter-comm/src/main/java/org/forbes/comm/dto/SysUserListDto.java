@@ -15,7 +15,6 @@ import java.io.Serializable;
  * @Version 1.0
  **/
 @Data
-@Builder
 @ApiModel("多条件查询用户请求参数")
 public class SysUserListDto implements Serializable{
 
