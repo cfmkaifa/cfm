@@ -82,7 +82,7 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer deletePermissions(List<Long> ids);
+    Integer deletePermissions(@Param("ids") List<Long> ids);
 
     /***
      * selectPermissionId方法概述:TODO 根据权限id查询该权限在中间表是否存在
@@ -104,6 +104,6 @@ public interface SysPermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer selectPermissionIds(List<Long> ids);
+    Integer selectPermissionIds(@Param("ids") List<Long> ids);
 
 }
