@@ -282,7 +282,7 @@ public class RoleController {
             qw.like("description",rolePageDto.getDescription());
         }
         IPage page = new Page(rolePageDto.getCurrent(),rolePageDto.getSize());
-        IPage<SysRole> s = sysRolePermissionService.page(page,qw);
+        IPage<SysRole> s = sysRoleService.page(page,qw);
         result.setResult(s);
         return result;
     }
