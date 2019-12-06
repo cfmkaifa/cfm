@@ -1,5 +1,6 @@
 package org.forbes.biz.impl;
 import org.forbes.biz.ISysUserService;
+import org.forbes.comm.dto.SysUserListDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.mapper.SysUserMapper;
@@ -41,8 +42,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 *@ 时间：2019/11/22
 	 *@ Description：多条件查询用户+分页
 	 */
-	public List<UserListVo> selectUserList(String status, Long roleId, String username, String realname) {
-		return sysUserExtMapper.selectUserList(status,roleId,username,realname);
+	public List<UserListVo> selectUserList(SysUserListDto sysUserListDto) {
+		return sysUserExtMapper.selectUserList(sysUserListDto);
 	}
 
 	/**

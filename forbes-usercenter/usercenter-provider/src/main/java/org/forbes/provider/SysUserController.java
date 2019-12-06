@@ -56,11 +56,7 @@ public class SysUserController {
     })
     public Result<List<UserListVo>> selectUserList(@RequestBody(required = false)SysUserListDto sysUserListDto){
         Result<List<UserListVo>> result=new Result<>();
-        String username=sysUserListDto.getUsername();
-        String status=sysUserListDto.getStatus();
-        Long roleId=sysUserListDto.getRoleId();
-        String realname=sysUserListDto.getRealname();
-        List<UserListVo> sysUsers=sysUserService.selectUserList(status,roleId,username,realname);
+        List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
         if(sysUsers!=null){
             result.setResult(sysUsers);
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
