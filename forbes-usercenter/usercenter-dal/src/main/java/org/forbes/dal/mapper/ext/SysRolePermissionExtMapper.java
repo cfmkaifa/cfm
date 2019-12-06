@@ -1,16 +1,19 @@
-package org.forbes.biz;
+package org.forbes.dal.mapper.ext;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 import org.forbes.comm.dto.AddPermissionToRoleDto;
 import org.forbes.comm.dto.DeletePermissionToRoleDto;
 import org.forbes.comm.dto.UpdatePermissionToRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
-import org.forbes.dal.entity.SysRolePermission;
 
 import java.util.List;
 
-public interface SysRolePermissionService extends IService<SysRolePermission> {
+/**
+ * @author lzw
+ * @date 2019/12/6 9:12
+ */
+public interface SysRolePermissionExtMapper {
 
     /***
      * getPermissionByRole方法概述:TODO 通过角色id查询一个角色的所有权限
@@ -21,7 +24,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysRolePermissionVo> getPermissionByRoleId(Long roleId);
+    List<SysRolePermissionVo> getPermissionByRoleId(@Param("roleId") Long roleId);
 
     /***
      * getPermissionByRole方法概述:TODO 通过角色名查询一个角色的所有权限
@@ -32,7 +35,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<SysRolePermissionVo> getPermissionByRoleName(String roleName);
+    List<SysRolePermissionVo> getPermissionByRoleName(@Param("roleName") String roleName);
 
     /***
      * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
@@ -52,7 +55,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<PermissionInRoleVo> getPermissionInRole(Long roleId);
+    List<PermissionInRoleVo> getPermissionInRole(@Param("roleId") Long roleId);
 
     /***
      * getPermissionNotInRole方法概述:TODO 查询一个角色未拥有的权限
@@ -62,7 +65,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    List<PermissionInRoleVo> getPermissionNotInRole(Long roleId);
+    List<PermissionInRoleVo> getPermissionNotInRole(@Param("roleId") Long roleId);
 
     /***
      * addPermissionToRole方法概述:TODO 给一个角色添加权限
@@ -73,6 +76,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改日期 (请填上修改该文件时的日期)
      */
     Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto);
+
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限
      * @return
@@ -102,8 +106,6 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updateRolePermissionById(Long id,Long roleId,Long permissionId);
-
-
+    Integer updateRolePermissionById(@Param("id")Long id,@Param("roleId") Long roleId,@Param("permissionId")Long permissionId);
 
 }

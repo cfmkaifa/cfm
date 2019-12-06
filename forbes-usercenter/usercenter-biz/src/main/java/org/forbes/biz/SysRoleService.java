@@ -1,13 +1,11 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.swagger.models.auth.In;
-import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.vo.RoleAuthorizationVo;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public interface SysRoleService  extends IService<SysRole> {

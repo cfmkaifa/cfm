@@ -2,6 +2,7 @@ package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.biz.SysRoleService;
+import org.forbes.comm.vo.RoleAuthorizationVo;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
@@ -77,4 +78,5 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public List<RoleListVo> selectRoleList() {
         return sysRoleExtMapper.selectRoleList();
     }
+
 }

@@ -5,15 +5,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
+import org.forbes.biz.SysPermissionService;
+import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
-import org.forbes.comm.dto.AddRoleDto;
-import org.forbes.comm.dto.DeleteRoleDto;
-import org.forbes.comm.dto.RoleDto;
-import org.forbes.comm.dto.UpdateRoleDto;
+import org.forbes.comm.dto.*;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
-import org.forbes.dal.entity.SysUser;
-import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName
@@ -42,6 +37,12 @@ public class RoleController {
 
     @Autowired
     private SysRoleService sysRoleService;
+
+    @Autowired
+    SysRolePermissionService sysRolePermissionService;
+
+    @Autowired
+    SysPermissionService sysPermissionService;
 
     /**
       *@ 作者：xfx
@@ -187,6 +188,66 @@ public class RoleController {
         }else{
             result.error500(Result.COMM_ACTION_ERROR_MSG);
             map.put("result",false);
+        }
+        return result;
+    }
+
+    /***
+     * selectRoleAuthorization方法概述:查询角色授权
+     * @param
+     * @return
+     * @创建人 Tom
+     * @创建时间 2019/12/5 10:22
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/select_Role_Authorization",method = RequestMethod.GET)
+    @ApiOperation("查询角色授权")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
+    })
+    public Result<RoleAuthorizationVo> selectRoleAuthorization(@Param("roleId") @Valid Long roleId){
+        Result<RoleAuthorizationVo> result=new Result<>();
+        RoleAuthorizationVo roleAuthorizationVo=new RoleAuthorizationVo();
+        //查询角色所有权限
+        List<PermissionVo> permissionList = sysPermissionService.getPermission();
+        //查询角色所拥有权限
+        List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(roleId);
+        //查询角色所有权限
+        roleAuthorizationVo.setPermissionVoInfo(permissionList);
+        //查询角色所拥有权限
+        roleAuthorizationVo.setPermissionInRoleVoInfo(sysPermList);
+        result.setResult(roleAuthorizationVo);
+        return result;
+    }
+
+    /***
+     * updateRoleAuthorization方法概述:修改角色授权
+     * @param
+     * @return
+     * @创建人 Tom
+     * @创建时间 2019/12/5 14:14
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/update_Role_Authorization",method = RequestMethod.POST)
+    @ApiOperation("修改角色授权")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
+    })
+    public Result<Integer> updateRoleAuthorization(@RequestBody @Valid List<UpdateRoleAuthorizationDto> updateRoleAuthorizationDto){
+        Result<Integer> result=new Result<>();
+        //遍历传入的dto
+        for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
+            Integer i = sysRolePermissionService.updateRolePermissionById(s.getId(),s.getRoleId(),s.getPermissionId());
+            if (i!=0){
+                result.success("修改角色权限成功！");
+            }else {
+                result.error500("修改角色权限失败！");
+            }
+
         }
         return result;
     }

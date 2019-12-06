@@ -1,11 +1,11 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.vo.RoleAuthorizationVo;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public interface SysRoleExtMapper {
@@ -53,4 +53,5 @@ public interface SysRoleExtMapper {
      *@ Description：查询所有角色
      */
     List<RoleListVo> selectRoleList();
+
 }
