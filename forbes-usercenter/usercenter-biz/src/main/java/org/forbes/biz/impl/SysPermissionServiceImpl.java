@@ -31,7 +31,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     @Autowired
     SysPermissionExtMapper sysPermissionExtMapper;
 
-
     /***
      * getPermissionById方法概述:TODO 通过权限id查询权限内容
      * @param id 权限id
@@ -55,86 +54,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     public List<PermissionVo> getPermission() {
         return sysPermissionExtMapper.getPermission();
-    }
-
-    /***
-     * getPermissionByRoleId方法概述: TODO 通过角色id查询一个角色的所有权限
-     * @param roleId 用户名
-     * @return List<SysPermission> 权限集合
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    public List<SysRolePermissionVo> getPermissionByRoleId(Long roleId) {
-        return sysPermissionExtMapper.getPermissionByRoleId(roleId);
-    }
-    /***
-     * getPermissionByRoleName方法概述: TODO 通过角色名查询一个角色的所有权限
-     * @param roleName 角色名
-     * @return List<SysPermission> 权限集合
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    public List<SysRolePermissionVo> getPermissionByRoleName(String roleName) {
-        return sysPermissionExtMapper.getPermissionByRoleName(roleName);
-    }
-
-    /***
-     * getPermissionByRole方法概述:TODO 查询所有角色与其对应的所有权限
-     * @return List<SysPermission> 权限集合
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    public List<SysRolePermissionVo> getPermissionByRole() {
-        return sysPermissionExtMapper.getPermissionByRole();
-    }
-
-    /***
-     * getPermissionInRole方法概述:TODO 查询一个角色拥有的权限
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/3
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    public List<PermissionInRoleVo> getPermissionInRole(Long roleId) {
-        return sysPermissionExtMapper.getPermissionInRole(roleId);
-    }
-
-    /***
-     * getPermissionNotInRole方法概述:TODO 查询一个角色未拥有的权限
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/3
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    public List<PermissionInRoleVo> getPermissionNotInRole(Long roleId) {
-        return sysPermissionExtMapper.getPermissionNotInRole(roleId);
-    }
-
-    /***
-     * addPermissionToRole方法概述: TODO 给一个角色添加权限
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/20
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @Transactional
-    public Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto) {
-        addPermissionToRoleDto.getId();//主键id
-        addPermissionToRoleDto.getUpdateBy();//修改人
-        addPermissionToRoleDto.getUpdateTime();//修改时间
-        addPermissionToRoleDto.getCreateBy();//创建人
-        addPermissionToRoleDto.getCreateTime();//创建时间
-
-        return sysPermissionExtMapper.addPermissionToRole(addPermissionToRoleDto);
     }
 
     /***
@@ -165,30 +84,17 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     }
 
     /***
-     * updatePermissionToRole方法概述:TODO 修改角色的一个权限
+     * deletePermission方法概述:TODO 删除一个权限
+     * @param id
      * @return
      * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/21
+     * @创建时间 2019/12/5
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer updatePermissionToRole(UpdatePermissionToRoleDto updatePermissionToRoleDto) {
-        return sysPermissionExtMapper.updatePermissionToRole(updatePermissionToRoleDto);
+    public Integer deletePermission(Long id) {
+        return sysPermissionExtMapper.deletePermission(id);
     }
-
-    /***
-     * deletePermissionToRole方法概述:TODO 删除角色的一个权限
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/11/21
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @Transactional
-    public Integer deletePermissionToRole(DeletePermissionToRoleDto deletePermissionToRoleDto) {
-        return sysPermissionExtMapper.deletePermissionToRole(deletePermissionToRoleDto);
-    }
-
 
 }

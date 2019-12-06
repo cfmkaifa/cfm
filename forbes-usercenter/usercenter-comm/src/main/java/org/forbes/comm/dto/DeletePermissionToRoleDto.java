@@ -24,15 +24,6 @@ public class DeletePermissionToRoleDto implements Serializable{
     private static final long serialVersionUID = 7892623815115984475L;
 
     /**
-     * id
-     */
-    @TableId(type = IdType.AUTO)
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id")
-    private Long id;
-
-    /**
      * 角色ID
      * Table:     f_sys_role_permission
      * Column:    role_id

@@ -1,6 +1,5 @@
 package org.forbes.provider;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -9,17 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.comm.dto.*;
-import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
 import org.forbes.dal.entity.SysPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -37,6 +33,7 @@ public class SysPermissionController {
 
     @RequestMapping(value = "/select_page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
+    @ApiImplicitParam(name = "pageDto",value = "多条件分页查询传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
@@ -71,6 +68,7 @@ public class SysPermissionController {
 
     @RequestMapping(value = "/select_permission_by_id", method = RequestMethod.GET)
     @ApiOperation("通过权限id查询权限内容")
+    @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_BY_ID_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_BY_ID_MSG)
@@ -82,72 +80,9 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.GET)
-    @ApiOperation("通过角色id查询角色所有权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
-    })
-    public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@Valid Long roleId){
-        Result<List<SysRolePermissionVo>> result = new Result<>();
-        List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleId(roleId);
-        result.setResult(permissionList);
-        return result;
-    }
-    @RequestMapping(value = "/select_permission_by_role_name", method = RequestMethod.GET)
-    @ApiOperation("通过角色名字查询角色所有权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
-    })
-    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Param("roleName")@Valid String roleName){
-        Result<List<SysRolePermissionVo>> result = new Result<>();
-        List<SysRolePermissionVo> permissionList = sysPermissionService.getPermissionByRoleName(roleName);
-        result.setResult(permissionList);
-        return result;
-    }
-
-    @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.GET)
-    @ApiOperation("查询所有角色与其对应的所有权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
-    })
-    public Result<List<SysRolePermissionVo>> getPermissionByRole(){
-        Result<List<SysRolePermissionVo>> result = new Result<>();
-        List<SysRolePermissionVo> sysPermList = sysPermissionService.getPermissionByRole();
-        result.setResult(sysPermList);
-        return result;
-    }
-
-    @RequestMapping(value = "/select_permission_in_role", method = RequestMethod.GET)
-    @ApiOperation("查询角色所已拥有的权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
-    })
-    public Result<List<PermissionInRoleVo>> getPermissionInRole(@Param("roleId") @Valid Long roleId){
-        Result<List<PermissionInRoleVo>> result = new Result<>();
-        List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionInRole(roleId);
-        result.setResult(sysPermList);
-        return result;
-    }
-
-    @RequestMapping(value = "/select_permission_not_in_role", method = RequestMethod.GET)
-    @ApiOperation("查询角色未拥有的权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
-    })
-    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@Param("roleId") @Valid Long roleId){
-        Result<List<PermissionInRoleVo>> result = new Result<>();
-        List<PermissionInRoleVo> sysPermList = sysPermissionService.getPermissionNotInRole(roleId);
-        result.setResult(sysPermList);
-        return result;
-    }
-
     @RequestMapping(value = "/add_permission", method = RequestMethod.POST)
     @ApiOperation("仅添加一个权限")
+    @ApiImplicitParam(name = "sysPermission",value = "权限实体")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_PERMISSION_MSG)
@@ -163,26 +98,9 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/add_permission_to_role", method = RequestMethod.POST)
-    @ApiOperation("给一个角色添加一个权限")
-    @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
-    })
-    public Result<Integer> addPermissionByRole(@RequestBody @Valid AddPermissionToRoleDto addPermissionToRoleDto){
-        Result<Integer> result = new Result<>();
-
-        Integer i = sysPermissionService.addPermissionToRole(addPermissionToRoleDto);
-        if (i!=0){
-            result.success("添加权限成功！");
-        }else {
-            result.error500("添加权限失败！");
-        }
-        return result;
-    }
-
     @RequestMapping(value = "/update_permission", method = RequestMethod.POST)
     @ApiOperation("修改权限内容")
+    @ApiImplicitParam(name = "updatePermissionDto",value = "修改权限传入参数")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
@@ -198,41 +116,42 @@ public class SysPermissionController {
             return result;
     }
 
-    @RequestMapping(value = "/update_permission_to_role", method = RequestMethod.POST)
-    @ApiOperation("修改角色的一个权限")
+    @RequestMapping(value = "/update_permission", method = RequestMethod.POST)
+    @ApiOperation("删除一个权限")
+    @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
+            @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.DELETE_PERMISSION_MSG)
     })
-    public Result<Integer> updatePermissionToRole(@RequestBody @Valid UpdatePermissionToRoleDto updatePermissionToRoleDto){
+    public Result<Integer> DeletePermission(@Valid Long id){
         Result<Integer> result = new Result<>();
-
-            Integer i = sysPermissionService.updatePermissionToRole(updatePermissionToRoleDto);
-            if (i!=0){
-                result.success("修改角色权限成功！");
-            }else {
-                result.error500("修改角色权限失败！");
-            }
-
+        Integer i = sysPermissionService.deletePermission(id);
+        if (i!=0){
+            result.success("删除权限成功！");
+        }else {
+            result.error500("删除权限失败！");
+        }
         return result;
     }
 
-    @RequestMapping(value = "/delete_permission_to_role", method = RequestMethod.POST)
-    @ApiOperation("删除角色的一个权限")
+    @RequestMapping(value = "/delete_permissions", method = RequestMethod.POST)
+    @ApiOperation("删除一些权限")
+    @ApiImplicitParam(name = "ids",value = "权限id集合")
     @ApiResponses(value={
-            @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
+            @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
+            @ApiResponse(code=200,response=Result.class, message = Result.DELETE_PERMISSION_MSG)
     })
-    public Result<Integer> deletePermissionToRole(@RequestBody @Valid DeletePermissionToRoleDto deletePermissionToRoleDto){
+    public Result<Integer> DeletePermissions(@Valid List<Long> ids){
         Result<Integer> result = new Result<>();
-            Integer i = sysPermissionService.deletePermissionToRole(deletePermissionToRoleDto);
+        for (Long id : ids) {
+            Integer i = sysPermissionService.deletePermission(id);
             if (i!=0){
-                result.success("删除角色权限成功！");
-                result.setCode(200);
+                result.success("删除权限成功！");
             }else {
-                result.error("删除角色权限失败！");
-                result.setCode(500);
+                result.error500("删除权限失败！");
             }
+        }
+
         return result;
     }
 }

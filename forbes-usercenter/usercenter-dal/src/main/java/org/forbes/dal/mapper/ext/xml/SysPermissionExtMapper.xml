@@ -6,33 +6,21 @@
   <sql id="Base_Column_List" >
    <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
   </sql>
-    <!--分页查询权限-->
-    <select id="Page" resultType="org.forbes.comm.vo.PermissionVo">
-        SELECT
-        id,
-        parent_id,
-        name,
-        description,
-        perms,
-        redirect,
-        url,
-        icon,
-        is_hidden,
-        type
-        FROM f_sys_permission
-    </select>
     <!--通过权限id查询权限内容-->
     <select id="getPermissionById" resultType="org.forbes.comm.vo.PermissionVo">
         SELECT
         id,
         parent_id,
         name,
-        description,
         perms,
+        icon,
+        is_route,
+        is_leaf,
+        is_hidden,
+        sort_no,
+        description
         redirect,
         url,
-        icon,
-        is_hidden,
         type
         FROM f_sys_permission
         WHERE id=#{id}
@@ -40,81 +28,22 @@
     <!--查询所有权限-->
     <select id="getPermission" resultType="org.forbes.comm.vo.PermissionVo">
         SELECT
-        id,
+         id,
         parent_id,
         name,
-        description,
         perms,
+        icon,
+        is_route,
+        is_leaf,
+        is_hidden,
+        sort_no,
+        description
         redirect,
         url,
-        icon,
-        is_hidden,
+        type
         type
         FROM f_sys_permission
     </select>
-    <!--通过角色id查询一个角色的所有权限-->
-    <select id="getPermissionByRoleId" resultType="org.forbes.comm.vo.SysRolePermissionVo">
-       SELECT
-              r.id,
-			  r.role_name,
-              GROUP_CONCAT(p.name) as name,
-              GROUP_CONCAT(p.description) as description
-        FROM f_sys_role_permission rp JOIN f_sys_role r
-        ON rp.role_id = r.id JOIN f_sys_permission p ON
-        rp.permission_id = p.id
-        WHERE r.id =#{roleId}
-    </select>
-
-    <!--通过角色名称查询一个角色的所有权限-->
-    <select id="getPermissionByRoleName" resultType="org.forbes.comm.vo.SysRolePermissionVo">
-        SELECT
-        p.id,
-        GROUP_CONCAT(p.name) as name,
-        GROUP_CONCAT(p.description) as description,
-        r.role_name
-        FROM f_sys_role_permission rp JOIN f_sys_role r
-        ON rp.role_id = r.id JOIN f_sys_permission p ON
-        rp.permission_id = p.id
-        WHERE r.role_name =#{roleName}
-    </select>
-    <!--查询所有角色与其对应的所有权限-->
-    <select id="getPermissionByRole" resultType="org.forbes.comm.vo.SysRolePermissionVo">
-        SELECT
-        GROUP_CONCAT(p.id) as id,
-        GROUP_CONCAT(p.name) as name,
-        GROUP_CONCAT(p.description)as description,
-        GROUP_CONCAT(r.role_name) as role_name
-        FROM f_sys_permission p
-        JOIN f_sys_role_permission rp
-        ON rp.permission_id = p.id JOIN f_sys_role r
-        ON rp.role_id = r.id
-    </select>
-    <!--查询一个角色拥有的权限-->
-    <select id="getPermissionInRole" resultType="org.forbes.comm.vo.PermissionInRoleVo">
-       SELECT
-        p.id,
-        p.name,
-        p.description
-       FROM f_sys_permission p
-       WHERE p.id IN (SELECT rp.permission_id FROM f_sys_role_permission rp WHERE rp.role_id=#{roleId,jdbcType=BIGINT})
-    </select>
-
-    <!--查询一个角色未拥有的权限-->
-    <select id="getPermissionNotInRole" resultType="org.forbes.comm.vo.PermissionInRoleVo">
-      SELECT
-        p.id,
-        p.name,
-        p.description
-      FROM f_sys_permission p
-      WHERE p.id NOT IN (SELECT rp.permission_id FROM f_sys_role_permission rp WHERE rp.role_id=#{roleId,jdbcType=BIGINT})
-    </select>
-
-    <!--给一个角色添加权限-->
-    <insert id="addPermissionToRole" parameterType="org.forbes.comm.dto.AddPermissionToRoleDto">
-      INSERT INTO f_sys_role_permission
-      (role_id,permission_id)
-      VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
-    </insert>
     <!--添加一个新的权限(仅添加权限)-->
     <insert id="addPermission" parameterType="org.forbes.dal.entity.SysPermission">
         INSERT INTO f_sys_permission
@@ -201,23 +130,57 @@
             </if>
         </trim>
     </insert>
+
     <!--修改权限内容-->
     <update id="updatePermission" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
       UPDATE f_sys_permission SET
-      parent_id = #{parentId},
-      name = #{name},
-      description=#{description}
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="perms != null">
+                perms = #{perms},
+            </if>
+            <if test="component != null">
+                component = #{component},
+            </if>
+            <if test="componentName != null">
+                component_name = #{componentName},
+            </if>
+            <if test="isRoute != null">
+                is_route = #{isRoute},
+            </if>
+            <if test="isLeaf != null">
+                is_ieaf = #{isLeaf},
+            </if>
+            <if test="isHidden != null">
+                is_hidden = #{isHidden},
+            </if>
+            <if test="sortNo != null">
+                sort_no = #{sortNo},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="redirect != null">
+                redirect = #{redirect},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+        </set>
       WHERE id = #{id}
     </update>
-    <!--修改角色的一个权限(中间表)-->
-    <update id="updatePermissionToRole" parameterType="org.forbes.comm.dto.UpdatePermissionToRoleDto">
-        UPDATE f_sys_role_permission
-        SET permission_id = #{permissionId,jdbcType=BIGINT}
-        WHERE role_id = #{roleId,jdbcType=BIGINT} AND id = #{id,jdbcType=BIGINT}
-    </update>
-    <!--删除角色的一个权限(中间表)-->
-    <delete id="deletePermissionToRole" parameterType="org.forbes.comm.dto.DeletePermissionToRoleDto">
-        DELETE FROM f_sys_role_permission
-        WHERE role_id = #{roleId,jdbcType=BIGINT} AND permission_id = #{permissionId,jdbcType=BIGINT}
+    <!--删除一个权限-->
+    <delete id="deletePermission">
+        DELETE FROM f_sys_permission
+        WHERE id = #{id,jdbcType=BIGINT}
     </delete>
+
 </mapper>
