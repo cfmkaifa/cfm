@@ -15,6 +15,38 @@
         <include refid="org.forbes.dal.mapper.SysRoleMapper.Base_Column_List" />
     </sql>
 
+    <!--多条件查询用户-->
+    <resultMap id="UserBaseResultMap" type="org.forbes.comm.vo.UserListVo" >
+        <!-- 主键 -->
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <!-- 登录账号 -->
+        <id column="username" property="username" jdbcType="VARCHAR" />
+        <!-- 状态 -->
+        <id column="status" property="status" jdbcType="VARCHAR" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <!-- 创建时间 -->
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <!-- 更新人 -->
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+        <!-- 更新时间 -->
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <!-- 密码 -->
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <!-- md5密码盐 -->
+        <result column="salt" property="salt" jdbcType="VARCHAR" />
+        <!-- 头像 -->
+        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+        <!-- 邮件 -->
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <!-- 电话 -->
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+        <!-- 姓名 -->
+        <result column="realname" property="realname" jdbcType="VARCHAR" />
+
+        <collection property="roleNameList" ofType="String" >
+            <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
     <!--权限-->
     <resultMap id="Per_BaseResultMap" type="org.forbes.comm.vo.UserPermissonVo" extends="org.forbes.dal.mapper.SysPermissionMapper.BaseResultMap">
     </resultMap>
@@ -58,7 +90,7 @@
   </select>
 
     <!--多条件查询用户+分页-->
-    <select id="selectUserList" resultType="org.forbes.comm.vo.UserListVo" >
+    <select id="selectUserList" resultMap="UserBaseResultMap">
         SELECT
           fsu.id,
           fsu.username,
@@ -73,23 +105,10 @@
           fsu.email,
           fsu.phone,
           fsu.realname,
-        GROUP_CONCAT(fsr.role_name)AS role_name
+          fsr.role_name
         FROM
         f_sys_user AS fsu LEFT JOIN f_sys_user_role AS fsur ON fsur.user_id=fsu.id LEFT JOIN f_sys_role AS fsr ON fsr.id=fsur.role_id
-        <where>
-            <if test="status!=null and status!=''">
-                AND fsu.status=#{status,jdbcType=VARCHAR}
-            </if>
-            <if test="roleId!=null and roleId!=''">
-                AND fsu.roleId=#{roleId,jdbcType=BIGINT}
-            </if>
-            <if test="username!=null and username!=''">
-                AND fsu.username=#{username,jdbcType=VARCHAR}
-            </if>
-            <if test="realname!=null and realname!=''">
-                AND fsu.realname=#{realname,jdbcType=VARCHAR}
-            </if>
-        </where>
+
     </select>
     <!--根据用户名修改状态-->
     <update id="updateUserStatus" parameterType="string">

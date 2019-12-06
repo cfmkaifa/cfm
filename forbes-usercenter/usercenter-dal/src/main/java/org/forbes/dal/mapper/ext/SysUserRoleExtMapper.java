@@ -1,6 +1,7 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.dto.AddUserRoleDto;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
@@ -46,4 +47,23 @@ public interface SysUserRoleExtMapper {
      * @修改日期 (请填上修改该文件时的日期)
      */
     List<RoleVo> selectUserNotRole(Long userId);
+
+    /**
+     *@ 作者：xfx
+     *@ 参数：
+     *@ 返回值：
+     *@ 时间：2019/12/5
+     *@ Description：批量删除用户角色中间表
+     */
+    Integer batchDelUserRole(@Param("userId") Long userId,@Param("roleIdArray") Long[] roleIdArray);
+
+    /**
+     *@ 作者：xfx
+     *@ 参数：addUserRoleDtoList
+     *@ 返回值：Integer
+     *@ 时间：2019/12/5
+     *@ Description：
+     */
+
+    Integer batchAddUserAndRole(List<AddUserRoleDto> addUserRoleDtoList);
 }

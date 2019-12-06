@@ -83,4 +83,27 @@
        description
        FROM f_sys_role AS fsr WHERE fsr.id NOT IN (SELECT fsur.role_id FROM f_sys_user_role AS fsur WHERE fsur.user_id=#{userId,jdbcType=BIGINT})
     </select>
+
+    <!--批量删除用户角色中间表-->
+    <delete id="batchDelUserRole" >
+        DELETE FROM f_sys_user_role  WHERE user_id=#{userId,jdbcType=BIGINT} AND role_id IN
+        <foreach item="roleId" collection="roleIdArray" open="(" separator="," close=")">
+            #{roleId,jdbcType=BIGINT}
+        </foreach>
+
+    </delete>
+
+    <!--批量添加-->
+    <insert id="batchAddUserAndRole" parameterType="java.util.List">
+        INSERT INTO f_sys_user_role (create_time,user_id,role_id)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.userId,jdbcType=BIGINT},
+            #{item.roleId,jdbcType=BIGINT}
+            )
+        </foreach>
+
+    </insert>
 </mapper>

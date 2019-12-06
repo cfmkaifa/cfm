@@ -1,6 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.forbes.comm.dto.AddUserRoleDto;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
@@ -47,4 +48,22 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      */
     List<RoleVo> selectUserNotRole(Long userId);
 
+    /**
+      *@ 作者：xfx
+      *@ 参数：userId,roleIdArray[]
+      *@ 返回值：Integer
+      *@ 时间：2019/12/5
+      *@ Description：批量删除用户角色中间表
+      */
+    Integer batchDelUserRole(Long userId,Long[] roleIdArray);
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：addUserRoleDtoList
+      *@ 返回值：Integer
+      *@ 时间：2019/12/5
+      *@ Description：
+      */
+
+    Integer batchAddUserAndRole(List<AddUserRoleDto> addUserRoleDtoList);
 }

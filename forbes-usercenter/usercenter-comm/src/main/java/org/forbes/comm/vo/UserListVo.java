@@ -28,9 +28,7 @@ public class UserListVo implements Serializable{
     /**
      * id
      */
-    @TableId(type = IdType.AUTO)
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
+
     private Long id;
 
 
@@ -129,6 +127,6 @@ public class UserListVo implements Serializable{
     private String realname;
 
     @ApiModelProperty(value = "用户对应角色",required = true)
-    private String roleName;
+    private List<String> roleNameList;
 
 }

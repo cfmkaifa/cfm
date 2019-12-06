@@ -84,4 +84,5 @@ public class SysUser  extends BaseEntity {
      */
     @ApiModelProperty(value = "姓名",required = true)
     private String realname;
+
 }
