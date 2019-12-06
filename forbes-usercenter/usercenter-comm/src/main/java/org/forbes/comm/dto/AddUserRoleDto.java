@@ -1,11 +1,14 @@
 package org.forbes.comm.dto;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @ClassName
@@ -28,5 +31,17 @@ public class AddUserRoleDto implements Serializable{
     @ApiModelProperty(value = "角色id")
     @NotEmpty(message = "角色id不能为空")
     private Long roleId;
+
+    /**
+     * 创建人
+     */
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
 
 }

@@ -128,6 +128,10 @@ public class Result<T> implements Serializable {
 	public static final  String COMM_ACTION_MSG = "操作成功";
 	public static final  String COMM_ACTION_ERROR_MSG = "操作失败";
 
+	/*****编辑用户信息*****/
+	public static final  String EDITOR_USER = "查询用户信息成功";
+	public static final  String EDITOR_USER_ERROR = "查询用户信息失败s";
+
 	/**
 	 * 返回代码
 	 */

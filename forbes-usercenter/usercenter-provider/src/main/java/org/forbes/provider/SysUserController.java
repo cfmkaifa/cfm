@@ -4,19 +4,14 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
+import org.forbes.biz.SysRoleService;
 import org.forbes.biz.SysUserRoleService;
-import org.forbes.comm.dto.AddUserDto;
-import org.forbes.comm.dto.SysUserListDto;
-import org.forbes.comm.dto.UpdateStatusDto;
-import org.forbes.comm.dto.UpdateUserDto;
+import org.forbes.comm.dto.*;
+import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.utils.UUIDGenerator;
-import org.forbes.comm.vo.CommVo;
-import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.RoleVo;
-import org.forbes.comm.vo.UserDeatailVo;
-import org.forbes.comm.vo.UserListVo;
-import org.forbes.comm.vo.UserPermissonVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
@@ -42,11 +37,14 @@ public class SysUserController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
 
+    @Autowired
+    private SysRoleService sysRoleService;
+
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：sysUserListDto
+      *@ 返回值：UserListVo
       *@ 时间：2019/11/22
       *@ Description：多条件查询用户+分页
       */
@@ -72,7 +70,13 @@ public class SysUserController {
         }
         return result;
     }
-
+    /**
+      *@ 作者：xfx
+      *@ 参数：updateStatusDto
+      *@ 返回值：CommVo,写操作公共返回结果
+      *@ 时间：2019/12/5
+      *@ Description：根据用户名修改用户状态
+      */
     @RequestMapping(value = "/update_userstatus",method = RequestMethod.POST)
     @ApiOperation("根据用户名修改用户状态")
     @ApiResponses(value = {
@@ -100,8 +104,8 @@ public class SysUserController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：user
-      *@ 返回值：
+      *@ 参数：addUserDto
+      *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/19
       * 参数不完整，需要简称，创建人，加密盐值等
       */
@@ -117,15 +121,16 @@ public class SysUserController {
         Map<String,Boolean> map=new HashMap<>();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(addUserDto,sysUser);
-        sysUser.setSalt(new UUIDGenerator().generateString(16));
-        sysUser.setCreateTime(new Date());
+        sysUser.setSalt(UUIDGenerator.generateString(8));
+        //密码加密
+        String userpassword = PasswordUtil.encrypt(sysUser.getUsername(), sysUser.getPassword(), sysUser.getSalt());
+        sysUser.setPassword(userpassword);
         Integer res=sysUserService.addUser(sysUser);
         //向用户角色中间表中添加一条记录
         Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
         SysUserRole sysUserRole=new SysUserRole();
         sysUserRole.setRoleId(addUserDto.getRoleId());
         sysUserRole.setUserId(user_id);
-        sysUserRole.setCreateTime(new Date());
         Integer user_role_res=sysUserRoleService.addUserAndRole(sysUserRole);
         if(res==1&&user_role_res==1){
             map.put("result",true);
@@ -141,8 +146,8 @@ public class SysUserController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：updateUserDto
+      *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/19
       *@ Description：修改用户
       */
@@ -158,7 +163,6 @@ public class SysUserController {
         CommVo comm=new CommVo();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(updateUserDto,sysUser);
-        sysUser.setUpdateTime(new Date());
         Integer res=sysUserService.updateUserByUsername(sysUser);
         if(res==1){
             map.put("result",true);
@@ -174,8 +178,8 @@ public class SysUserController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：userDetailModel
-      *@ 返回值：
+      *@ 参数：username,用户名
+      *@ 返回值：UserDeatailVo，用户详细信息
       *@ 时间：2019/11/20
       *@ Description：
       */
@@ -200,8 +204,8 @@ public class SysUserController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：username
+      *@ 返回值：RoleVo
       *@ 时间：2019/12/2
       *@ Description：根据用户名查询角色
       */
@@ -227,8 +231,8 @@ public class SysUserController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：username
+      *@ 返回值：UserPermissonVo
       *@ 时间：2019/12/2
       *@ Description：根据用户名查询权限
       */
@@ -248,6 +252,41 @@ public class SysUserController {
         }else{
             result.success(Result.PERMISSIONS_MSG);
             result.setResult(sysPerList);
+        }
+        return result;
+    }
+
+    /**
+      *@ 作者：xfx
+      *@ 参数：
+      *@ 返回值：
+      *@ 时间：2019/12/5
+      *@ Description：用户分配角色
+      */
+    @RequestMapping(value = "/editor_user",method = RequestMethod.GET)
+    @ApiOperation("编辑用户")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
+            @ApiResponse(code=200,message = Result.EDITOR_USER)
+    })
+    public Result<EditorUserVo> EditorUser(@Param("username")String username){
+        Result<EditorUserVo> result=new Result<EditorUserVo>();
+        EditorUserVo editorUserVo=new EditorUserVo();
+        //查询用户详情
+        UserDeatailVo userDeatailVo=sysUserService.selectUserDetailByUsername(username);
+        //查询所有角色
+        List<RoleListVo> allRoles=sysRoleService.selectRoleList();
+        //查询用户对应角色
+        List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userDeatailVo.getId());
+        if(userDeatailVo!=null&&sysRoleList!=null){
+            editorUserVo.setAllRoleList(allRoles);
+            editorUserVo.setRoleList(sysRoleList);
+            editorUserVo.setUserDeatailVo(userDeatailVo);
+            result.setResult(editorUserVo);
+            result.success(Result.EDITOR_USER);
+        }else {
+            result.error500(Result.EDITOR_USER_ERROR);
+            return result;
         }
         return result;
     }

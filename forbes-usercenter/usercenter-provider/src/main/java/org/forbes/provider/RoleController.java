@@ -47,8 +47,8 @@ public class RoleController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：roleDto
+      *@ 返回值：RoleVo
       *@ 时间：2019/11/20
       *@ Description：根据用户id查询对应的角色
       */
@@ -75,7 +75,7 @@ public class RoleController {
     /**
       *@ 作者：xfx
       *@ 参数：
-      *@ 返回值：
+      *@ 返回值：RoleListVo
       *@ 时间：2019/11/21
       *@ Description：查询所有角色
       */
@@ -99,8 +99,8 @@ public class RoleController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：addRoleDto
+      *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/20
       *@ Description：
       */
@@ -132,8 +132,8 @@ public class RoleController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：updateRoleDto
+      *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/21
       *@ Description：角色修改
       */
@@ -164,8 +164,8 @@ public class RoleController {
 
     /**
       *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
+      *@ 参数：deleteRoleDto
+      *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/21
       *@ Description：删除角色
       */

@@ -74,7 +74,7 @@ public interface SysPermissionService extends IService<SysPermission> {
     Integer deletePermission(@Param("id") Long id);
 
     /***
-     * deletePermissions方法概述:TODO 删除权限
+     * deletePermissions方法概述:TODO 批量删除权限
      * @param ids
      * @return
      * @创建人 niehy(Frunk)

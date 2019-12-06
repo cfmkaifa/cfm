@@ -3,6 +3,7 @@ package org.forbes.biz.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysUserRoleService;
+import org.forbes.comm.dto.AddUserRoleDto;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;
@@ -67,5 +68,31 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
      */
     public List<RoleVo> selectUserNotRole(Long userId) {
         return sysUserRoleExtMapper.selectUserNotRole(userId);
+    }
+
+    /**
+     *@ 作者：xfx
+     *@ 参数：
+     *@ 返回值：
+     *@ 时间：2019/12/5
+     *@ Description：批量删除用户角色中间表
+     */
+    @Transactional
+    @Override
+    public Integer batchDelUserRole(Long userId, Long[] roleIdArray) {
+        return sysUserRoleExtMapper.batchDelUserRole(userId,roleIdArray);
+    }
+
+    /**
+     *@ 作者：xfx
+     *@ 参数：addUserRoleDtoList
+     *@ 返回值：Integer
+     *@ 时间：2019/12/5
+     *@ Description：
+     */
+    @Transactional
+    @Override
+    public Integer batchAddUserAndRole(List<AddUserRoleDto> addUserRoleDtoList) {
+        return sysUserRoleExtMapper.batchAddUserAndRole(addUserRoleDtoList);
     }
 }

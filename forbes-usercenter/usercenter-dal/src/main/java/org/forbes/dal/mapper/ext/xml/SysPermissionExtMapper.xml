@@ -183,11 +183,11 @@
         WHERE id = #{id,jdbcType=BIGINT}
     </delete>
     <!--批量删除权限-->
-    <delete id="deletePermissions">
+    <delete id="deletePermissions" parameterType="java.util.List">
         DELETE FROM f_sys_permission
         WHERE id IN
-        <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
-        #{id}
+        <foreach collection="ids" item="item" separator="," open="(" close=")" index="">
+        #{item}
         </foreach>
     </delete>
 
@@ -197,10 +197,10 @@
     </select>
 
     <!--根据权限id查询该权限在中间表是否存在-->
-    <select id="selectPermissionIds" parameterType="Long" resultType="Integer">
+    <select id="selectPermissionIds" parameterType="java.util.List" resultType="Integer">
         SELECT COUNT(permission_id) FROM f_sys_role_permission WHERE permission_id IN
-        <foreach collection="ids" item="permissionId" index="index" open="(" separator="," close=")">
-            #{permissionId}
+        <foreach collection="ids" item="item" separator="," open="(" close=")" index="">
+            #{item}
         </foreach>
     </select>
 </mapper>

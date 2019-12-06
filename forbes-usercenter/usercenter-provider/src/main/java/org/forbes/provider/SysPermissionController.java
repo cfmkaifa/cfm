@@ -129,7 +129,7 @@ public class SysPermissionController {
         Integer i = sysPermissionService.deletePermission(id);
         if (i ==1 ){
             result.success(Result.DELETE_PERMISSION_MSG);
-        }else if(i == -1 ){
+        }else if(i == -2 ){
             result.error500(Result.DELETE_IF_PERMISSION_NOT_ERROR_MSG);
         }else if (i == 0){
             result.error500(Result.DELETE_PERMISSION_NOT_ERROR_MSG);
@@ -138,7 +138,7 @@ public class SysPermissionController {
     }
 
     @RequestMapping(value = "/delete_permissions", method = RequestMethod.POST)
-    @ApiOperation("删除一些权限")
+    @ApiOperation("批量删除权限")
     @ApiImplicitParam(name = "ids",value = "权限id集合")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),

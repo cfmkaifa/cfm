@@ -119,7 +119,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
         //i:存在的条数
         Integer i = sysPermissionExtMapper.selectPermissionIds(ids);
         if(i!=0){
-            return -1;
+            return -2;
         }else {
             return sysPermissionExtMapper.deletePermissions(ids);
         }

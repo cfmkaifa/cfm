@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @Date 2019/11/20 14:05
  * @Version 1.0
  **/
-@ApiModel(description = "查询角色参数模型")
+@ApiModel(description = "查询角色参数")
 @Data
 public class RoleDto implements Serializable{
 
