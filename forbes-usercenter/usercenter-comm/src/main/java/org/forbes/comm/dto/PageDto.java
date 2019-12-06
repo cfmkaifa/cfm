@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /***
@@ -19,9 +20,11 @@ public class PageDto implements Serializable{
     private static final long serialVersionUID = 5528079878333068701L;
 
     @ApiModelProperty("当前页码")
+    @NotEmpty()
     private Long current;
 
     @ApiModelProperty("当前页显示条数")
+    @NotEmpty()
     private Long size;
 
     @ApiModelProperty("类型")
