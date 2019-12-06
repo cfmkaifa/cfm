@@ -163,7 +163,7 @@ public class RoleController {
     }
 
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：deleteRoleDto
       *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/21
@@ -233,7 +233,7 @@ public class RoleController {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/update_Role_Authorization",method = RequestMethod.POST)
-    @ApiOperation("修改角色授权")
+    @ApiOperation("修改角色授权(多个)")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
@@ -284,6 +284,32 @@ public class RoleController {
         IPage page = new Page(rolePageDto.getCurrent(),rolePageDto.getSize());
         IPage<SysRole> s = sysRoleService.page(page,qw);
         result.setResult(s);
+        return result;
+    }
+
+    /**
+     *@ 作者：lzw
+     *@ 参数：deleteRoleDto
+     *@ 返回值：
+     *@ 时间：2019/11/21
+     *@ Description：删除多个角色
+     */
+    @RequestMapping(value = "/delete_Role_ByRoleIds",method = RequestMethod.POST)
+    @ApiOperation("删除多个角色")
+    @ApiResponses(value = {
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
+    })
+    public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
+        Result<Integer> result=new Result<>();
+        for (DeleteRoleDto d:deleteRoleDto){
+            Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
+            if (i!=0){
+                result.success("删除角色成功！");
+            }else {
+                result.error500("删除角色失败！");
+            }
+        }
         return result;
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SysRoleExtMapper {
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/20
@@ -19,7 +19,7 @@ public interface SysRoleExtMapper {
     List<RoleVo> selectRoleByUserId(@Param("userId")Long userId);
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/20
@@ -28,7 +28,7 @@ public interface SysRoleExtMapper {
     Integer addRole(SysRole sysRole);
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：sysRole
      *@ 返回值：
      *@ 时间：2019/11/21
@@ -37,7 +37,7 @@ public interface SysRoleExtMapper {
     Integer updateRoleByRoleId(SysRole sysRole);
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/21
@@ -46,12 +46,21 @@ public interface SysRoleExtMapper {
     Integer deleteRoleByRoleId(@Param("id") Long id);
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/21
      *@ Description：查询所有角色
      */
     List<RoleListVo> selectRoleList();
+
+    /**
+     *@ 作者：lzw
+     *@ 参数：
+     *@ 返回值：
+     *@ 时间：2019/11/21
+     *@ Description：删除多个角色
+     */
+    Integer deleteRoleByRoleIds(@Param("id") Long id);
 
 }

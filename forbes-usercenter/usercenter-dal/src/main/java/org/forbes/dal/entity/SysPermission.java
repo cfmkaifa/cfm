@@ -137,4 +137,13 @@ public class SysPermission extends BaseEntity {
     @ApiModelProperty(value = "菜单图标")
     private byte[] icon;
 
+    /**
+     * 类型
+     * Table:     f_sys_permission
+     * Column:    type
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "类型")
+    private Long type;
+
 }

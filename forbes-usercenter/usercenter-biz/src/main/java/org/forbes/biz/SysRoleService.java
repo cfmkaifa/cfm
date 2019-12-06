@@ -55,4 +55,13 @@ public interface SysRoleService  extends IService<SysRole> {
       */
     List<RoleListVo> selectRoleList();
 
+    /**
+     *@ 作者：lzw
+     *@ 参数：
+     *@ 返回值：
+     *@ 时间：2019/11/21
+     *@ Description：删除多个角色
+     */
+    Integer deleteRoleByRoleIds(Long id);
+
 }
