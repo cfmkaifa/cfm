@@ -1,16 +1,20 @@
 package org.forbes.provider;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.model.SysLoginModel;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.JwtUtil;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.vo.LoginVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysUserVo;
 import org.forbes.config.RedisUtil;
+import org.forbes.config.cache.UserCache;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +92,39 @@ public class LoginController {
 			obj.setUserInfo(sysUserVo);
 			result.setResult(obj);
 			result.success(Result.LOGIN_MSG);
+			/**设置用户**/
+			String usernameKey = String.format(CommonConstant.PREFIX_USER, username);
+			if(!UserCache.existsUser(username) 
+					&& !redisUtil.hasKey(usernameKey)){
+				redisUtil.set(usernameKey, sysUserVo);
+			}
 		}
 		return result;
+	}
+	
+	
+	/****
+	 * logout方法慨述:
+	 * @param request
+	 * @param response
+	 * @return Result<Object>
+	 * @创建人 huanghy
+	 * @创建时间 2019年12月7日 上午10:33:01
+	 * @修改人 (修改了该文件，请填上修改人的名字)
+	 * @修改日期 (请填上修改该文件时的日期)
+	 */
+	@ApiOperation("退出登录")
+	@RequestMapping(value = "/logout")
+	public Result<Object> logout(HttpServletRequest request,HttpServletResponse response) {
+	    String token = request.getHeader(CommonConstant.X_ACCESS_TOKEN);
+	    if(ConvertUtils.isNotEmpty(token)){
+	    	 //清空用户Token缓存
+		    redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
+		    //清空用户角色缓存
+		    String userName = JwtUtil.getUsername(token);
+		    redisUtil.del(CommonConstant.PREFIX_USER_ROLE + userName);
+		    log.info("退出成功");
+	    }
+		return Result.ok(Result.LOGOUT_SUCCESS_MSG);
 	}
 }
