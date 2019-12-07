@@ -14,6 +14,7 @@ import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
+import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -157,13 +158,20 @@ public class RoleController {
     })
     public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
         Result<Integer> result=new Result<>();
-        Integer res= sysRoleService.deleteRoleByRoleId(id);
-        if(res==1){
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
+        //判断数据库是否有需要删除的id记录
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", id));
+        if(existsCount > 0 ){
             result.error500(Result.COMM_ACTION_ERROR_MSG);
+            return result;
+        }else {
+            Integer res= sysRoleService.deleteRoleByRoleId(id);
+            if(res==1){
+                result.success(Result.COMM_ACTION_MSG);
+            }else{
+                result.error500(Result.COMM_ACTION_ERROR_MSG);
+            }
+            return result;
         }
-        return result;
     }
 
     /***

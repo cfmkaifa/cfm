@@ -108,7 +108,6 @@ public class SysRolePermissionController {
     })
     public Result<Integer> addPermissionByRole(@RequestBody @Valid AddPermissionToRoleDto addPermissionToRoleDto){
         Result<Integer> result = new Result<>();
-
         Integer i = sysRolePermissionService.addPermissionToRole(addPermissionToRoleDto);
         if (i!=0){
             result.success("添加权限成功！");
