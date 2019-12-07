@@ -2,6 +2,7 @@ package org.forbes.dal.mapper.ext;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.comm.model.SysUserListDto;
@@ -38,13 +39,7 @@ public interface SysUserExtMapper extends BaseMapper<SysUser>{
 	 *@ 时间：2019/11/22
 	 *@ Description：多条件查询用户+分页
 	 */
-	List<UserListVo>  selectUserList(SysUserListDto sysUserListDto);
-
-	/***
-	 * 获取用户列表
-	 * @return
-	 */
-	List<SysUser> getUserList();
+	List<UserListVo> selectUserList(SysUserListDto sysUserListDto);
 	
 	/**
 	  *@ 作者：xfx

@@ -31,7 +31,4 @@ public class SysUserListDto implements Serializable{
     @ApiModelProperty("姓名/工厂名称或者公司名称")
     private String realname;
 
-
-
-
 }

@@ -34,6 +34,7 @@ public interface ISysUserService extends IService<SysUser> {
 	List<UserListVo> selectUserList(SysUserListDto sysUserListDto);
 
 
+
 	/**
 	  *@ 作者：xfx
 	  *@ 参数：username,status

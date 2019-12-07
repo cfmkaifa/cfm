@@ -122,7 +122,9 @@
                 AND fsu.realname=#{realname,jdbcType=VARCHAR}
             </if>
         </where>
+        limit #{start,jdbcType=INTEGER},#{size,jdbcType=INTEGER}
     </select>
+    <!--多条件查询用户分页条数-->
     <!--根据用户名修改状态-->
     <update id="updateUserStatus" parameterType="string">
         UPDATE f_sys_user AS  fsu SET fsu.status=#{status,jdbcType=VARCHAR} WHERE fsu.username=#{username,jdbcType=VARCHAR}

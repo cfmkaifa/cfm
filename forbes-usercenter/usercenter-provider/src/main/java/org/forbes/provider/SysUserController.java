@@ -11,6 +11,9 @@ import org.forbes.biz.SysUserRoleService;
 import org.forbes.comm.dto.*;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.enums.UserStausEnum;
+import org.forbes.comm.model.SysUserListDto;
+import org.forbes.comm.model.UpdateStatusDto;
+import org.forbes.comm.model.UpdateUserDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.utils.UUIDGenerator;
@@ -58,7 +61,7 @@ public class SysUserController {
       *@ 时间：2019/11/22
       *@ Description：多条件查询用户+分页
       */
-    @RequestMapping(value = "/select-userlist",method = RequestMethod.GET,produces={})
+    @RequestMapping(value = "/select-userlist",method = RequestMethod.GET)
     @ApiOperation("多条件查询用户")
     @ApiResponses(value = {
             @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
@@ -68,7 +71,7 @@ public class SysUserController {
     	Result<List<UserListVo>> result=new Result<>();
         List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
         if(sysUsers!=null){
-            result.setResult(String.format(BizResultEnum.EMPTY.get, args));
+            //result.setResult(String.format(BizResultEnum.EMPTY.getBizCode()),BizResultEnum.EMPTY.getBizMessage());
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
         }else {
             result.error500(Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG);
@@ -92,18 +95,19 @@ public class SysUserController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public Result<CommVo> updateStausByUsername(@PathVariable String id,@RequestParam(value="",required=true)String  ){
+    //public Result<CommVo> updateStausByUsername(@PathVariable String id,@RequestParam(value="",required=true)String  ){
+    public Result<CommVo> updateStausByUsername(@PathVariable @Valid UpdateStatusDto updateStatusDto){
     	Result<CommVo> result=new Result<CommVo>();
         Map<String,Boolean> map=new HashMap<>();
         String username =updateStatusDto.getUsername();
         String status=updateStatusDto.getStatus();
+        CommVo comm=new CommVo();
         if(!UserStausEnum.existsUserStausEnum(status)){
         	result.setResult(comm);
             result.success(Result.COMM_ACTION_MSG);
             return result;
         }
         Integer res=sysUserService.updateUserStatus(username,status);
-        CommVo comm=new CommVo();
         if(res==1){
             map.put("result",true);
             comm.setMapInfo(map);
@@ -177,7 +181,8 @@ public class SysUserController {
         CommVo comm=new CommVo();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(updateUserDto,sysUser);
-        Integer res=sysUserService.updateById(entity).updateUserByUsername(sysUser);
+        //Integer res=sysUserService.updateById(entity).updateUserByUsername(sysUser);
+        Integer res=sysUserService.updateUserByUsername(sysUser);
         if(res==1){
             map.put("result",true);
             comm.setMapInfo(map);
@@ -234,12 +239,12 @@ public class SysUserController {
     )
     public Result<List<RoleVo>>  getRoleListByUsername(@RequestParam(name="username",required=true)String username){
         Result<List<RoleVo>> result=new Result<>();
-        int existsCount = sysUserService.count(new QueryWrapper<SysUser>().eq("user_name", username));
+        /*int existsCount = sysUserService.count(new QueryWrapper<SysUser>().eq("user_name", username));
        if(existsCount > 0 ){
     	   result.setCode(code);
     	   result.setMessage(message);
     	   return result;
-       }
+       }*/
         List<RoleVo> sysRoleList=sysUserService.getRoleListByName(username);
         if(sysRoleList==null){
             result.error500(Result.ROLE_ERROR_MSG);
