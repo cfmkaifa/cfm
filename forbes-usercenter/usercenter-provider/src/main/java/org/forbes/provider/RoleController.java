@@ -107,9 +107,6 @@ public class RoleController {
       */
     @RequestMapping(value = "/add-role",method = RequestMethod.PUT)
     @ApiOperation("添加角色")
-    @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=AddRoleDto.class)
-    })
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
@@ -126,7 +123,7 @@ public class RoleController {
     }
 
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：updateRoleDto
       *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/21
@@ -159,7 +156,7 @@ public class RoleController {
     @RequestMapping(value = "/delete-role",method = RequestMethod.DELETE)
     @ApiOperation("删除角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> deleteRoleByRoleId(@Param("userId") @Valid Long id ){
@@ -182,7 +179,7 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select-Role-Authorization",method = RequestMethod.GET)
+    @RequestMapping(value = "/select-role-authorization",method = RequestMethod.GET)
     @ApiOperation("查询角色授权")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
@@ -212,8 +209,11 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/update-Role-Authorization",method = RequestMethod.PUT)
+    @RequestMapping(value = "/update-role-authorization",method = RequestMethod.PUT)
     @ApiOperation("修改角色授权(多个)")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=UpdateRoleAuthorizationDto.class)
+    })
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
@@ -242,8 +242,11 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select_Role_Page", method = RequestMethod.GET)
+    @RequestMapping(value = "/select_role_page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=RolePageDto.class)
+    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
@@ -273,8 +276,11 @@ public class RoleController {
      *@ 时间：2019/11/21
      *@ Description：删除多个角色
      */
-    @RequestMapping(value = "/delete-Role-ByRoleIds",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete-role-byRoleIds",method = RequestMethod.DELETE)
     @ApiOperation("删除多个角色")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=DeleteRoleDto.class)
+    })
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)

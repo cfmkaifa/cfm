@@ -1,9 +1,6 @@
 package org.forbes.provider;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysRolePermissionService;
@@ -39,7 +36,7 @@ public class SysRolePermissionController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @RequestMapping(value = "/select_permission_by_role_id", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-by-role-id", method = RequestMethod.GET)
     @ApiOperation("通过角色id查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
@@ -51,7 +48,7 @@ public class SysRolePermissionController {
         result.setResult(permissionList);
         return result;
     }
-    @RequestMapping(value = "/select_permission_by_role_name", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-by-role_name", method = RequestMethod.GET)
     @ApiOperation("通过角色名字查询角色所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
@@ -64,7 +61,7 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_by_role", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-by-role", method = RequestMethod.GET)
     @ApiOperation("查询所有角色与其对应的所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
@@ -77,7 +74,7 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_in_role", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-in-role", method = RequestMethod.GET)
     @ApiOperation("查询角色所已拥有的权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
@@ -90,7 +87,7 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_not_in_role", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-not-in-role", method = RequestMethod.GET)
     @ApiOperation("查询角色未拥有的权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
@@ -103,8 +100,11 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/add_permission_to_role", method = RequestMethod.POST)
+    @RequestMapping(value = "/add-permission-to-role", method = RequestMethod.PUT)
     @ApiOperation("给一个角色添加一个权限")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=AddPermissionToRoleDto.class)
+    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
@@ -121,8 +121,11 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/update_permission_to_role", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-permission-to-role", method = RequestMethod.PUT)
     @ApiOperation("修改角色的一个权限")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=UpdatePermissionToRoleDto.class)
+    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
@@ -139,8 +142,11 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/delete_permission_to_role", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-permission-to-role", method = RequestMethod.DELETE)
     @ApiOperation("删除角色的一个权限")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=DeletePermissionToRoleDto.class)
+    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
@@ -158,7 +164,7 @@ public class SysRolePermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/update_Role_Permission_ById", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-Role-Permission-ById", method = RequestMethod.PUT)
     @ApiOperation("修改角色的一个权限(根据id)")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
