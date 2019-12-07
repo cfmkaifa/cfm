@@ -93,7 +93,7 @@ public class MybatisInterceptor implements Interceptor {
 	 */
 	private void insertInvocation(Object parameter,List<Field> fields){
 		fields.stream().filter(fieldt -> CREATE_BY.equals(fieldt.getName())
-				|| CREATE_BY.equals(fieldt.getName())).forEach(tfieldt -> {
+				|| CREATE_TIME.equals(fieldt.getName())).forEach(tfieldt -> {
 			try {
 				tfieldt.setAccessible(true);
 				Object fieldVal = tfieldt.get(parameter);
