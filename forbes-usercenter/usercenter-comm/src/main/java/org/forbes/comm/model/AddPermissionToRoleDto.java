@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /***
- * @创建人 niehy(Frunk)
+ * @创建人 lzw
  * @创建时间 2019/11/26
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
