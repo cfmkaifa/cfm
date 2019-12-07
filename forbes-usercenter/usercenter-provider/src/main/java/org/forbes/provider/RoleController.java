@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
@@ -157,13 +156,20 @@ public class RoleController {
     })
     public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
         Result<Integer> result=new Result<>();
-        Integer res= sysRoleService.deleteRoleByRoleId(id);
-        if(res==1){
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
+        //判断数据库是否有需要删除的id记录
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", id));
+        if(existsCount > 0 ){//存在此记录id
             result.error500(Result.COMM_ACTION_ERROR_MSG);
+            return result;
+        }else {
+            Integer res= sysRoleService.deleteRoleByRoleId(id);
+            if(res==1){
+                result.success(Result.COMM_ACTION_MSG);
+            }else{
+                result.error500(Result.COMM_ACTION_ERROR_MSG);
+            }
+            return result;
         }
-        return result;
     }
 
     /***
@@ -216,15 +222,27 @@ public class RoleController {
     })
     public Result<Integer> updateRoleAuthorization(@RequestBody @Valid List<UpdateRoleAuthorizationDto> updateRoleAuthorizationDto){
         Result<Integer> result=new Result<>();
-        //遍历传入的dto
+        //遍历传入的前端权限id dto
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
-            Integer i = sysRolePermissionService.updateRolePermissionById(s.getId(),s.getRoleId(),s.getPermissionId());
-            if (i!=0){
-                result.success("修改角色权限成功！");
-            }else {
-                result.error500("修改角色权限失败！");
+            //查询角色拥有的权限
+            List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(s.getRoleId());
+            for (PermissionInRoleVo x:sysPermList){//遍历用户所拥有的权限id集合
+                if(s.getPermissionId()==x.getId()){//如果传入的权限id和所拥有的权限id一致，执行删除
+                    Integer i = sysRolePermissionService.deletePermissionToRole(s.getRoleId(),s.getPermissionId());
+                    if (i!=0){
+                        result.success("删除角色权限成功！");
+                    }else {
+                        result.error500("删除角色权限失败！");
+                    }
+                }else{//如果传入的权限id和所拥有的权限id不一致，执行添加
+                    Integer i = sysRolePermissionService.addPermissionToRole(s.getRoleId(),s.getPermissionId());
+                    if (i!=0){
+                        result.success("添加权限成功！");
+                    }else {
+                        result.error500("添加权限失败！");
+                    }
+                }
             }
-
         }
         return result;
     }
@@ -284,11 +302,17 @@ public class RoleController {
     public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
         Result<Integer> result=new Result<>();
         for (DeleteRoleDto d:deleteRoleDto){
-            Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
-            if (i!=0){
-                result.success("删除角色成功！");
+            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", d.getId()));
+            if(existsCount > 0 ){//存在此记录id
+                result.error500(Result.COMM_ACTION_ERROR_MSG);
+                return result;
             }else {
-                result.error500("删除角色失败！");
+                Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
+                if (i!=0){
+                    result.success("删除角色成功！");
+                }else {
+                    result.error500("删除角色失败！");
+                }
             }
         }
         return result;

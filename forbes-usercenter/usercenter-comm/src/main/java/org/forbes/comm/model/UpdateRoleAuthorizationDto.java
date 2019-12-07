@@ -26,7 +26,7 @@ public class UpdateRoleAuthorizationDto implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id")
+    @ApiModelProperty("主键id(必传)")
     private Long id;
 
     /**
@@ -35,8 +35,17 @@ public class UpdateRoleAuthorizationDto implements Serializable{
      * Column:    permission_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "权限ID")
+    @ApiModelProperty(value = "权限ID(必传)")
     private Long permissionId;
+
+    /**
+     * 角色ID
+     * Table:     f_sys_role_permission
+     * Column:    role_id
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "角色ID(必传)")
+    private Long roleId;
 
     /**
      * 父级id
@@ -91,13 +100,4 @@ public class UpdateRoleAuthorizationDto implements Serializable{
      */
     @ApiModelProperty(value = "菜单图标")
     private byte[] icon;
-
-    /**
-     * 角色ID
-     * Table:     f_sys_role_permission
-     * Column:    role_id
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "角色ID")
-    private Long roleId;
 }

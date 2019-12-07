@@ -92,14 +92,8 @@ public class SysRolePermissionServiceImpl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto) {
-        addPermissionToRoleDto.getId();//主键id
-        addPermissionToRoleDto.getUpdateBy();//修改人
-        addPermissionToRoleDto.getUpdateTime();//修改时间
-        addPermissionToRoleDto.getCreateBy();//创建人
-        addPermissionToRoleDto.getCreateTime();//创建时间
-
-        return sysRolePermissionExtMapper.addPermissionToRole(addPermissionToRoleDto);
+    public Integer addPermissionToRole(Long roleId,Long permissionId) {
+        return sysRolePermissionExtMapper.addPermissionToRole(roleId,permissionId);
     }
 
     /***
@@ -124,8 +118,8 @@ public class SysRolePermissionServiceImpl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer deletePermissionToRole(DeletePermissionToRoleDto deletePermissionToRoleDto) {
-        return sysRolePermissionExtMapper.deletePermissionToRole(deletePermissionToRoleDto);
+    public Integer deletePermissionToRole(Long roleId,Long permissionId) {
+        return sysRolePermissionExtMapper.deletePermissionToRole(roleId,permissionId);
     }
 
     /***

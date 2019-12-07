@@ -72,7 +72,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer addPermissionToRole(AddPermissionToRoleDto addPermissionToRoleDto);
+    Integer addPermissionToRole(Long roleId,Long permissionId);
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限
      * @return
@@ -91,7 +91,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer deletePermissionToRole(DeletePermissionToRoleDto deletePermissionToRoleDto);
+    Integer deletePermissionToRole(Long roleId,Long permissionId);
 
     /***
      * updateRolePermissionById方法概述:根据id修改角色权限

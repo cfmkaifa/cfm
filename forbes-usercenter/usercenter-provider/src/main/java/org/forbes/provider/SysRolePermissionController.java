@@ -2,7 +2,6 @@ package org.forbes.provider;
 
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.comm.model.AddPermissionToRoleDto;
 import org.forbes.comm.model.DeletePermissionToRoleDto;
@@ -99,17 +98,13 @@ public class SysRolePermissionController {
 
     @RequestMapping(value = "/add-permission-to-role", method = RequestMethod.PUT)
     @ApiOperation("给一个角色添加一个权限")
-    @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=AddPermissionToRoleDto.class)
-    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> addPermissionByRole(@RequestBody @Valid AddPermissionToRoleDto addPermissionToRoleDto){
+    public Result<Integer> addPermissionByRole(@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
         Result<Integer> result = new Result<>();
-
-        Integer i = sysRolePermissionService.addPermissionToRole(addPermissionToRoleDto);
+        Integer i = sysRolePermissionService.addPermissionToRole(roleId,permissionId);
         if (i!=0){
             result.success("添加权限成功！");
         }else {
@@ -141,16 +136,13 @@ public class SysRolePermissionController {
 
     @RequestMapping(value = "/delete-permission-to-role", method = RequestMethod.DELETE)
     @ApiOperation("删除角色的一个权限")
-    @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=DeletePermissionToRoleDto.class)
-    })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> deletePermissionToRole(@RequestBody @Valid DeletePermissionToRoleDto deletePermissionToRoleDto){
+    public Result<Integer> deletePermissionToRole(@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
         Result<Integer> result = new Result<>();
-        Integer i = sysRolePermissionService.deletePermissionToRole(deletePermissionToRoleDto);
+        Integer i = sysRolePermissionService.deletePermissionToRole(roleId,permissionId);
         if (i!=0){
             result.success("删除角色权限成功！");
             result.setCode(200);
