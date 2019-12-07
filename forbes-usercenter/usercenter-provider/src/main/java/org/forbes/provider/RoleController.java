@@ -222,18 +222,19 @@ public class RoleController {
     })
     public Result<Integer> updateRoleAuthorization(@RequestBody @Valid List<UpdateRoleAuthorizationDto> updateRoleAuthorizationDto){
         Result<Integer> result=new Result<>();
-        //遍历传入的dto
+        //遍历传入的前端权限id dto
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
+            //查询角色拥有的权限
             List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(s.getRoleId());
-            for (PermissionInRoleVo x:sysPermList){
-                if(s.getPermissionId()==x.getId()){
+            for (PermissionInRoleVo x:sysPermList){//遍历用户所拥有的权限id集合
+                if(s.getPermissionId()==x.getId()){//如果传入的权限id和所拥有的权限id一致，执行删除
                     Integer i = sysRolePermissionService.deletePermissionToRole(s.getRoleId(),s.getPermissionId());
                     if (i!=0){
                         result.success("删除角色权限成功！");
                     }else {
                         result.error500("删除角色权限失败！");
                     }
-                }else{
+                }else{//如果传入的权限id和所拥有的权限id不一致，执行添加
                     Integer i = sysRolePermissionService.addPermissionToRole(s.getRoleId(),s.getPermissionId());
                     if (i!=0){
                         result.success("添加权限成功！");
