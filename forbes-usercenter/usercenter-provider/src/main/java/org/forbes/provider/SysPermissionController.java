@@ -3,12 +3,11 @@ package org.forbes.provider;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
-import org.forbes.comm.dto.*;
+import org.forbes.comm.model.*;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.config.RedisUtil;
@@ -32,13 +31,16 @@ public class SysPermissionController {
     private RedisUtil redisUtil;
 
 
-    @RequestMapping(value = "/select_page", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "pageDto",dataTypeClass=PageDto.class,required = true)
+    )
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=SysPermission.class, message = Result.PERMISSIONS_MSG)
     })
-    public Result<IPage<SysPermission>> selectPage(@RequestBody PageDto pageDto){
+    public Result<IPage<SysPermission>> selectPage(@RequestBody @Valid PageDto pageDto){
         Result<IPage<SysPermission>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
         if(pageDto.getType()!=null){
@@ -53,7 +55,7 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission", method = RequestMethod.GET)
     @ApiOperation("查询所有权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
@@ -66,22 +68,28 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/select_permission_by_id", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-permission-by-id", method = RequestMethod.GET)
     @ApiOperation("通过权限id查询权限内容")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "id",required = true)
+    )
     @ApiImplicitParam(name = "id",value = "权限id")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSION_BY_ID_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=PermissionVo.class, message = Result.PERMISSION_BY_ID_MSG)
     })
-    public Result<List<PermissionVo>> getPermissionById(@Param("id") @Valid Long id){
-        Result<List<PermissionVo>> result = new Result<>();
-        List<PermissionVo> permissionList = sysPermissionService.getPermissionById(id);
-        result.setResult(permissionList);
+    public Result<SysPermission> getPermissionById(@RequestParam("id") @Valid Long id){
+        Result<SysPermission> result = new Result<>();
+        SysPermission permission = sysPermissionService.getById(id);
+        result.setResult(permission);
         return result;
     }
 
-    @RequestMapping(value = "/add_permission", method = RequestMethod.POST)
+    @RequestMapping(value = "/add-permission", method = RequestMethod.PUT)
     @ApiOperation("仅添加一个权限")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "sysPermission",value = "权限实体类",dataTypeClass = SysPermission.class,required = true)
+    )
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Integer.class, message = Result.ADD_PERMISSION_MSG)
@@ -97,14 +105,16 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/update_permission", method = RequestMethod.POST)
+    @RequestMapping(value = "/update-permission", method = RequestMethod.PUT)
     @ApiOperation("修改权限内容")
-    @ApiImplicitParam(name = "updatePermissionDto",value = "修改权限传入参数")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "sysPermission",dataTypeClass = SysPermission.class,required = true)
+    )
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Integer.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<Integer> UpdatePermission(@RequestBody @Valid UpdatePermissionDto updatePermissionDto){
+    public Result<Integer> updatePermission(@RequestBody @Valid UpdatePermissionDto updatePermissionDto){
         Result<Integer> result = new Result<>();
         Integer i = sysPermissionService.updatePermission(updatePermissionDto);
         if (i!=0){
@@ -115,14 +125,16 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/delete_permission", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-permission", method = RequestMethod.DELETE)
     @ApiOperation("删除一个权限")
-    @ApiImplicitParam(name = "id",value = "权限id")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "id",value = "权限id")
+    )
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Integer.class, message = Result.DELETE_PERMISSION_MSG)
     })
-    public Result<Integer> DeletePermission(@Valid Long id){
+    public Result<Integer> deletePermission(@RequestParam("id") @Valid Long id){
         Result<Integer> result = new Result<>();
         Integer i = sysPermissionService.deletePermission(id);
         if (i ==1 ){
@@ -135,14 +147,16 @@ public class SysPermissionController {
         return result;
     }
 
-    @RequestMapping(value = "/delete_permissions", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-permissions", method = RequestMethod.DELETE)
     @ApiOperation("批量删除权限")
-    @ApiImplicitParam(name = "ids",value = "权限id集合")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "ids",value = "权限id集合")
+    )
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.DELETE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Integer.class, message = Result.DELETE_PERMISSION_MSG)
     })
-    public Result<Integer> DeletePermissions(@RequestBody @Valid List<Long> ids){
+    public Result<Integer> deletePermissions(@RequestBody @Valid List<Long> ids){
         Result<Integer> result = new Result<>();
             Integer i = sysPermissionService.deletePermissions(ids);
             if (i ==1 ){
