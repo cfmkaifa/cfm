@@ -9,17 +9,13 @@ import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
-import org.forbes.comm.model.AddRoleDto;
 import org.forbes.comm.model.DeleteRoleDto;
 import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -60,7 +56,7 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_EMPTY_MSG),
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
-    public Result<List<RoleVo>> selectRoleByUserId(@Param("userId") @Valid Long userId){
+    public Result<List<RoleVo>> selectRoleByUserId(@RequestParam(name="roleId",required=true)Long userId){
         Result<List<RoleVo>> result=new Result<>();
         List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
         if(sysRoleList==null){
@@ -159,7 +155,7 @@ public class RoleController {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<Integer> deleteRoleByRoleId(@Param("userId") @Valid Long id ){
+    public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
         Result<Integer> result=new Result<>();
         Integer res= sysRoleService.deleteRoleByRoleId(id);
         if(res==1){
@@ -185,7 +181,7 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
     })
-    public Result<RoleAuthorizationVo> selectRoleAuthorization(@Param("roleId") @Valid Long roleId){
+    public Result<RoleAuthorizationVo> selectRoleAuthorization(@RequestParam(name="roleId",required=true)Long roleId){
         Result<RoleAuthorizationVo> result=new Result<>();
         RoleAuthorizationVo roleAuthorizationVo=new RoleAuthorizationVo();
         //查询角色所有权限

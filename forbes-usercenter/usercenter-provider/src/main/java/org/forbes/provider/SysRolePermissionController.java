@@ -12,10 +12,7 @@ import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -42,7 +39,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@Valid Long roleId){
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@RequestParam(name="roleId",required=true)Long roleId){
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysRolePermissionService.getPermissionByRoleId(roleId);
         result.setResult(permissionList);
@@ -54,7 +51,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=500,message= Result.PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
-    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@Param("roleName")@Valid String roleName){
+    public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@RequestParam(name="roleName",required=true)String roleName){
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysRolePermissionService.getPermissionByRoleName(roleName);
         result.setResult(permissionList);
@@ -80,7 +77,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=500,message= Result.NOT_IN_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
     })
-    public Result<List<PermissionInRoleVo>> getPermissionInRole(@Param("roleId") @Valid Long roleId){
+    public Result<List<PermissionInRoleVo>> getPermissionInRole(@RequestParam(name="roleId",required=true)Long roleId){
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(roleId);
         result.setResult(sysPermList);
@@ -93,7 +90,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=500,message= Result.ALL_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
     })
-    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@Param("roleId") @Valid Long roleId){
+    public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@RequestParam(name="roleId",required=true)Long roleId){
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionNotInRole(roleId);
         result.setResult(sysPermList);
@@ -170,7 +167,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
-    public Result<Integer> updateRolePermissionById(@Param("id") @Valid Long id,@Param("roleId") @Valid Long roleId ,@Param("permissionId") @Valid Long permissionId){
+    public Result<Integer> updateRolePermissionById(@RequestParam(name="id",required=true)Long id,@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.updateRolePermissionById(id,roleId,permissionId);
         if (i!=0){
