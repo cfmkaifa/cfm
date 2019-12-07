@@ -158,7 +158,7 @@ public class RoleController {
         Result<Integer> result=new Result<>();
         //判断数据库是否有需要删除的id记录
         int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", id));
-        if(existsCount > 0 ){
+        if(existsCount > 0 ){//存在此记录id
             result.error500(Result.COMM_ACTION_ERROR_MSG);
             return result;
         }else {
@@ -290,11 +290,17 @@ public class RoleController {
     public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
         Result<Integer> result=new Result<>();
         for (DeleteRoleDto d:deleteRoleDto){
-            Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
-            if (i!=0){
-                result.success("删除角色成功！");
+            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", d.getId()));
+            if(existsCount > 0 ){//存在此记录id
+                result.error500(Result.COMM_ACTION_ERROR_MSG);
+                return result;
             }else {
-                result.error500("删除角色失败！");
+                Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
+                if (i!=0){
+                    result.success("删除角色成功！");
+                }else {
+                    result.error500("删除角色失败！");
+                }
             }
         }
         return result;
