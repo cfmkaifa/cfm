@@ -56,6 +56,7 @@ public class RoleController {
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
     public Result<List<RoleVo>> selectRoleByUserId(@RequestParam(name="roleId",required=true)Long userId){
+        log.info("传入的参数为"+userId);
         Result<List<RoleVo>> result=new Result<>();
         List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
         if(sysRoleList==null){
@@ -108,11 +109,17 @@ public class RoleController {
     })
     public  Result<Integer> addRole(@RequestBody @Valid SysRole sysRole){
         Result<Integer> result=new Result<>();
-        Integer res=sysRoleService.addRole(sysRole);
-        if(res==1){
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("role_code", sysRole.getRoleCode()));
+        if(existsCount > 0 ) {//存在此记录
             result.error500(Result.COMM_ACTION_ERROR_MSG);
+            return result;
+        }else {
+            Integer res=sysRoleService.addRole(sysRole);
+            if(res==1){
+                result.success(Result.COMM_ACTION_MSG);
+            }else{
+                result.error500(Result.COMM_ACTION_ERROR_MSG);
+            }
         }
         return result;
     }
@@ -132,7 +139,7 @@ public class RoleController {
     })
     public  Result<Integer> updateRole(@RequestBody @Valid SysRole sysRole){
         Result<Integer> result=new Result<>();
-       Integer res=sysRoleService.updateRoleByRoleId(sysRole);
+        Integer res=sysRoleService.updateRoleByRoleId(sysRole);
         if(res==1){
             result.success(Result.COMM_ACTION_MSG);
         }else{
@@ -226,7 +233,7 @@ public class RoleController {
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
             //查询角色拥有的权限
             List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(s.getRoleId());
-            for (PermissionInRoleVo x:sysPermList){//遍历用户所拥有的权限id集合
+            for (PermissionInRoleVo x:sysPermList){//遍历角色所拥有的权限id集合
                 if(s.getPermissionId()==x.getId()){//如果传入的权限id和所拥有的权限id一致，执行删除
                     Integer i = sysRolePermissionService.deletePermissionToRole(s.getRoleId(),s.getPermissionId());
                     if (i!=0){
@@ -234,6 +241,7 @@ public class RoleController {
                     }else {
                         result.error500("删除角色权限失败！");
                     }
+                    break;
                 }else{//如果传入的权限id和所拥有的权限id不一致，执行添加
                     Integer i = sysRolePermissionService.addPermissionToRole(s.getRoleId(),s.getPermissionId());
                     if (i!=0){
@@ -242,6 +250,7 @@ public class RoleController {
                         result.error500("添加权限失败！");
                     }
                 }
+                break;
             }
         }
         return result;
@@ -256,7 +265,7 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select_role_page", method = RequestMethod.GET)
+    @RequestMapping(value = "/select-role-page", method = RequestMethod.GET)
     @ApiOperation("分页查询权限")
     @ApiImplicitParams(value={
             @ApiImplicitParam(dataTypeClass=RolePageDto.class)
@@ -265,7 +274,7 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
-    public Result<IPage<SysRole>> selectRolePage(@RequestBody RolePageDto rolePageDto){
+    public Result<IPage<SysRole>> selectRolePage(@RequestBody @Valid RolePageDto rolePageDto){
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
         if(rolePageDto.getRoleName()!=null){
