@@ -1,4 +1,4 @@
-package org.forbes.comm.dto;
+package org.forbes.comm.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;

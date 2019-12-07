@@ -1,4 +1,4 @@
-package org.forbes.comm.dto;
+package org.forbes.comm.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -10,17 +10,18 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+
 /***
  * @创建人 niehy(Frunk)
- * @创建时间 2019/11/26
+ * @创建时间 2019/11/22
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
-@ApiModel(description="给角色添加权限传入参数")
+@ApiModel("修改角色的一个权限传入参数")
 @Data
-public class AddPermissionToRoleDto implements Serializable{
+public class UpdatePermissionToRoleDto  implements Serializable {
 
-    private static final long serialVersionUID = -6733387652543628699L;
+    private static final long serialVersionUID = -1361652913559943696L;
     /**
      * id
      */
@@ -29,19 +30,6 @@ public class AddPermissionToRoleDto implements Serializable{
     @JsonFormat(pattern="yyyy-MM-dd")
     @ApiModelProperty("主键id")
     private Long id;
-
-    /**
-     * 创建人
-     */
-    @ApiModelProperty("创建人，不需要传值")
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date createTime;
 
     /**
      * 更新人
@@ -72,4 +60,5 @@ public class AddPermissionToRoleDto implements Serializable{
      */
     @ApiModelProperty(value = "权限ID")
     private Long permissionId;
+
 }
