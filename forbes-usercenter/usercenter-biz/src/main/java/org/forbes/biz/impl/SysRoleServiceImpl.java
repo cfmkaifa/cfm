@@ -19,7 +19,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Autowired
     SysRoleExtMapper sysRoleExtMapper;
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：userId
       *@ 返回值：
       *@ 时间：2019/11/20
@@ -30,7 +30,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/20
@@ -43,7 +43,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：sysRole
      *@ 返回值：
      *@ 时间：2019/11/21
@@ -51,12 +51,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Transactional
     public Integer updateRoleByRoleId(SysRole sysRole) {
-
         return sysRoleExtMapper.updateRoleByRoleId(sysRole);
     }
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/21
@@ -68,7 +67,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     /**
-     *@ 作者：xfx
+     *@ 作者：lzw
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/21

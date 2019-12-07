@@ -9,9 +9,8 @@ import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
-import org.forbes.comm.dto.*;
+import org.forbes.comm.model.*;
 import org.forbes.comm.vo.*;
-import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import java.util.*;
 /**
  * @ClassName
  * @Description TODO
- * @Author xfx
+ * @Author lzw
  * @Date 2019/11/20 11:42
  * @Version 1.0
  **/
@@ -46,24 +45,23 @@ public class RoleController {
     SysPermissionService sysPermissionService;
 
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：roleDto
       *@ 返回值：RoleVo
       *@ 时间：2019/11/20
       *@ Description：根据用户id查询对应的角色
       */
-    @RequestMapping(value = "/get_role_list",method = RequestMethod.GET)
+    @RequestMapping(value = "/get-role-list",method = RequestMethod.GET)
     @ApiOperation("查询用户对应角色")
     @ApiResponses(value = {
-            @ApiResponse(code=500,message= Result.ROLE_ERROR_MSG),
+            @ApiResponse(code=500,message= Result.ROLE_EMPTY_MSG),
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
-    public Result<List<RoleVo>> selectRoleByUserId(@RequestBody @Valid RoleDto roleDto){
+    public Result<List<RoleVo>> selectRoleByUserId(@Param("userId") @Valid Long userId){
         Result<List<RoleVo>> result=new Result<>();
-        Long userId=roleDto.getUserId();
         List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
         if(sysRoleList==null){
-            result.error500(Result.ROLE_ERROR_MSG);
+            result.error500(Result.ROLE_EMPTY_MSG);
             return  result;
         }else{
             result.success(Result.ROLE_MSG);
@@ -73,13 +71,13 @@ public class RoleController {
     }
 
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：
       *@ 返回值：RoleListVo
       *@ 时间：2019/11/21
       *@ Description：查询所有角色
       */
-    @RequestMapping(value = "/role_list",method = RequestMethod.GET)
+    @RequestMapping(value = "/role-list",method = RequestMethod.GET)
     @ApiOperation("查询所有角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
@@ -98,34 +96,28 @@ public class RoleController {
     }
 
     /**
-      *@ 作者：xfx
+      *@ 作者：lzw
       *@ 参数：addRoleDto
       *@ 返回值：CommVo,写操作公共返回结果
       *@ 时间：2019/11/20
       *@ Description：
       */
-    @RequestMapping(value = "/add_role",method = RequestMethod.POST)
+    @RequestMapping(value = "/add-role",method = RequestMethod.PUT)
     @ApiOperation("添加角色")
+    @ApiImplicitParams(value={
+            @ApiImplicitParam(dataTypeClass=AddRoleDto.class)
+    })
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<CommVo> addRole(@RequestBody @Valid AddRoleDto addRoleDto){
-        Map<String,Boolean> map=new HashMap<>();
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        SysRole sysrole=new SysRole();
-        BeanUtils.copyProperties(addRoleDto,sysrole);
-        sysrole.setCreateTime(new Date());
-        Integer res=sysRoleService.addRole(sysrole);
+    public  Result<Integer> addRole(@RequestBody @Valid SysRole sysRole){
+        Result<Integer> result=new Result<>();
+        Integer res=sysRoleService.addRole(sysRole);
         if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
             result.success(Result.COMM_ACTION_MSG);
         }else{
             result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
         }
         return result;
     }
@@ -137,27 +129,19 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：角色修改
       */
-    @RequestMapping(value = "/update_role",method = RequestMethod.POST)
+    @RequestMapping(value = "/update-role",method = RequestMethod.PUT)
     @ApiOperation("修改角色")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<CommVo> updateRole(@RequestBody @Valid UpdateRoleDto updateRoleDto){
-        Map<String,Boolean> map=new HashMap<>();
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        SysRole sysRole=new SysRole();
-        BeanUtils.copyProperties(updateRoleDto,sysRole);
+    public  Result<Integer> updateRole(@RequestBody @Valid SysRole sysRole){
+        Result<Integer> result=new Result<>();
        Integer res=sysRoleService.updateRoleByRoleId(sysRole);
         if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
             result.success(Result.COMM_ACTION_MSG);
         }else{
             result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
         }
         return result;
     }
@@ -169,26 +153,19 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：删除角色
       */
-    @RequestMapping(value = "/delete_role",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-role",method = RequestMethod.DELETE)
     @ApiOperation("删除角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<CommVo> deleteRoleByRoleId(@RequestBody @Valid DeleteRoleDto deleteRoleDto){
-        Map<String,Boolean> map=new HashMap<>();
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        deleteRoleDto.setId(deleteRoleDto.getId());
-        Integer res= sysRoleService.deleteRoleByRoleId(deleteRoleDto.getId());
+    public  Result<Integer> deleteRoleByRoleId(@Param("userId") @Valid Long id ){
+        Result<Integer> result=new Result<>();
+        Integer res= sysRoleService.deleteRoleByRoleId(id);
         if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
             result.success(Result.COMM_ACTION_MSG);
         }else{
             result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
         }
         return result;
     }
@@ -202,7 +179,7 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select_Role_Authorization",method = RequestMethod.GET)
+    @RequestMapping(value = "/select-Role-Authorization",method = RequestMethod.GET)
     @ApiOperation("查询角色授权")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
@@ -232,7 +209,7 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/update_Role_Authorization",method = RequestMethod.POST)
+    @RequestMapping(value = "/update-Role-Authorization",method = RequestMethod.PUT)
     @ApiOperation("修改角色授权(多个)")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
@@ -293,7 +270,7 @@ public class RoleController {
      *@ 时间：2019/11/21
      *@ Description：删除多个角色
      */
-    @RequestMapping(value = "/delete_Role_ByRoleIds",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-Role-ByRoleIds",method = RequestMethod.DELETE)
     @ApiOperation("删除多个角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),

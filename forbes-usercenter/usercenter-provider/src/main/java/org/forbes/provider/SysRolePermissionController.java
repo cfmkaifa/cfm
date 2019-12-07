@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysRolePermissionService;
-import org.forbes.comm.dto.AddPermissionToRoleDto;
-import org.forbes.comm.dto.DeletePermissionToRoleDto;
-import org.forbes.comm.dto.UpdatePermissionToRoleDto;
+import org.forbes.comm.model.AddPermissionToRoleDto;
+import org.forbes.comm.model.DeletePermissionToRoleDto;
+import org.forbes.comm.model.UpdatePermissionToRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
@@ -129,7 +129,6 @@ public class SysRolePermissionController {
     })
     public Result<Integer> updatePermissionToRole(@RequestBody @Valid UpdatePermissionToRoleDto updatePermissionToRoleDto){
         Result<Integer> result = new Result<>();
-
         Integer i = sysRolePermissionService.updatePermissionToRole(updatePermissionToRoleDto);
         if (i!=0){
             result.success("修改角色权限成功！");
