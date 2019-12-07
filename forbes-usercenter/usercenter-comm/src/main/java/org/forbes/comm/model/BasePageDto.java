@@ -11,9 +11,10 @@ public class BasePageDto<T> {
 
 	/***当前页码
 	 */
-	private Integer pageNo;
+
+	private Integer pageNo=1;
 	/**每页显示记录数**/
-	private Integer pageSize;
+	private Integer pageSize=10;
 	/**当前实体对象**/
 	T  data;
 	

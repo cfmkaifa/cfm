@@ -16,22 +16,12 @@ import java.io.Serializable;
  */
 @ApiModel(description="多条件分页查询传入参数")
 @Data
-public class PageDto implements Serializable{
+public class SysPermissionPageDto implements Serializable{
 
     private static final long serialVersionUID = 5528079878333068701L;
 
-    @ApiModelProperty("当前页码")
-    @NotNull(message = "当前页码不能为空")
-    @DefaultValue(value = "1")
-    private Long current;
-
-    @ApiModelProperty("当前页显示条数")
-    @NotNull(message = "当前页显示条数不能为空")
-    @DefaultValue(value = "10")
-    private Long size;
-
     @ApiModelProperty("类型")
-    private Integer type;
+    private Long type;
 
     @ApiModelProperty("资源名称")
     private String name;

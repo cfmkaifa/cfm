@@ -87,11 +87,13 @@ public class Result<T> implements Serializable {
 	/******添加权限信息****/
 	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
 	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";
+	public static final  String ADD_SAME_PERMISSION_NOT_ERROR_MSG = "权限编码已存在";
 	/******给角色添加权限信息****/
 	public static final  String ADD_ROLE_PERMISSION_MSG = "添加角色权限成功";
 	public static final  String ADD_ROLE_PERMISSION_NOT_ERROR_MSG = "添加角色权限失败";
 	/******修改权限内容信息****/
 	public static final  String UPDATE_PERMISSION_MSG = "修改权限内容成功";
+	public static final  String UPDATE_SAME_PERMISSION_MSG = "权限编码已存在";
 	public static final  String UPDATE_PERMISSION_NOT_ERROR_MSG = "修改权限内容失败";
 	/******删除权限内容信息****/
 	public static final  String DELETE_PERMISSION_MSG = "删除权限成功";
