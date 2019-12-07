@@ -15,14 +15,14 @@ import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import org.forbes.comm.exception.ForbesException;
+import org.forbes.comm.constant.UserContext;
 import org.forbes.comm.utils.ConvertUtils;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
-@Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }) })
+@Intercepts({@Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }) })
 public class MybatisInterceptor implements Interceptor {
 
 
@@ -41,7 +41,6 @@ public class MybatisInterceptor implements Interceptor {
 	/***默认用户
 	 */
 	private static final String DEFAULT_SYS_USER = "system";
-	private static final String DEFAULT_EMPTY = "";
 
 	/***
 	 *
@@ -99,10 +98,14 @@ public class MybatisInterceptor implements Interceptor {
 				tfieldt.setAccessible(true);
 				Object fieldVal = tfieldt.get(parameter);
 				tfieldt.setAccessible(false);
-				if (CREATE_TIME.equals(tfieldt.getName())) {
+				if (CREATE_BY.equals(tfieldt.getName())) {
 					if(ConvertUtils.isEmpty(fieldVal)){
 						tfieldt.setAccessible(true);
-						tfieldt.set(parameter, DEFAULT_SYS_USER);
+						if(ConvertUtils.isNotEmpty(UserContext.getSysUser())){
+							tfieldt.set(parameter, UserContext.getSysUser().getRealname());
+						} else {
+							tfieldt.set(parameter, DEFAULT_SYS_USER);
+						}
 						tfieldt.setAccessible(false);
 					}
 				}
@@ -114,7 +117,7 @@ public class MybatisInterceptor implements Interceptor {
 					}
 				}
 			}catch(Exception e){
-				throw new ForbesException(e);
+				log.trace("设置当前人异常", e);
 			}
 		});
 	}
@@ -138,7 +141,11 @@ public class MybatisInterceptor implements Interceptor {
 				if (UPDATE_BY.equals(tfieldt.getName())) {
 					if(ConvertUtils.isEmpty(fieldVal)){
 						tfieldt.setAccessible(true);
-						tfieldt.set(parameter, DEFAULT_SYS_USER);
+						if(ConvertUtils.isNotEmpty(UserContext.getSysUser())){
+							tfieldt.set(parameter, UserContext.getSysUser().getRealname());
+						} else {
+							tfieldt.set(parameter, DEFAULT_SYS_USER);
+						}
 						tfieldt.setAccessible(false);
 					}
 				}
@@ -150,7 +157,7 @@ public class MybatisInterceptor implements Interceptor {
 					}
 				}
 			}catch(Exception e){
-				throw new ForbesException(e);
+				log.trace("设置当前人异常", e);
 			}
 		});
 	}

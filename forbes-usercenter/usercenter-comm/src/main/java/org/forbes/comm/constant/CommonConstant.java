@@ -13,12 +13,15 @@ public interface CommonConstant {
     /** {@code 200 OK} (HTTP/1.0 - RFC 1945) */
     public static final Integer SC_OK_200 = 200;
     /***********/
-    public static String PREFIX_USER_ROLE = "PREFIX_USER_ROLE";
-    public static String PREFIX_USER_PERMISSION  = "PREFIX_USER_PERMISSION ";
-    public static int  TOKEN_EXPIRE_TIME  = 3600; //3600秒即是一小时
-    public static String PREFIX_USER_TOKEN  = "PREFIX_USER_TOKEN";
+    public static final String PREFIX_USER_ROLE = "PREFIX_USER_ROLE";
+    public static final String PREFIX_USER_PERMISSION  = "PREFIX_USER_PERMISSION";
+    public static final int  TOKEN_EXPIRE_TIME  = 3600; //3600秒即是一小时
+    public static final String PREFIX_USER_TOKEN  = "PREFIX_USER_TOKEN";
+    public static final String PREFIX_USER  = "PREFIX_USER%s";
     /****默认空值
      */
-    public static String DEFAULT_EMPTY = "";
+    public static final String DEFAULT_EMPTY = "";
     public static final String USER_NAME = "username";
+    public static final String PROVILES_CODE = "spring.profiles.active";
+    public static final String ACTIVE_CODE = "dev";
 }
