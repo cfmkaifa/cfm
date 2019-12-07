@@ -1,5 +1,6 @@
 package org.forbes.provider;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRolePermissionService;
@@ -133,7 +134,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
     public Result<Integer> updatePermissionToRole(@RequestBody @Valid UpdatePermissionToRoleDto updatePermissionToRoleDto){
-        log.info("传入的参数为"+updatePermissionToRoleDto);
+        log.info("传入的参数为"+ JSON.toJSONString(updatePermissionToRoleDto));
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.updatePermissionToRole(updatePermissionToRoleDto);
         if (i!=0){

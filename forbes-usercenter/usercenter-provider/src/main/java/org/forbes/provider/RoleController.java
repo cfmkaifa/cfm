@@ -1,5 +1,6 @@
 package org.forbes.provider;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -109,7 +110,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> addRole(@RequestBody @Valid SysRole sysRole){
-        log.info("传入的参数为"+sysRole);
+        log.info("传入的参数为"+ JSON.toJSONString(sysRole));
         Result<Integer> result=new Result<>();
         int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("role_code", sysRole.getRoleCode()));
         if(existsCount > 0 ) {//存在此记录
@@ -141,7 +142,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> updateRole(@RequestBody @Valid SysRole sysRole){
-        log.info("传入的参数为"+sysRole);
+        log.info("传入的参数为"+JSON.toJSONString(sysRole));
         Result<Integer> result=new Result<>();
         Integer res=sysRoleService.updateRoleByRoleId(sysRole);
         if(res==1){
@@ -237,7 +238,7 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<Integer> updateRoleAuthorization(@RequestBody @Valid List<UpdateRoleAuthorizationDto> updateRoleAuthorizationDto){
-        log.info("传入的参数为"+updateRoleAuthorizationDto);
+        log.info("传入的参数为"+JSON.toJSONString(updateRoleAuthorizationDto));
         Result<Integer> result=new Result<>();
         //遍历传入的前端权限id dto
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
@@ -286,7 +287,7 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
     public Result<IPage<SysRole>> selectRolePage(@RequestBody @Valid RolePageDto rolePageDto){
-        log.info("传入的参数为"+rolePageDto);
+        log.info("传入的参数为"+JSON.toJSONString(rolePageDto));
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
         if(rolePageDto.getRoleName()!=null){
@@ -322,7 +323,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
-        log.info("传入的参数为"+deleteRoleDto);
+        log.info("传入的参数为"+JSON.toJSONString(deleteRoleDto));
         Result<Integer> result=new Result<>();
         for (DeleteRoleDto d:deleteRoleDto){
             int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", d.getId()));
