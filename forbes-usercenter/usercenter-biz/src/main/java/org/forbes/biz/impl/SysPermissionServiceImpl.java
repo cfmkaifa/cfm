@@ -68,52 +68,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer updatePermission(UpdatePermissionDto updatePermissionDto) {
-        return sysPermissionExtMapper.updatePermission(updatePermissionDto);
+    public Integer updatePermission(SysPermission sysPermission) {
+        return sysPermissionExtMapper.updatePermission(sysPermission);
     }
-
-    /***
-     * deletePermission方法概述:TODO 删除一个权限
-     * @param id
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/5
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @Transactional
-    public Integer deletePermission(Long id) {
-        //根据权限id查询该权限在中间表是否存在
-        //i:存在的条数
-        Integer i = sysPermissionExtMapper.selectPermissionId(id);
-        if(i!=0){
-            return -1;
-        }else {
-            return sysPermissionExtMapper.deletePermission(id);
-        }
-    }
-
-    /***
-     * deletePermissions方法概述:TODO 批量删除权限
-     * @param ids
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/5
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @Transactional
-    public Integer deletePermissions(List<Long> ids) {
-        //根据权限id查询该权限在中间表是否存在
-        //i:存在的条数
-        Integer i = sysPermissionExtMapper.selectPermissionIds(ids);
-        if(i!=0){
-            return -2;
-        }else {
-            return sysPermissionExtMapper.deletePermissions(ids);
-        }
-    }
-
-
-
 }

@@ -49,30 +49,8 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updatePermission(UpdatePermissionDto updatePermissionDto);
+    Integer updatePermission(SysPermission sysPermission);
 
-
-    /***
-     * deletePermission方法概述:TODO 删除一个权限
-     * @param id
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/5
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    Integer deletePermission(@Param("id") Long id);
-
-    /***
-     * deletePermissions方法概述:TODO 批量删除权限
-     * @param ids
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/5
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    Integer deletePermissions(List<Long> ids);
 
 
 }
