@@ -3,13 +3,12 @@ package org.forbes.provider;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRolePermissionService;
-import org.forbes.comm.model.AddPermissionToRoleDto;
-import org.forbes.comm.model.DeletePermissionToRoleDto;
 import org.forbes.comm.model.UpdatePermissionToRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
+import org.forbes.dal.entity.SysRolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,9 +38,11 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
     public Result<List<SysRolePermissionVo>> getPermissionByRoleId(@RequestParam(name="roleId",required=true)Long roleId){
+        log.info("传入的参数为"+roleId);
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysRolePermissionService.getPermissionByRoleId(roleId);
         result.setResult(permissionList);
+        log.info("返回的参数为"+SysRolePermissionVo.class);
         return result;
     }
     @RequestMapping(value = "/select-permission-by-role_name", method = RequestMethod.GET)
@@ -51,9 +52,11 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSION_MSG)
     })
     public Result<List<SysRolePermissionVo>> getPermissionByRoleName(@RequestParam(name="roleName",required=true)String roleName){
+        log.info("传入的参数为"+roleName);
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> permissionList = sysRolePermissionService.getPermissionByRoleName(roleName);
         result.setResult(permissionList);
+        log.info("返回的参数为"+SysRolePermissionVo.class);
         return result;
     }
 
@@ -67,6 +70,7 @@ public class SysRolePermissionController {
         Result<List<SysRolePermissionVo>> result = new Result<>();
         List<SysRolePermissionVo> sysPermList = sysRolePermissionService.getPermissionByRole();
         result.setResult(sysPermList);
+        log.info("返回的参数为"+SysRolePermissionVo.class);
         return result;
     }
 
@@ -77,9 +81,11 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.IN_PERMISSION_MSG)
     })
     public Result<List<PermissionInRoleVo>> getPermissionInRole(@RequestParam(name="roleId",required=true)Long roleId){
+        log.info("传入的参数为"+roleId);
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(roleId);
         result.setResult(sysPermList);
+        log.info("返回的参数为"+PermissionInRoleVo.class);
         return result;
     }
 
@@ -90,9 +96,11 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.ALL_PERMISSION_MSG)
     })
     public Result<List<PermissionInRoleVo>> getPermissionNotInRole(@RequestParam(name="roleId",required=true)Long roleId){
+        log.info("传入的参数为"+roleId);
         Result<List<PermissionInRoleVo>> result = new Result<>();
         List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionNotInRole(roleId);
         result.setResult(sysPermList);
+        log.info("返回的参数为"+PermissionInRoleVo.class);
         return result;
     }
 
@@ -103,6 +111,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.ADD_ROLE_PERMISSION_MSG)
     })
     public Result<Integer> addPermissionByRole(@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
+        log.info("传入的参数为"+roleId+"********"+permissionId);
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.addPermissionToRole(roleId,permissionId);
         if (i!=0){
@@ -110,6 +119,7 @@ public class SysRolePermissionController {
         }else {
             result.error500("添加权限失败！");
         }
+        log.info("返回的参数为"+SysRolePermission.class);
         return result;
     }
 
@@ -123,6 +133,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
     public Result<Integer> updatePermissionToRole(@RequestBody @Valid UpdatePermissionToRoleDto updatePermissionToRoleDto){
+        log.info("传入的参数为"+updatePermissionToRoleDto);
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.updatePermissionToRole(updatePermissionToRoleDto);
         if (i!=0){
@@ -130,7 +141,7 @@ public class SysRolePermissionController {
         }else {
             result.error500("修改角色权限失败！");
         }
-
+        log.info("返回的参数为"+SysRolePermission.class);
         return result;
     }
 
@@ -141,6 +152,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.DELETE_ROLE_PERMISSION_MSG)
     })
     public Result<Integer> deletePermissionToRole(@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
+        log.info("传入的参数为"+roleId+"********"+permissionId);
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.deletePermissionToRole(roleId,permissionId);
         if (i!=0){
@@ -150,6 +162,7 @@ public class SysRolePermissionController {
             result.error("删除角色权限失败！");
             result.setCode(500);
         }
+        log.info("返回的参数为"+SysRolePermission.class);
         return result;
     }
 
@@ -160,6 +173,7 @@ public class SysRolePermissionController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
     public Result<Integer> updateRolePermissionById(@RequestParam(name="id",required=true)Long id,@RequestParam(name="roleId",required=true)Long roleId ,@RequestParam(name="permissionId",required=true)Long permissionId){
+        log.info("传入的参数为"+id+"*******"+roleId+"*******"+permissionId);
         Result<Integer> result = new Result<>();
         Integer i = sysRolePermissionService.updateRolePermissionById(id,roleId,permissionId);
         if (i!=0){
@@ -167,6 +181,7 @@ public class SysRolePermissionController {
         }else {
             result.error500("修改角色权限失败！");
         }
+        log.info("返回的参数为"+SysRolePermission.class);
         return result;
     }
 

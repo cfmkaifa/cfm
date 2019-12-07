@@ -66,6 +66,7 @@ public class RoleController {
             result.success(Result.ROLE_MSG);
             result.setResult(sysRoleList);
         }
+        log.info("返回的参数为"+RoleVo.class);
         return result;
     }
 
@@ -108,6 +109,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> addRole(@RequestBody @Valid SysRole sysRole){
+        log.info("传入的参数为"+sysRole);
         Result<Integer> result=new Result<>();
         int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("role_code", sysRole.getRoleCode()));
         if(existsCount > 0 ) {//存在此记录
@@ -121,6 +123,7 @@ public class RoleController {
                 result.error500(Result.COMM_ACTION_ERROR_MSG);
             }
         }
+        log.info("返回的参数为"+SysRole.class);
         return result;
     }
 
@@ -138,6 +141,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> updateRole(@RequestBody @Valid SysRole sysRole){
+        log.info("传入的参数为"+sysRole);
         Result<Integer> result=new Result<>();
         Integer res=sysRoleService.updateRoleByRoleId(sysRole);
         if(res==1){
@@ -145,6 +149,7 @@ public class RoleController {
         }else{
             result.error500(Result.COMM_ACTION_ERROR_MSG);
         }
+        log.info("返回的参数为"+SysRole.class);
         return result;
     }
 
@@ -162,6 +167,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
+        log.info("传入的参数为"+id);
         Result<Integer> result=new Result<>();
         //判断数据库是否有需要删除的id记录
         int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", id));
@@ -175,6 +181,7 @@ public class RoleController {
             }else{
                 result.error500(Result.COMM_ACTION_ERROR_MSG);
             }
+            log.info("返回的参数为"+SysRole.class);
             return result;
         }
     }
@@ -195,6 +202,7 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
     })
     public Result<RoleAuthorizationVo> selectRoleAuthorization(@RequestParam(name="roleId",required=true)Long roleId){
+        log.info("传入的参数为"+roleId);
         Result<RoleAuthorizationVo> result=new Result<>();
         RoleAuthorizationVo roleAuthorizationVo=new RoleAuthorizationVo();
         //查询角色所有权限
@@ -206,6 +214,7 @@ public class RoleController {
         //查询角色所拥有权限
         roleAuthorizationVo.setPermissionInRoleVoInfo(sysPermList);
         result.setResult(roleAuthorizationVo);
+        log.info("返回的参数为"+RoleAuthorizationVo.class);
         return result;
     }
 
@@ -228,6 +237,7 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<Integer> updateRoleAuthorization(@RequestBody @Valid List<UpdateRoleAuthorizationDto> updateRoleAuthorizationDto){
+        log.info("传入的参数为"+updateRoleAuthorizationDto);
         Result<Integer> result=new Result<>();
         //遍历传入的前端权限id dto
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
@@ -253,6 +263,7 @@ public class RoleController {
                 break;
             }
         }
+        log.info("返回的参数为"+SysRole.class);
         return result;
     }
 
@@ -275,6 +286,7 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
     public Result<IPage<SysRole>> selectRolePage(@RequestBody @Valid RolePageDto rolePageDto){
+        log.info("传入的参数为"+rolePageDto);
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
         if(rolePageDto.getRoleName()!=null){
@@ -289,6 +301,7 @@ public class RoleController {
         IPage page = new Page(rolePageDto.getCurrent(),rolePageDto.getSize());
         IPage<SysRole> s = sysRoleService.page(page,qw);
         result.setResult(s);
+        log.info("返回的参数为"+SysRole.class);
         return result;
     }
 
@@ -309,6 +322,7 @@ public class RoleController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
     public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
+        log.info("传入的参数为"+deleteRoleDto);
         Result<Integer> result=new Result<>();
         for (DeleteRoleDto d:deleteRoleDto){
             int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", d.getId()));
@@ -324,6 +338,7 @@ public class RoleController {
                 }
             }
         }
+        log.info("返回的参数为"+SysRole.class);
         return result;
     }
 
