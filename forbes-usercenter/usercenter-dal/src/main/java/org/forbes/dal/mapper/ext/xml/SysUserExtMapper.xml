@@ -90,7 +90,7 @@
   </select>
 
     <!--多条件查询用户+分页-->
-    <select id="selectUserList" resultMap="UserBaseResultMap">
+    <select id="selectUserList" parameterType="org.forbes.comm.dto.SysUserListDto" resultMap="UserBaseResultMap">
         SELECT
           fsu.id,
           fsu.username,
@@ -108,7 +108,20 @@
           fsr.role_name
         FROM
         f_sys_user AS fsu LEFT JOIN f_sys_user_role AS fsur ON fsur.user_id=fsu.id LEFT JOIN f_sys_role AS fsr ON fsr.id=fsur.role_id
-
+        <where>
+            <if test="status != null">
+                AND fsu.status=#{status,jdbcType=VARCHAR}
+            </if>
+            <if test="roleId != null">
+                AND fsr.id=#{roleId,jdbcType=BIGINT}
+            </if>
+            <if test="username != null">
+                AND fsu.username=#{username,jdbcType=VARCHAR}
+            </if>
+            <if test="realname != null">
+                AND fsu.realname=#{realname,jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
     <!--根据用户名修改状态-->
     <update id="updateUserStatus" parameterType="string">
