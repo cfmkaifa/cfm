@@ -1,10 +1,10 @@
-package org.forbes.comm.dto;
+package org.forbes.comm.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /***
@@ -20,11 +20,11 @@ public class PageDto implements Serializable{
     private static final long serialVersionUID = 5528079878333068701L;
 
     @ApiModelProperty("当前页码")
-    @NotEmpty()
+    @NotNull(message = "当前页码不能为空")
     private Long current;
 
     @ApiModelProperty("当前页显示条数")
-    @NotEmpty()
+    @NotNull(message = "当前页显示条数不能为空")
     private Long size;
 
     @ApiModelProperty("类型")

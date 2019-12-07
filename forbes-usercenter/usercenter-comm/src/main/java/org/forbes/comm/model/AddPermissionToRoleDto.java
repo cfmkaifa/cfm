@@ -1,4 +1,4 @@
-package org.forbes.comm.dto;
+package org.forbes.comm.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -17,11 +17,44 @@ import java.util.Date;
  * @修改人 (修改了该文件，请填上修改人的名字)
  * @修改日期 (请填上修改该文件时的日期)
  */
-@ApiModel(description="删除角色权限传入参数")
+@ApiModel(description="给角色添加权限传入参数")
 @Data
-public class DeletePermissionToRoleDto implements Serializable{
+public class AddPermissionToRoleDto implements Serializable{
 
-    private static final long serialVersionUID = 7892623815115984475L;
+    private static final long serialVersionUID = -6733387652543628699L;
+    /**
+     * id
+     */
+    @TableId(type = IdType.AUTO)
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty("主键id")
+    private Long id;
+
+    /**
+     * 创建人
+     */
+    @ApiModelProperty("创建人，不需要传值")
+    private String createBy;
+
+    /**
+     * 创建时间
+     */
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createTime;
+
+    /**
+     * 更新人
+     */
+    @ApiModelProperty("更新人，不需要传值")
+    private String updateBy;
+
+    /**
+     * 更新时间
+     */
+    @ApiModelProperty("更新时间，不需要传值")
+    private Date updateTime;
 
     /**
      * 角色ID
