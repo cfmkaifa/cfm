@@ -137,6 +137,7 @@ public class Result<T> implements Serializable {
 	 * 返回代码
 	 */
 	private Integer code = CommonConstant.SC_OK_200;
+	private String  bizCode = "";
 	
 	/**
 	 * 返回数据对象 data
@@ -174,6 +175,22 @@ public class Result<T> implements Serializable {
 		r.setMessage(msg);
 		r.setSuccess(false);
 		return r;
+	}
+	
+	/***
+	 * error方法慨述:
+	 * @param bizCode
+	 * @param msg
+	 * @return Result<Object>
+	 * @创建人 huanghy
+	 * @创建时间 2019年12月7日 下午4:07:04
+	 * @修改人 (修改了该文件，请填上修改人的名字)
+	 * @修改日期 (请填上修改该文件时的日期)
+	 */
+	public  void error(String bizCode, String msg) {
+		this.bizCode = bizCode;
+		this.message = msg;
+		this.success = false;
 	}
 	
 	public static Result<Object> ok(String msg) {

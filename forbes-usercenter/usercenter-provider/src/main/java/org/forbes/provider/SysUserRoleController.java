@@ -1,13 +1,22 @@
 package org.forbes.provider;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.forbes.biz.SysUserRoleService;
-import org.forbes.comm.model.*;
-import org.forbes.comm.vo.*;
+import org.forbes.comm.model.BatchDelUserRoleDto;
+import org.forbes.comm.model.DeleteUserAndRoleDto;
+import org.forbes.comm.model.RoleDto;
+import org.forbes.comm.model.SelectUserAndRoleDto;
+import org.forbes.comm.model.UserRoleDto;
+import org.forbes.comm.vo.CommVo;
+import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.UserRoleVo;
 import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +24,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName
@@ -48,7 +60,7 @@ public class SysUserRoleController {
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public Result<CommVo> addUserAndRole(@RequestBody @Valid AddUserRoleDto addUserRoleDto){
+    public Result<CommVo> addUserAndRole(@RequestBody @Valid UserRoleDto addUserRoleDto){
         Map<String,Boolean> map=new HashMap<>();
         Result<CommVo> result=new Result<CommVo>();
         CommVo comm=new CommVo();
@@ -100,7 +112,7 @@ public class SysUserRoleController {
 /**
   *@ 作者：xfx
   *@ 参数：selectUserAndRoleDto
-  *@ 返回值：UserAndRoleVo
+  *@ 返回值：UserRoleVo
   *@ 时间：2019/12/5
   *@ Description：
   */
@@ -110,10 +122,10 @@ public class SysUserRoleController {
             @ApiResponse(code=200,message = Result.DELETE_USER_AND_ROLE_MSG),
             @ApiResponse(code=500,message = Result.DELETE_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<List<UserAndRoleVo>> selectUserAndRoleByUserId(@RequestBody @Valid SelectUserAndRoleDto selectUserAndRoleDto){
-        Result<List<UserAndRoleVo>> result=new Result<>();
+    public Result<List<UserRoleVo>> selectUserAndRoleByUserId(@RequestBody @Valid SelectUserAndRoleDto selectUserAndRoleDto){
+        Result<List<UserRoleVo>> result=new Result<>();
         Long userId=selectUserAndRoleDto.getUserId();
-        List<UserAndRoleVo> sysUserRoles=sysUserRoleService.selectUserRoleListByUserId(userId);
+        List<UserRoleVo> sysUserRoles=sysUserRoleService.selectUserRoleListByUserId(userId);
         if(sysUserRoles!=null&&sysUserRoles.size()!=0){
             result.setResult(sysUserRoles);
             result.success(Result.SELECT_USER_AND_ROLE_MSG);
@@ -198,10 +210,10 @@ public class SysUserRoleController {
         Map<String,Boolean> map=new HashMap<>();
         Result<CommVo> result=new Result<CommVo>();
         CommVo comm=new CommVo();
-        List<AddUserRoleDto> addUserRoleDtoList=new ArrayList<AddUserRoleDto>();
+        List<UserRoleDto> addUserRoleDtoList=new ArrayList<UserRoleDto>();
         Long userId=batchDelUserRoleDto.getUserId();
         for(int i=0;i<batchDelUserRoleDto.getRoleIdArray().length;i++){
-            AddUserRoleDto addUserRoleDto=new AddUserRoleDto();
+            UserRoleDto addUserRoleDto=new UserRoleDto();
             addUserRoleDto.setUserId(userId);
             addUserRoleDto.setRoleId(batchDelUserRoleDto.getRoleIdArray()[i]);
             addUserRoleDtoList.add(addUserRoleDto);

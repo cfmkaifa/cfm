@@ -16,7 +16,7 @@
     </sql>
 
     <!--多条件查询用户-->
-    <resultMap id="UserBaseResultMap" type="org.forbes.comm.vo.UserListVo" >
+    <resultMap id="UserBaseResultMap" type="org.forbes.comm.vo.UserVo" >
         <!-- 主键 -->
         <id column="id" property="id" jdbcType="BIGINT" />
         <!-- 登录账号 -->
@@ -42,10 +42,6 @@
         <result column="phone" property="phone" jdbcType="VARCHAR" />
         <!-- 姓名 -->
         <result column="realname" property="realname" jdbcType="VARCHAR" />
-
-        <collection property="roleNameList" ofType="String" >
-            <result column="role_name" property="roleName" jdbcType="VARCHAR" />
-        </collection>
     </resultMap>
     <!--权限-->
     <resultMap id="Per_BaseResultMap" type="org.forbes.comm.vo.UserPermissonVo" extends="org.forbes.dal.mapper.SysPermissionMapper.BaseResultMap">
@@ -88,38 +84,21 @@
 	  OR fsu.`phone` = #{username,jdbcType=VARCHAR}  
 	  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
   </select>
-
     <!--多条件查询用户+分页-->
-    <select id="selectUserList" parameterType="org.forbes.comm.model.SysUserListDto" resultMap="UserBaseResultMap">
+    <select id="pageUsers" parameterType="org.forbes.comm.model.SysUserDto" resultMap="UserBaseResultMap">
         SELECT
-          fsu.id,
-          fsu.username,
-          fsu.status,
-          fsu.create_by,
-          fsu.create_time,
-          fsu.update_by,
-          fsu.update_time,
-          fsu.password,
-          fsu.salt,
-          fsu.avatar,
-          fsu.email,
-          fsu.phone,
-          fsu.realname,
-          fsr.role_name
+          <include refid="Base_Column_List" />
         FROM
-        f_sys_user AS fsu LEFT JOIN f_sys_user_role AS fsur ON fsur.user_id=fsu.id LEFT JOIN f_sys_role AS fsr ON fsr.id=fsur.role_id
+        f_sys_user AS fsu
         <where>
-            <if test="status != null">
-                AND fsu.status=#{status,jdbcType=VARCHAR}
+            <if test="sysUser.status != null and sysUser.status != '' and sysUser.status != 'null'">
+                AND fsu.status=#{sysUser.status,jdbcType=VARCHAR}
             </if>
-            <if test="roleId != null">
-                AND fsr.id=#{roleId,jdbcType=BIGINT}
+            <if test="sysUser.username != null and sysUser.username  != '' and sysUser.username  != 'null'">
+                AND fsu.username=#{sysUser.username,jdbcType=VARCHAR}
             </if>
-            <if test="username != null">
-                AND fsu.username=#{username,jdbcType=VARCHAR}
-            </if>
-            <if test="realname != null">
-                AND fsu.realname=#{realname,jdbcType=VARCHAR}
+            <if test="sysUser.realname != null and sysUser.realname != '' and sysUser.realname != 'null'">
+                AND fsu.realname like concat('\'%',#{sysUser.realname,jdbcType=VARCHAR},'%\'')
             </if>
         </where>
     </select>

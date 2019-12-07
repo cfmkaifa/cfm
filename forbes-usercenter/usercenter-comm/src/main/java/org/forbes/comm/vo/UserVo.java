@@ -21,7 +21,7 @@ import lombok.Data;
  **/
 @ApiModel(description = "多条件查询用户返回集合")
 @Data
-public class UserListVo implements Serializable{
+public class UserVo implements Serializable{
 
     private static final long serialVersionUID = -8223687868762203414L;
 

@@ -1,6 +1,8 @@
 package org.forbes.provider;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -8,17 +10,22 @@ import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.biz.SysUserRoleService;
+import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.enums.UserStausEnum;
-import org.forbes.comm.model.AddUserDto;
-import org.forbes.comm.model.SysUserListDto;
+import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UpdateStatusDto;
 import org.forbes.comm.model.UpdateUserDto;
-import org.forbes.comm.utils.PasswordUtil;
-import org.forbes.comm.utils.UUIDGenerator;
-import org.forbes.comm.vo.*;
+import org.forbes.comm.vo.CommVo;
+import org.forbes.comm.vo.EditorUserVo;
+import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.UserDeatailVo;
+import org.forbes.comm.vo.UserPermissonVo;
+import org.forbes.comm.vo.UserVo;
 import org.forbes.dal.entity.SysUser;
-import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,21 +70,17 @@ public class SysUserController {
     * @Date: 2019/12/7 
     */
     @RequestMapping(value = "/select-userlist",method = RequestMethod.GET)
-    @ApiOperation("多条件查询用户")
+    @ApiOperation("用户分页查询")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
+            @ApiResponse(code=200,response=BasePageDto.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
             @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<List<UserListVo>> selectUserList(@RequestBody(required = false)SysUserListDto sysUserListDto){
-    	Result<List<UserListVo>> result=new Result<>();
-        List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
-        if(sysUsers!=null){
-            result.setResult(sysUsers);
-            result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
-        }else {
-            result.error(BizResultEnum.EMPTY.getBizCode()+BizResultEnum.EMPTY.getBizMessage());
-            return result;
-        }
+    public Result<IPage<UserVo>> selectUserList(@RequestBody(required=false)BasePageDto<SysUserDto> basePageDto){
+    	log.info("=============="+JSON.toJSONString(basePageDto));
+    	Result<IPage<UserVo>> result=new Result<IPage<UserVo>>();
+    	IPage<UserVo> page = new Page<UserVo>(basePageDto.getPageNo(),basePageDto.getPageSize());
+    	IPage<UserVo> pageUsers =  sysUserService.pageUsers(page, basePageDto.getData());
+        result.setResult(pageUsers);
         return result;
     }
     /**
@@ -124,38 +131,23 @@ public class SysUserController {
       *@ 时间：2019/11/19
       * 参数不完整，需要简称，创建人，加密盐值等
       */
-    @RequestMapping(value = "/add_users",method = RequestMethod.POST)
+    @RequestMapping(value = "/add-users",method = RequestMethod.POST)
     @ApiOperation("添加用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public Result<CommVo> addUser(@RequestBody @Valid AddUserDto addUserDto){
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        Map<String,Boolean> map=new HashMap<>();
-        SysUser sysUser=new SysUser();
-        BeanUtils.copyProperties(addUserDto,sysUser);
-        sysUser.setSalt(UUIDGenerator.generateString(8));
-        //密码加密
-        String userpassword = PasswordUtil.encrypt(sysUser.getUsername(), sysUser.getPassword(), sysUser.getSalt());
-        sysUser.setPassword(userpassword);
-        Integer res=sysUserService.addUser(sysUser);
-        //向用户角色中间表中添加一条记录
-        Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
-        SysUserRole sysUserRole=new SysUserRole();
-        sysUserRole.setRoleId(addUserDto.getRoleId());
-        sysUserRole.setUserId(user_id);
-        Integer user_role_res=sysUserRoleService.addUserAndRole(sysUserRole);
-        if(res==1&&user_role_res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
-        }
+    public Result<SysUserDto> addUser(@RequestBody @Valid SysUserDto userDto){
+    	Result<SysUserDto> result = new Result<SysUserDto>();
+    	String username = userDto.getUsername();
+    	int usernameCount = sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.USERNAME, username));
+    	if(usernameCount > 0 ){
+    		result.setBizCode(BizResultEnum.USER_NAME_EXISTS.getBizCode());
+    		result.setMessage(String.format(BizResultEnum.USER_NAME_EXISTS.getBizFormateMessage(), username));
+    		return result;
+    	}
+    	sysUserService.addUser(userDto);
+    	result.setResult(userDto);
         return result;
     }
 

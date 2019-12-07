@@ -1,12 +1,16 @@
 package org.forbes.biz;
 
-import org.forbes.comm.model.SysUserListDto;
-import org.forbes.comm.vo.*;
+import java.util.List;
+
+import org.forbes.comm.model.SysUserDto;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.UserDeatailVo;
+import org.forbes.comm.vo.UserPermissonVo;
+import org.forbes.comm.vo.UserVo;
 import org.forbes.dal.entity.SysUser;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-
-import java.util.List;
 
 public interface ISysUserService extends IService<SysUser> {
 
@@ -22,15 +26,19 @@ public interface ISysUserService extends IService<SysUser> {
 	 */
 	SysUser  getUserByName(String username);
 
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/22
-	  *@ Description：多条件查询用户+分页
-	  */
-	List<UserListVo> selectUserList(SysUserListDto sysUserListDto);
+	
+	
+	/***
+	 * pageUsers方法慨述:分页查询用户信息
+	 * @param page
+	 * @param sysUserDto
+	 * @return IPage<UserVo>
+	 * @创建人 huanghy
+	 * @创建时间 2019年12月7日 下午4:20:25
+	 * @修改人 (修改了该文件，请填上修改人的名字)
+	 * @修改日期 (请填上修改该文件时的日期)
+	 */
+	IPage<UserVo> pageUsers(IPage<UserVo> page, SysUserDto sysUserDto);
 
 
 
@@ -85,4 +93,14 @@ public interface ISysUserService extends IService<SysUser> {
 	  *@ Description：根据用户名查询权限
 	  */
 	List<UserPermissonVo> getPermissonListByUsername(String username);
+	
+	/***
+	 * addUser方法慨述:增加用户
+	 * @param sysUserDto void
+	 * @创建人 huanghy
+	 * @创建时间 2019年12月7日 下午5:01:22
+	 * @修改人 (修改了该文件，请填上修改人的名字)
+	 * @修改日期 (请填上修改该文件时的日期)
+	 */
+	void addUser(SysUserDto sysUserDto);
 }

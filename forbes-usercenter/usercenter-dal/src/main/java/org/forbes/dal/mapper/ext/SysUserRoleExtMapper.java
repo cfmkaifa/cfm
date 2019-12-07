@@ -1,12 +1,12 @@
 package org.forbes.dal.mapper.ext;
 
-import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.model.AddUserRoleDto;
-import org.forbes.comm.vo.RoleVo;
-import org.forbes.comm.vo.UserAndRoleVo;
-import org.forbes.dal.entity.SysUserRole;
-
 import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.forbes.comm.model.UserRoleDto;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.comm.vo.UserRoleVo;
+import org.forbes.dal.entity.SysUserRole;
 
 public interface SysUserRoleExtMapper {
 
@@ -35,7 +35,7 @@ public interface SysUserRoleExtMapper {
      *@ 时间：2019/11/22
      *@ Description：根据用户id查询用户角色中间表集合
      */
-    List<UserAndRoleVo> selectUserRoleListByUserId(@Param("userId") Long userId);
+    List<UserRoleVo> selectUserRoleListByUserId(@Param("userId") Long userId);
 
     /***
      * selectUserNotRole方法概述:查询用户所没有的角色
@@ -65,5 +65,5 @@ public interface SysUserRoleExtMapper {
      *@ Description：
      */
 
-    Integer batchAddUserAndRole(List<AddUserRoleDto> addUserRoleDtoList);
+    Integer batchAddUserAndRole(List<UserRoleDto> addUserRoleDtoList);
 }
