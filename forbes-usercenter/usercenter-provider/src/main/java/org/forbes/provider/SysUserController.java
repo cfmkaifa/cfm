@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
@@ -83,44 +85,37 @@ public class SysUserController {
         result.setResult(pageUsers);
         return result;
     }
+
+
     /**
-      *@ 作者：xfx
-      *@ 参数：updateStatusDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/12/5
-      *@ Description：根据用户名修改用户状态
-      */
-    @RequestMapping(value = "/update_userstatus/{id}",method = RequestMethod.PUT)
-    @ApiOperation("根据用户名修改用户状态")
+    * @Description: 根据id修改用户状态
+    * @Param: [id, status]
+    * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.UserDeatailVo>
+    * @Author: xfx
+    * @Date: 2019/12/7
+    */
+    @RequestMapping(value = "/update-userstatus/{id}",method = RequestMethod.PUT)
+    @ApiOperation("根据用户id修改用户状态")
     @ApiImplicitParams(value={
-    		@ApiImplicitParam(dataTypeClass=UpdateStatusDto.class)
+            @ApiImplicitParam(dataTypeClass=UpdateStatusDto.class)
     })
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    //public Result<CommVo> updateStausByUsername(@PathVariable String id,@RequestParam(value="",required=true)String  ){
-    public Result<CommVo> updateStausByUsername(@PathVariable @Valid UpdateStatusDto updateStatusDto){
-    	Result<CommVo> result=new Result<CommVo>();
-        Map<String,Boolean> map=new HashMap<>();
-        String username =updateStatusDto.getUsername();
-        String status=updateStatusDto.getStatus();
-        CommVo comm=new CommVo();
-        if(!UserStausEnum.existsUserStausEnum(status)){
-        	result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
-            return result;
-        }
-        Integer res=sysUserService.updateUserStatus(username,status);
-        if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
+    public Result<UserDeatailVo> updateStausById(@PathVariable Long id,@RequestParam(value="status",required=true)String status){
+    	Result<UserDeatailVo> result=new Result<UserDeatailVo>();
+        SysUser sysUser=sysUserService.getById(id);
+        sysUser.setStatus(status);
+        boolean res=sysUserService.updateById(sysUser);
+        UserDeatailVo userDeatailVo=new UserDeatailVo();
+       if(res){
+           BeanUtils.copyProperties(sysUserService.getById(id),userDeatailVo);
+           result.setResult(userDeatailVo);
         }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
-        }
+           result.error500(Result.COMM_ACTION_ERROR_MSG);
+           return result;
+       }
         return result;
     }
 
