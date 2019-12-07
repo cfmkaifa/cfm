@@ -11,7 +11,6 @@ import java.util.List;
 public interface ISysUserService extends IService<SysUser> {
 
 
-
 	/***
 	 * getUserByName方法慨述:根据用户名查询用户
 	 * @param username

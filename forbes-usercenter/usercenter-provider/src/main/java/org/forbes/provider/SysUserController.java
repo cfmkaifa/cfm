@@ -8,14 +8,11 @@ import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.biz.SysUserRoleService;
-import org.forbes.comm.dto.*;
-import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.AddUserDto;
 import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.model.UpdateStatusDto;
 import org.forbes.comm.model.UpdateUserDto;
-import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.utils.UUIDGenerator;
 import org.forbes.comm.vo.*;
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -72,6 +68,7 @@ public class SysUserController {
     	Result<List<UserListVo>> result=new Result<>();
         List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
         if(sysUsers!=null){
+
             //result.setResult(String.format(BizResultEnum.EMPTY.getBizCode()),BizResultEnum.EMPTY.getBizMessage());
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
         }else {

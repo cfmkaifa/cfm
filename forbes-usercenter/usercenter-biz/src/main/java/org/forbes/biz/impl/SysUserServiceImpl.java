@@ -1,5 +1,4 @@
 package org.forbes.biz.impl;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.vo.*;
@@ -18,7 +17,6 @@ import java.util.List;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 	
-
 
 	@Autowired
 	SysUserExtMapper sysUserExtMapper;

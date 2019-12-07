@@ -23,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class SysPermissionController {
 
+
     @Autowired
     SysPermissionService sysPermissionService;
 

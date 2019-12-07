@@ -12,10 +12,6 @@ import com.google.common.collect.Maps;
  * @author Huanghy
  */
 public enum UserStausEnum {
-
-	
-
-	
 	
 	NORMAL("1","正常"),
 	FREEZE("2","冻结");
