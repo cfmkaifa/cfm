@@ -1,13 +1,8 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.dto.AddPermissionToRoleDto;
-import org.forbes.comm.dto.DeletePermissionToRoleDto;
-import org.forbes.comm.dto.UpdatePermissionDto;
-import org.forbes.comm.dto.UpdatePermissionToRoleDto;
-import org.forbes.comm.vo.PermissionInRoleVo;
+import org.forbes.comm.model.UpdatePermissionDto;
 import org.forbes.comm.vo.PermissionVo;
-import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
 import java.util.List;

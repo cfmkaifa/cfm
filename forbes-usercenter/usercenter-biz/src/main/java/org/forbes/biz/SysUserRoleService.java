@@ -1,7 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.forbes.comm.dto.AddUserRoleDto;
+import org.forbes.comm.model.AddUserRoleDto;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;

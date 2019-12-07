@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.DefaultValue;
 import java.io.Serializable;
 
 /***
@@ -21,10 +22,12 @@ public class PageDto implements Serializable{
 
     @ApiModelProperty("当前页码")
     @NotNull(message = "当前页码不能为空")
+    @DefaultValue(value = "1")
     private Long current;
 
     @ApiModelProperty("当前页显示条数")
     @NotNull(message = "当前页显示条数不能为空")
+    @DefaultValue(value = "10")
     private Long size;
 
     @ApiModelProperty("类型")

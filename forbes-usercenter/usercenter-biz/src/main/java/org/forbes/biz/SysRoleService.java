@@ -1,7 +1,6 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.forbes.comm.vo.RoleAuthorizationVo;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;

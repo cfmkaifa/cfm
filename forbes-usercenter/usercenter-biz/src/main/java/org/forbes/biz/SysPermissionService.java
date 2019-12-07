@@ -1,22 +1,12 @@
 package org.forbes.biz;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.dto.AddPermissionToRoleDto;
-import org.forbes.comm.dto.DeletePermissionToRoleDto;
-import org.forbes.comm.dto.UpdatePermissionDto;
-import org.forbes.comm.dto.UpdatePermissionToRoleDto;
-import org.forbes.comm.vo.PermissionInRoleVo;
+import org.forbes.comm.model.UpdatePermissionDto;
 import org.forbes.comm.vo.PermissionVo;
-import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 
 import java.util.List;
-import java.util.Map;
 
 public interface SysPermissionService extends IService<SysPermission> {
 

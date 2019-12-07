@@ -1,7 +1,6 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.vo.RoleAuthorizationVo;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;

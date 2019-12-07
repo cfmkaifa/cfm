@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.dto.SysUserListDto;
+import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 

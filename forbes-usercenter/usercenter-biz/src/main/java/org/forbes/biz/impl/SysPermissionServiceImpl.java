@@ -1,20 +1,10 @@
 package org.forbes.biz.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
-import org.forbes.comm.dto.AddPermissionToRoleDto;
-import org.forbes.comm.dto.DeletePermissionToRoleDto;
-import org.forbes.comm.dto.UpdatePermissionDto;
-import org.forbes.comm.dto.UpdatePermissionToRoleDto;
-import org.forbes.comm.vo.PermissionInRoleVo;
+import org.forbes.comm.model.UpdatePermissionDto;
 import org.forbes.comm.vo.PermissionVo;
-import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.mapper.SysPermissionMapper;
 import org.forbes.dal.mapper.ext.SysPermissionExtMapper;
@@ -23,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,SysPermission> implements SysPermissionService{

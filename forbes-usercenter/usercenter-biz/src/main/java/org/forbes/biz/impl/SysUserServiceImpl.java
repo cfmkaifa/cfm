@@ -1,6 +1,6 @@
 package org.forbes.biz.impl;
 import org.forbes.biz.ISysUserService;
-import org.forbes.comm.dto.SysUserListDto;
+import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.mapper.SysUserMapper;

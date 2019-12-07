@@ -33,32 +33,6 @@ public class UpdatePermissionDto implements Serializable{
     private Long id;
 
     /**
-     * 创建人
-     */
-    @ApiModelProperty("创建人，不需要传值")
-    private String createBy;
-
-    /**
-     * 创建时间
-     */
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("创建时间，不需要传值")
-    private Date createTime;
-
-    /**
-     * 更新人
-     */
-    @ApiModelProperty("更新人，不需要传值")
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty("更新时间，不需要传值")
-    private Date updateTime;
-
-    /**
      * 父级id
      * Table:     f_sys_permission
      * Column:    parent_id

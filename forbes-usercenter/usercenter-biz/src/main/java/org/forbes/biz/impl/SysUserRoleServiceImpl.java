@@ -3,7 +3,7 @@ package org.forbes.biz.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysUserRoleService;
-import org.forbes.comm.dto.AddUserRoleDto;
+import org.forbes.comm.model.AddUserRoleDto;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserAndRoleVo;
 import org.forbes.dal.entity.SysUserRole;

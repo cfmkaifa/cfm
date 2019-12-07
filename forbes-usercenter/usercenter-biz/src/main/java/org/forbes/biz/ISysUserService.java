@@ -1,6 +1,6 @@
 package org.forbes.biz;
 
-import org.forbes.comm.dto.SysUserListDto;
+import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysUser;
 
