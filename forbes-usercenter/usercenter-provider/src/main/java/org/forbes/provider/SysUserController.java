@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.biz.SysUserRoleService;
+import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.AddUserDto;
 import org.forbes.comm.model.SysUserListDto;
@@ -50,14 +51,13 @@ public class SysUserController {
     @Autowired
     private SysRoleService sysRoleService;
 
-
-    /**
-      *@ 作者：xfx
-      *@ 参数：sysUserListDto
-      *@ 返回值：UserListVo
-      *@ 时间：2019/11/22
-      *@ Description：多条件查询用户+分页
-      */
+    /** 
+    * @Description: 多条件查询用户+分页
+    * @Param: [sysUserListDto] 
+    * @return: org.forbes.comm.vo.Result<java.util.List<org.forbes.comm.vo.UserListVo>> 
+    * @Author: xfx 
+    * @Date: 2019/12/7 
+    */
     @RequestMapping(value = "/select-userlist",method = RequestMethod.GET)
     @ApiOperation("多条件查询用户")
     @ApiResponses(value = {
@@ -68,11 +68,10 @@ public class SysUserController {
     	Result<List<UserListVo>> result=new Result<>();
         List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
         if(sysUsers!=null){
-
-            //result.setResult(String.format(BizResultEnum.EMPTY.getBizCode()),BizResultEnum.EMPTY.getBizMessage());
+            result.setResult(sysUsers);
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
         }else {
-            result.error500(Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG);
+            result.error(BizResultEnum.EMPTY.getBizCode()+BizResultEnum.EMPTY.getBizMessage());
             return result;
         }
         return result;

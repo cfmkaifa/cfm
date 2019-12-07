@@ -90,7 +90,7 @@
   </select>
 
     <!--多条件查询用户+分页-->
-    <select id="selectUserList" parameterType="org.forbes.comm.dto.SysUserListDto" resultMap="UserBaseResultMap">
+    <select id="selectUserList" parameterType="org.forbes.comm.model.SysUserListDto" resultMap="UserBaseResultMap">
         SELECT
           fsu.id,
           fsu.username,
