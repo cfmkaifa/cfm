@@ -132,7 +132,7 @@
     </insert>
 
     <!--修改权限内容-->
-    <update id="updatePermission" parameterType="org.forbes.comm.dto.UpdatePermissionDto">
+    <update id="updatePermission" parameterType="org.forbes.comm.model.UpdatePermissionDto">
       UPDATE f_sys_permission SET
         <set>
             <if test="parentId != null">
