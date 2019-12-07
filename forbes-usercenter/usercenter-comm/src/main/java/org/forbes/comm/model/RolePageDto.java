@@ -16,10 +16,10 @@ public class RolePageDto implements Serializable{
 
     private static final long serialVersionUID = -7838080919618622872L;
 
-    @ApiModelProperty("当前页码")
+    @ApiModelProperty("当前页码(必填)")
     private Long current;
 
-    @ApiModelProperty("当前页显示条数")
+    @ApiModelProperty("当前页显示条数(必填)")
     private Long size;
 
     /**
