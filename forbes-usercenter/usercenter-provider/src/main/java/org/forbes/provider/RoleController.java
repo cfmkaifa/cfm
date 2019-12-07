@@ -224,13 +224,24 @@ public class RoleController {
         Result<Integer> result=new Result<>();
         //遍历传入的dto
         for (UpdateRoleAuthorizationDto s:updateRoleAuthorizationDto){
-            Integer i = sysRolePermissionService.updateRolePermissionById(s.getId(),s.getRoleId(),s.getPermissionId());
-            if (i!=0){
-                result.success("修改角色权限成功！");
-            }else {
-                result.error500("修改角色权限失败！");
+            List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(s.getRoleId());
+            for (PermissionInRoleVo x:sysPermList){
+                if(s.getPermissionId()==x.getId()){
+                    Integer i = sysRolePermissionService.deletePermissionToRole(s.getRoleId(),s.getPermissionId());
+                    if (i!=0){
+                        result.success("删除角色权限成功！");
+                    }else {
+                        result.error500("删除角色权限失败！");
+                    }
+                }else{
+                    Integer i = sysRolePermissionService.addPermissionToRole(s.getRoleId(),s.getPermissionId());
+                    if (i!=0){
+                        result.success("添加权限成功！");
+                    }else {
+                        result.error500("添加权限失败！");
+                    }
+                }
             }
-
         }
         return result;
     }
