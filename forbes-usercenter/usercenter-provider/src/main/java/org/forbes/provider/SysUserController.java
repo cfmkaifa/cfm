@@ -9,6 +9,9 @@ import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.biz.SysUserRoleService;
 import org.forbes.comm.dto.*;
+import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.enums.UserStausEnum;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.utils.UUIDGenerator;
 import org.forbes.comm.vo.*;
@@ -16,19 +19,26 @@ import org.forbes.dal.entity.SysUser;
 import org.forbes.dal.entity.SysUserRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/user")
 @Api(tags={"用户管理"})
+@Slf4j
 public class SysUserController {
 
     @Autowired
@@ -48,17 +58,17 @@ public class SysUserController {
       *@ 时间：2019/11/22
       *@ Description：多条件查询用户+分页
       */
-    @RequestMapping(value = "/select_userlist",method = RequestMethod.GET)
+    @RequestMapping(value = "/select-userlist",method = RequestMethod.GET,produces={})
     @ApiOperation("多条件查询用户")
     @ApiResponses(value = {
             @ApiResponse(code=200,response=UserListVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
             @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
     public Result<List<UserListVo>> selectUserList(@RequestBody(required = false)SysUserListDto sysUserListDto){
-        Result<List<UserListVo>> result=new Result<>();
+    	Result<List<UserListVo>> result=new Result<>();
         List<UserListVo> sysUsers=sysUserService.selectUserList(sysUserListDto);
         if(sysUsers!=null){
-            result.setResult(sysUsers);
+            result.setResult(String.format(BizResultEnum.EMPTY.get, args));
             result.success(Result.SELECT_LIST_USER_AND_ROLE_MSG);
         }else {
             result.error500(Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG);
@@ -73,17 +83,25 @@ public class SysUserController {
       *@ 时间：2019/12/5
       *@ Description：根据用户名修改用户状态
       */
-    @RequestMapping(value = "/update_userstatus",method = RequestMethod.POST)
+    @RequestMapping(value = "/update_userstatus/{id}",method = RequestMethod.PUT)
     @ApiOperation("根据用户名修改用户状态")
+    @ApiImplicitParams(value={
+    		@ApiImplicitParam(dataTypeClass=UpdateStatusDto.class)
+    })
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public Result<CommVo> updateStausByUsername(@RequestBody @Valid UpdateStatusDto updateStatusDto){
-        Result<CommVo> result=new Result<CommVo>();
+    public Result<CommVo> updateStausByUsername(@PathVariable String id,@RequestParam(value="",required=true)String  ){
+    	Result<CommVo> result=new Result<CommVo>();
         Map<String,Boolean> map=new HashMap<>();
         String username =updateStatusDto.getUsername();
         String status=updateStatusDto.getStatus();
+        if(!UserStausEnum.existsUserStausEnum(status)){
+        	result.setResult(comm);
+            result.success(Result.COMM_ACTION_MSG);
+            return result;
+        }
         Integer res=sysUserService.updateUserStatus(username,status);
         CommVo comm=new CommVo();
         if(res==1){
@@ -159,7 +177,7 @@ public class SysUserController {
         CommVo comm=new CommVo();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(updateUserDto,sysUser);
-        Integer res=sysUserService.updateUserByUsername(sysUser);
+        Integer res=sysUserService.updateById(entity).updateUserByUsername(sysUser);
         if(res==1){
             map.put("result",true);
             comm.setMapInfo(map);
@@ -171,6 +189,8 @@ public class SysUserController {
         }
         return result;
     }
+    
+    
 
     /**
       *@ 作者：xfx
@@ -214,6 +234,12 @@ public class SysUserController {
     )
     public Result<List<RoleVo>>  getRoleListByUsername(@RequestParam(name="username",required=true)String username){
         Result<List<RoleVo>> result=new Result<>();
+        int existsCount = sysUserService.count(new QueryWrapper<SysUser>().eq("user_name", username));
+       if(existsCount > 0 ){
+    	   result.setCode(code);
+    	   result.setMessage(message);
+    	   return result;
+       }
         List<RoleVo> sysRoleList=sysUserService.getRoleListByName(username);
         if(sysRoleList==null){
             result.error500(Result.ROLE_ERROR_MSG);
@@ -259,7 +285,7 @@ public class SysUserController {
       *@ 时间：2019/12/5
       *@ Description：用户分配角色
       */
-    @RequestMapping(value = "/editor_user",method = RequestMethod.GET)
+    @RequestMapping(value = "/editor_user",method = RequestMethod.DELETE)
     @ApiOperation("编辑用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),

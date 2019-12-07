@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
 import java.io.Serializable;
 
 /**
@@ -33,6 +35,7 @@ public class AddUserDto implements Serializable{
     private String avatar;
 
     @ApiModelProperty(value = "联系方式(必传)",required = true)
+    @Pattern(message="",regexp="")
     private String phone;
 
     @ApiModelProperty(value = "角色id",required = true)

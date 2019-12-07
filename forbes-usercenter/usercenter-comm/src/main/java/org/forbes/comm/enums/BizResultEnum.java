@@ -9,7 +9,7 @@ public enum BizResultEnum {
 	 * 功能暂无-表示通用异常
 	 * 001-为空判断
 	 */
-	EMPTY("001001","参数为空","");
+	EMPTY("001001","参数为空","%s为空");
 	
 	/**错误编码业务系统代码+功能编码+错误代码**/
 	private String bizCode;
