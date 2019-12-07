@@ -11,6 +11,7 @@ import org.forbes.biz.SysUserRoleService;
 import org.forbes.comm.dto.*;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.enums.UserStausEnum;
+import org.forbes.comm.model.AddUserDto;
 import org.forbes.comm.model.SysUserListDto;
 import org.forbes.comm.model.UpdateStatusDto;
 import org.forbes.comm.model.UpdateUserDto;
