@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.validation.Valid;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
@@ -76,44 +78,37 @@ public class SysUserController {
         }
         return result;
     }
+
+
     /**
-      *@ 作者：xfx
-      *@ 参数：updateStatusDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/12/5
-      *@ Description：根据用户名修改用户状态
-      */
-    @RequestMapping(value = "/update_userstatus/{id}",method = RequestMethod.PUT)
-    @ApiOperation("根据用户名修改用户状态")
+    * @Description: 根据id修改用户状态
+    * @Param: [id, status]
+    * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.UserDeatailVo>
+    * @Author: xfx
+    * @Date: 2019/12/7
+    */
+    @RequestMapping(value = "/update-userstatus/{id}",method = RequestMethod.PUT)
+    @ApiOperation("根据用户id修改用户状态")
     @ApiImplicitParams(value={
-    		@ApiImplicitParam(dataTypeClass=UpdateStatusDto.class)
+            @ApiImplicitParam(dataTypeClass=UpdateStatusDto.class)
     })
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    //public Result<CommVo> updateStausByUsername(@PathVariable String id,@RequestParam(value="",required=true)String  ){
-    public Result<CommVo> updateStausByUsername(@PathVariable @Valid UpdateStatusDto updateStatusDto){
-    	Result<CommVo> result=new Result<CommVo>();
-        Map<String,Boolean> map=new HashMap<>();
-        String username =updateStatusDto.getUsername();
-        String status=updateStatusDto.getStatus();
-        CommVo comm=new CommVo();
-        if(!UserStausEnum.existsUserStausEnum(status)){
-        	result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
-            return result;
-        }
-        Integer res=sysUserService.updateUserStatus(username,status);
-        if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
+    public Result<UserDeatailVo> updateStausById(@PathVariable Long id,@RequestParam(value="status",required=true)String status){
+    	Result<UserDeatailVo> result=new Result<UserDeatailVo>();
+        SysUser sysUser=sysUserService.getById(id);
+        sysUser.setStatus(status);
+        boolean res=sysUserService.updateById(sysUser);
+        UserDeatailVo userDeatailVo=new UserDeatailVo();
+       if(res){
+           BeanUtils.copyProperties(sysUserService.getById(id),userDeatailVo);
+           result.setResult(userDeatailVo);
         }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
-        }
+           result.error500(Result.COMM_ACTION_ERROR_MSG);
+           return result;
+       }
         return result;
     }
 
@@ -124,38 +119,37 @@ public class SysUserController {
       *@ 时间：2019/11/19
       * 参数不完整，需要简称，创建人，加密盐值等
       */
-    @RequestMapping(value = "/add_users",method = RequestMethod.POST)
+    @RequestMapping(value = "/add-users",method = RequestMethod.POST)
     @ApiOperation("添加用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public Result<CommVo> addUser(@RequestBody @Valid AddUserDto addUserDto){
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        Map<String,Boolean> map=new HashMap<>();
+    public Result<UserDeatailVo> addUser(@RequestBody @Valid AddUserDto addUserDto){
+        Result<UserDeatailVo> result=new Result<UserDeatailVo>();
+        UserDeatailVo userDeatailVo=new UserDeatailVo();
         SysUser sysUser=new SysUser();
         BeanUtils.copyProperties(addUserDto,sysUser);
         sysUser.setSalt(UUIDGenerator.generateString(8));
         //密码加密
         String userpassword = PasswordUtil.encrypt(sysUser.getUsername(), sysUser.getPassword(), sysUser.getSalt());
         sysUser.setPassword(userpassword);
-        Integer res=sysUserService.addUser(sysUser);
-        //向用户角色中间表中添加一条记录
-        Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
+        QueryWrapper<SysUser> queryWrapper=new QueryWrapper<SysUser>();
+        int existsCount = sysUserService.count(queryWrapper.eq("user_name", addUserDto.getUsername()));
+        //SysUser existSysUser=sysUserService.getOne(queryWrapper);
+        if(existsCount==0){
+            boolean addResult=sysUserService.save(sysUser);
+            if(addResult){
+                sysUser=sysUserService.getOne(queryWrapper);
+                BeanUtils.copyProperties(sysUser,userDeatailVo);
+                result.setResult(userDeatailVo);
+            }
+        }
+      /*  Long user_id=sysUserService.selectUserDetailByUsername(sysUser.getUsername()).getId();
         SysUserRole sysUserRole=new SysUserRole();
         sysUserRole.setRoleId(addUserDto.getRoleId());
         sysUserRole.setUserId(user_id);
-        Integer user_role_res=sysUserRoleService.addUserAndRole(sysUserRole);
-        if(res==1&&user_role_res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
-        }
+        Integer user_role_res=sysUserRoleService.addUserAndRole(sysUserRole);*/
         return result;
     }
 

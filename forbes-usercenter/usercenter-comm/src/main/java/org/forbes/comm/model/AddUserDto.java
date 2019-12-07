@@ -35,8 +35,8 @@ public class AddUserDto implements Serializable{
     @ApiModelProperty(value = "联系方式(必传)",required = true)
     private String phone;
 
-    @ApiModelProperty(value = "角色id",required = true)
-    private Long roleId;
+  /*  @ApiModelProperty(value = "角色id",required = true)
+    private Long roleId;*/
 
     @ApiModelProperty(value = "状态(必传)",required = true)
     private String status;
