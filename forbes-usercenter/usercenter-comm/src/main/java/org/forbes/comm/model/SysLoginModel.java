@@ -2,9 +2,10 @@ package org.forbes.comm.model;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.forbes.comm.constant.ValidGroup;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
 /**
  * 登录表单
  *
@@ -17,7 +18,7 @@ public class SysLoginModel {
 	@NotEmpty(message="登录账号不能为空")
     private String username;
 	@ApiModelProperty(value="登录密码",required=true)
-	@NotEmpty(message="登录密码不能为空")
+	@NotEmpty(message="登录密码不能为空",groups={ValidGroup.class})
     private String password;
 
     public String getUsername() {

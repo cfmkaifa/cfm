@@ -2,10 +2,10 @@ package org.forbes.provider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.constant.CommonConstant;
+import org.forbes.comm.constant.ValidGroup;
 import org.forbes.comm.model.SysLoginModel;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.JwtUtil;
@@ -18,7 +18,7 @@ import org.forbes.config.cache.UserCache;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,8 +62,7 @@ public class LoginController {
 			@ApiResponse(code=500,message=Result.LOGIN_NOT_USER_ERROR_MSG),
 			@ApiResponse(code=200,response=LoginVo.class, message = Result.LOGIN_MSG)
 	})
-	public Result<LoginVo> login(@RequestBody @Valid SysLoginModel sysLoginModel,
-			BindingResult bindingResult) {
+	public Result<LoginVo> login(@RequestBody @Validated(value={ValidGroup.class}) SysLoginModel sysLoginModel) {
 		Result<LoginVo> result = new Result<LoginVo>();
 		String username = sysLoginModel.getUsername();
 		String password = sysLoginModel.getPassword();
