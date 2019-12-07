@@ -13,7 +13,7 @@ public interface SysRoleExtMapper {
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/20
-     *@ Description：
+     *@ Description：根据用户id查询对应的角色
      */
     List<RoleVo> selectRoleByUserId(@Param("userId")Long userId);
 
@@ -22,7 +22,7 @@ public interface SysRoleExtMapper {
      *@ 参数：
      *@ 返回值：
      *@ 时间：2019/11/20
-     *@ Description：
+     *@ Description：添加角色
      */
     Integer addRole(SysRole sysRole);
 

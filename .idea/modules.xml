@@ -4,15 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/cfm.iml" filepath="$PROJECT_DIR$/.idea/cfm.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/forbes-usercenter.iml" filepath="$PROJECT_DIR$/forbes-usercenter/forbes-usercenter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/forbes-usercenter.iml" filepath="$PROJECT_DIR$/forbes-usercenter/forbes-usercenter.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-biz/usercenter-biz.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-biz/usercenter-biz.iml" />
-      <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-biz/usercenter-biz.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-biz/usercenter-biz.iml" />
-      <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-comm/usercenter-comm.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-comm/usercenter-comm.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-comm/usercenter-comm.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-comm/usercenter-comm.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-config/usercenter-config.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-config/usercenter-config.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-dal/usercenter-dal.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-dal/usercenter-dal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-dal/usercenter-dal.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-dal/usercenter-dal.iml" />
-      <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-provider/usercenter-provider.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-provider/usercenter-provider.iml" />
       <module fileurl="file://$PROJECT_DIR$/forbes-usercenter/usercenter-provider/usercenter-provider.iml" filepath="$PROJECT_DIR$/forbes-usercenter/usercenter-provider/usercenter-provider.iml" />
     </modules>
   </component>
