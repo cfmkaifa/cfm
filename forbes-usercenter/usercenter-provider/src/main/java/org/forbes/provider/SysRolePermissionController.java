@@ -2,7 +2,6 @@ package org.forbes.provider;
 
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.comm.model.AddPermissionToRoleDto;
 import org.forbes.comm.model.DeletePermissionToRoleDto;

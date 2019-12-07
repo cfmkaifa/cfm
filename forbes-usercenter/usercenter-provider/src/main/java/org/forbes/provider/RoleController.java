@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
@@ -14,7 +13,6 @@ import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
-import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
