@@ -20,6 +20,16 @@ import java.io.Serializable;
 public class PermissionInRoleVo implements Serializable{
 
     private static final long serialVersionUID = 4093043569961897532L;
+
+    /**
+     * 角色ID
+     * Table:     f_sys_role_permission
+     * Column:    role_id
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "角色ID(必传)")
+    private Long roleId;
+
     /**
      * id
      */

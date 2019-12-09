@@ -8,6 +8,6 @@ public interface DataColumnConstant {
 	
 	/*******用户相关*******/
 	public static final String USERNAME = "username";
-
 	public static final String ID = "id";
+	public static final String ROLE_CODE = "role_code";
 }

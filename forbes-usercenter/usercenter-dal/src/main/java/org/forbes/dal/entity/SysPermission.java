@@ -2,7 +2,11 @@ package org.forbes.dal.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.Example;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * Table: f_sys_permission
@@ -19,8 +23,8 @@ public class SysPermission extends BaseEntity {
      * Column:    parent_id
      * Nullable:  true
      */
-	@ApiModelProperty(value = "父级id")
-    private Integer parentId;
+	@ApiModelProperty(value = "父级id",example="-1")
+    private Long parentId;
 
     /**
      * 资源名称
@@ -65,6 +69,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "是否聚合子路由")
+    @NotEmpty(message="是否聚合子路由为空")
     private String alwaysShow;
 
     /**
@@ -74,14 +79,16 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "是否路由")
+    @NotEmpty(message="是否路由为空")
     private String isRoute;
 
-    /**
+    /**是否子集
      * Table:     f_sys_permission
      * Column:    is_leaf
      * Nullable:  true
      */
-    @ApiModelProperty()
+    @ApiModelProperty(value = "是否子集")
+    @NotEmpty(message="是否子集为空")
     private String isLeaf;
 
     /**
@@ -93,12 +100,13 @@ public class SysPermission extends BaseEntity {
     @ApiModelProperty(value = "是否隐藏")
     private String isHidden;
 
-    /**
+    /**排序号
      * Table:     f_sys_permission
      * Column:    sort_no
      * Nullable:  true
      */
-    @ApiModelProperty()
+    @ApiModelProperty(value = "排序号",example="-1")
+    @NotNull(message="排序号")
     private Integer sortNo;
 
     /**
@@ -143,7 +151,16 @@ public class SysPermission extends BaseEntity {
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "类型")
+    @ApiModelProperty(value = "类型",example="-1")
     private Long type;
+
+    /**
+     * 等级
+     * Table:     f_sys_permission
+     * Column:    type
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "等级",example="-1")
+    private Long grade;
 
 }

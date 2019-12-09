@@ -84,6 +84,11 @@ public class Result<T> implements Serializable {
 
 	public static final  String IN_PERMISSION_MSG = "查询角色已拥有权限成功";
 	public static final  String NOT_IN_PERMISSION_NOT_ERROR_MSG = "查询角色未拥有权限失败";
+	/******校验权限信息****/
+	public static final  String NULL_PERMISSION_MSG = "权限编码为空";
+	public static final  String EXISTS_PERMISSION_MSG = "权限编码已存在";
+	public static final  String AVAILABLE_PERMISSION_MSG = "权限编码可用";
+
 	/******添加权限信息****/
 	public static final  String ADD_PERMISSION_MSG = "添加权限成功";
 	public static final  String ADD_PERMISSION_NOT_ERROR_MSG = "添加权限失败";

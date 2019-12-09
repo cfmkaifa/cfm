@@ -5,6 +5,7 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.comm.model.UpdatePermissionToRoleDto;
+import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
