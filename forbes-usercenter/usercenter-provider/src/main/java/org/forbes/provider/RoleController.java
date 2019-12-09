@@ -1,26 +1,45 @@
 package org.forbes.provider;
 
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.*;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.comm.constant.CommonConstant;
+import org.forbes.comm.constant.DataColumnConstant;
+import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.DeleteRoleDto;
 import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.UpdateRoleAuthorizationDto;
-import org.forbes.comm.utils.ConvertUtils;
-import org.forbes.comm.vo.*;
+import org.forbes.comm.vo.PermissionInRoleVo;
+import org.forbes.comm.vo.PermissionVo;
+import org.forbes.comm.vo.Result;
+import org.forbes.comm.vo.RoleAuthorizationVo;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.*;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName
@@ -104,22 +123,18 @@ public class RoleController {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<Integer> addRole(@RequestBody @Valid SysRole sysRole){
-        log.info("传入的参数为"+ JSON.toJSONString(sysRole));
-        Result<Integer> result=new Result<>();
-        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("role_code", sysRole.getRoleCode()));
+    public  Result<SysRole> addRole(@RequestBody @Valid SysRole sysRole){
+        log.debug("传入的参数为"+ JSON.toJSONString(sysRole));
+        Result<SysRole> result=new Result<SysRole>();
+        String roleCode = sysRole.getRoleCode();
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
         if(existsCount > 0 ) {//存在此记录
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
+            result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
             return result;
-        }else {
-            Integer res=sysRoleService.addRole(sysRole);
-            if(res==1){
-                result.success(Result.COMM_ACTION_MSG);
-            }else{
-                result.error500(Result.COMM_ACTION_ERROR_MSG);
-            }
         }
-        log.info("返回的参数为"+SysRole.class);
+        sysRoleService.addRole(sysRole);
+        result.setResult(sysRole);
         return result;
     }
 
@@ -165,6 +180,7 @@ public class RoleController {
     public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
         log.info("传入的参数为"+id);
         Result<Integer> result=new Result<>();
+        sysRoleService.removeById(id);
         //判断数据库是否有需要删除的id记录
             Integer res= sysRoleService.deleteRoleByRoleId(id);
             if(res==1){
@@ -229,8 +245,13 @@ public class RoleController {
     public Result<UpdateRoleAuthorizationDto> updateRoleAuthorization(@RequestBody @Valid UpdateRoleAuthorizationDto updateRoleAuthorizationDto){
         log.info("传入的参数为"+JSON.toJSONString(updateRoleAuthorizationDto));
         Result<UpdateRoleAuthorizationDto> result=new Result<>();
-        sysRoleService.updateRoleAuthorization(updateRoleAuthorizationDto);
-        result.setResult(updateRoleAuthorizationDto);
+        try{
+        	sysRoleService.updateRoleAuthorization(updateRoleAuthorizationDto);
+            result.setResult(updateRoleAuthorizationDto);
+        }catch(ForbesException e){
+        	result.setBizCode(e.getErrorCode());
+        	result.setMessage(e.getErrorMsg());
+        }
         return result;
     }
 
@@ -279,7 +300,7 @@ public class RoleController {
      *@ 时间：2019/11/21
      *@ Description：删除多个角色
      */
-    @RequestMapping(value = "/delete-role-byRoleIds",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete-role-ids",method = RequestMethod.DELETE)
     @ApiOperation("删除多个角色")
     @ApiImplicitParams(value={
             @ApiImplicitParam(dataTypeClass=DeleteRoleDto.class)
@@ -308,41 +329,18 @@ public class RoleController {
      */
     @ApiOperation("校验角色编码唯一")
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "id" ,value = "角色主键信息"),
             @ApiImplicitParam(name = "roleCode" ,value = "角色编码")
     })
     @RequestMapping(value = "/check-role-code", method = RequestMethod.GET)
-    public Result<Boolean> checkRoleCode(String id,String roleCode) {
-        Result<Boolean> result = new Result<>();
-        result.setResult(true);//如果此参数为false则程序发生异常
-        log.info("--验证角色编码是否唯一---id:"+id+"--roleCode:"+roleCode);
-        try {
-            SysRole role = null;
-            if(ConvertUtils.isNotEmpty(id)) {
-                role = sysRoleService.getById(id);
-            }
-            SysRole newRole = sysRoleService.getOne(new QueryWrapper<SysRole>().eq(ConvertUtils.camelToUnderline("roleCode"), roleCode));
-            if(newRole!=null) {
-                //如果根据传入的roleCode查询到信息了，那么就需要做校验了。
-                if(role==null) {
-                    //role为空=>新增模式=>只要roleCode存在则返回false
-                    result.setSuccess(false);
-                    result.setMessage("角色编码已存在");
-                    return result;
-                }else if(!id.equals(newRole.getId())) {
-                    //否则=>编辑模式=>判断两者ID是否一致-
-                    result.setSuccess(false);
-                    result.setMessage("角色编码已存在");
-                    return result;
-                }
-            }
-        } catch (Exception e) {
-            result.setSuccess(false);
+    public Result<Boolean> checkRoleCode(@RequestParam(value="roleCode",required=true)String roleCode) {
+        Result<Boolean> result = new Result<Boolean>();
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
+        if(existsCount > 0 ) {//存在此记录
+            result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
             result.setResult(false);
-            result.setMessage(e.getMessage());
             return result;
         }
-        result.setSuccess(true);
         return result;
     }
 

@@ -1,14 +1,19 @@
 package org.forbes.biz.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import java.util.List;
+
 import org.forbes.biz.SysRoleService;
+import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.AddPermissionToRoleDto;
 import org.forbes.comm.model.UpdateRoleAuthorizationDto;
-import org.forbes.comm.model.UserRoleDto;
 import org.forbes.comm.utils.ConvertUtils;
-import org.forbes.comm.vo.*;
+import org.forbes.comm.vo.RoleListVo;
+import org.forbes.comm.vo.RoleVo;
+import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysRolePermission;
+import org.forbes.dal.mapper.SysPermissionMapper;
 import org.forbes.dal.mapper.SysRoleMapper;
 import org.forbes.dal.mapper.SysRolePermissionMapper;
 import org.forbes.dal.mapper.ext.SysRoleExtMapper;
@@ -17,16 +22,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements  SysRoleService{
     
     @Autowired
     SysRoleExtMapper sysRoleExtMapper;
-
     @Autowired
     SysRolePermissionExtMapper sysRolePermissionExtMapper;
+    @Autowired
+    SysPermissionMapper  sysPermissionMapper;
 
     @Autowired
     SysRolePermissionMapper sysRolePermissionMapper;
@@ -117,6 +123,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             addPermissionToRoleDtos.stream().forEach(addPermissionToRoleDto -> {
                 Long roleId=sysRole.getId();
                 SysRolePermission sysRolePermission=new SysRolePermission();
+                Long permissionId = addPermissionToRoleDto.getPermissionId();
+                /*****判断上级****/
+                SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
+                Long parentId = sysPermission.getParentId();
+                if(-1 != parentId.longValue()){
+                	long notParentCount = addPermissionToRoleDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
+                	if(0 == notParentCount){
+                		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
+                	}
+                }
                 sysRolePermission.setPermissionId(addPermissionToRoleDto.getPermissionId());
                 sysRolePermission.setRoleId(roleId);
                 sysRolePermissionMapper.insert(sysRolePermission);

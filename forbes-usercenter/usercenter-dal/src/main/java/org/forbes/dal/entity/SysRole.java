@@ -1,6 +1,8 @@
 package org.forbes.dal.entity;
 
 
+import javax.validation.constraints.NotEmpty;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -20,21 +22,13 @@ public class SysRole extends BaseEntity {
 	private static final long serialVersionUID = -1667826254533837671L;
 
     /**
-     * id
-     */
-    @TableId(type = IdType.AUTO)
-    @JSONField(format="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("角色id")
-    private Long id;
-
-    /**
      * 角色名称
      * Table:     f_sys_role
      * Column:    role_name
      * Nullable:  true
      */
     @ApiModelProperty(value = "角色名称")
+    @NotEmpty(message="角色名称为空")
     private String roleName;
 
     /**
@@ -44,6 +38,7 @@ public class SysRole extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "角色编码")
+    @NotEmpty(message="角色编码为空")
     private String roleCode;
 
     /**
