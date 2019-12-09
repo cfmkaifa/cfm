@@ -29,7 +29,7 @@ public class PermissionVo implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("权限id")
+    @ApiModelProperty(value = "权限id",example="0")
     private Long id;
 
     /**
@@ -38,8 +38,8 @@ public class PermissionVo implements Serializable{
      * Column:    parent_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "父级id")
-    private Integer parentId;
+    @ApiModelProperty(value = "父级id",example="0")
+    private Long parentId;
 
     /**
      * 资源名称
@@ -112,12 +112,12 @@ public class PermissionVo implements Serializable{
     @ApiModelProperty(value = "是否隐藏")
     private String isHidden;
 
-    /**
+    /**排序号
      * Table:     f_sys_permission
      * Column:    sort_no
      * Nullable:  true
      */
-    @ApiModelProperty()
+    @ApiModelProperty(example="0")
     private Integer sortNo;
 
     /**
@@ -162,6 +162,16 @@ public class PermissionVo implements Serializable{
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "类型")
+    @ApiModelProperty(value = "类型",example="0")
     private Long type;
+
+
+    /**
+     * 等级
+     * Table:     f_sys_permission
+     * Column:    type
+     * Nullable:  true
+     */
+    @ApiModelProperty(value = "等级",example="-1")
+    private Long grade;
 }
