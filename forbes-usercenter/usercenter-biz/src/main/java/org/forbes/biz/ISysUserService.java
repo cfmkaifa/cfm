@@ -39,50 +39,13 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	IPage<UserVo> pageUsers(IPage<UserVo> page, SysUserDto sysUserDto);
-
-
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：username,status
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  */
-	Integer updateUserStatus(String username,String status);
-	
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：sysUser
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  */
-	Integer addUser(SysUser sysUser);
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  *@ Description：修改用户
-	  */
-	Integer updateUserByUsername(SysUser sysUser);
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：username
-	  *@ 返回值：
-	  *@ 时间：2019/11/20
-	  *@ Description：查询用户详情
-	  */
-	UserDeatailVo selectUserDetailByUsername(String username);
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/12/2
-	  *@ Description：
-	  */
+    /** 
+    * @Description:  通过用户名查询角色
+    * @Param:  
+    * @return:  
+    * @Author: xfx 
+    * @Date: 2019/12/9 
+    */ 
 	List<RoleVo>  getRoleListByName(String username);
 
 	/**

@@ -1,24 +1,17 @@
 package org.forbes.provider;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.apache.ibatis.annotations.Param;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
-import org.forbes.biz.SysUserRoleService;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.BizResultEnum;
-import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UpdateStatusDto;
-import org.forbes.comm.model.UpdateUserDto;
 import org.forbes.comm.vo.CommVo;
 import org.forbes.comm.vo.EditorUserVo;
 import org.forbes.comm.vo.Result;
@@ -27,6 +20,7 @@ import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserDeatailVo;
 import org.forbes.comm.vo.UserPermissonVo;
 import org.forbes.comm.vo.UserVo;
+import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -57,9 +50,6 @@ public class SysUserController {
 
     @Autowired
     private ISysUserService sysUserService;
-
-    @Autowired
-    private SysUserRoleService sysUserRoleService;
 
     @Autowired
     private SysRoleService sysRoleService;
@@ -104,6 +94,7 @@ public class SysUserController {
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
     public Result<UserDeatailVo> updateStausById(@PathVariable Long id,@RequestParam(value="status",required=true)String status){
+        log.info("===========id:"+JSON.toJSONString(id)+"=========status:"+JSON.toJSONString(status));
     	Result<UserDeatailVo> result=new Result<UserDeatailVo>();
         SysUser sysUser=sysUserService.getById(id);
         sysUser.setStatus(status);
@@ -120,19 +111,20 @@ public class SysUserController {
     }
 
     /**
-      *@ 作者：xfx
-      *@ 参数：addUserDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/11/19
-      * 参数不完整，需要简称，创建人，加密盐值等
-      */
+    * @Description:  添加用户
+    * @Param: [userDto]
+    * @return: org.forbes.comm.vo.Result<org.forbes.comm.model.SysUserDto>
+    * @Author: xfx
+    * @Date: 2019/12/9
+    */
     @RequestMapping(value = "/add-users",method = RequestMethod.POST)
     @ApiOperation("添加用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
-            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG)
     })
     public Result<SysUserDto> addUser(@RequestBody @Valid SysUserDto userDto){
+        log.info("===========SysUserDto:"+JSON.toJSONString(userDto));
     	Result<SysUserDto> result = new Result<SysUserDto>();
     	String username = userDto.getUsername();
     	int usernameCount = sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.USERNAME, username));
@@ -146,40 +138,38 @@ public class SysUserController {
         return result;
     }
 
+
     /**
-      *@ 作者：xfx
-      *@ 参数：updateUserDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/11/19
-      *@ Description：修改用户
-      */
-    @RequestMapping(value = "/update_users",method = RequestMethod.POST)
-    @ApiOperation("修改用户")
+     * @Description:根据用户id修改用户
+     * @Param: [userDto]
+     * @return: org.forbes.comm.vo.Result<org.forbes.comm.model.SysUserDto>
+     * @Author: xfx
+     * @Date: 2019/12/7
+     */
+    @RequestMapping(value = "/update-users",method = RequestMethod.PUT)
+    @ApiOperation("根据用户id修改用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public  Result<CommVo> updateUser(@RequestBody @Valid UpdateUserDto updateUserDto){
-        Map<String,Boolean> map=new HashMap<>();
-        Result<CommVo> result=new Result<CommVo>();
-        CommVo comm=new CommVo();
-        SysUser sysUser=new SysUser();
-        BeanUtils.copyProperties(updateUserDto,sysUser);
-        //Integer res=sysUserService.updateById(entity).updateUserByUsername(sysUser);
-        Integer res=sysUserService.updateUserByUsername(sysUser);
-        if(res==1){
-            map.put("result",true);
-            comm.setMapInfo(map);
-            result.setResult(comm);
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            map.put("result",false);
+    public  Result<SysUserDto> updateUser(@RequestBody @Valid SysUserDto userDto){
+        log.info("==================用户请求参数："+JSON.toJSONString(userDto));
+        Result<SysUserDto> result = new Result<SysUserDto>();
+        String username=userDto.getUsername();
+        int usernameCount = sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.USERNAME, username));
+        if(usernameCount==1){
+            SysUser sysUser=new SysUser();
+            BeanUtils.copyProperties(userDto,sysUser);
+            sysUserService.updateById(sysUser);
+            result.setResult(userDto);
+        }else {
+            result.setBizCode(BizResultEnum.USER_NAME_NOT_EXISTS.getBizCode());
+            result.setMessage(String.format(BizResultEnum.USER_NAME_NOT_EXISTS.getBizFormateMessage(), username));
+            return result;
         }
         return result;
     }
-    
-    
+
 
     /**
       *@ 作者：xfx
@@ -188,65 +178,62 @@ public class SysUserController {
       *@ 时间：2019/11/20
       *@ Description：
       */
-    @RequestMapping(value = "/user-by-name",method = RequestMethod.GET)
-    @ApiOperation("查询用户详情")
+    @RequestMapping(value = "/user-by-id/{id}",method = RequestMethod.GET)
+    @ApiOperation("根据用户id查询用户详情")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.DETAIL_USER_ERROR_MSG),
             @ApiResponse(code=200,message = Result.DETAIL_USER_MSG)
     })
-    public Result<UserDeatailVo> selectUserByUsername(@RequestParam(name="username",required=true)String username){
-        Result<UserDeatailVo> result = new Result<UserDeatailVo>();
-        UserDeatailVo sysUser = sysUserService.selectUserDetailByUsername(username);
+    public Result<UserVo> selectUserByUsername(@PathVariable Long id){
+        log.info("===========id:"+JSON.toJSONString(id));
+        Result<UserVo> result = new Result<UserVo>();
+        UserVo userVo=new UserVo();
+        SysUser sysUser = sysUserService.getById(id);
         if(sysUser==null) {
-            result.error500(Result.DETAIL_USER_EMPTY_MSG);
+            result.setBizCode(BizResultEnum.USER_NAME_NOT_EXISTS.getBizCode());
+            result.setMessage(String.format(BizResultEnum.USER_NAME_NOT_EXISTS.getBizFormateMessage(), id));
             return result;
         }else {
-            result.setResult(sysUser);
-            result.success(Result.DETAIL_USER_MSG);
+            BeanUtils.copyProperties(sysUser,userVo);
+            result.setResult(userVo);
         }
         return  result;
     }
 
     /**
-      *@ 作者：xfx
-      *@ 参数：username
-      *@ 返回值：RoleVo
-      *@ 时间：2019/12/2
-      *@ Description：根据用户名查询角色
-      */
+    * @Description:查询用户所对应的角色
+    * @Param: [username]
+    * @return: org.forbes.comm.vo.Result<java.util.List<org.forbes.comm.vo.RoleVo>>
+    * @Author: xfx
+    * @Date: 2019/12/7
+    */
     @RequestMapping(value = "/role-by-name",method = RequestMethod.GET)
     @ApiOperation("查询用户角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.ROLE_ERROR_MSG),
             @ApiResponse(code=200,message = Result.ROLE_MSG)
-    }
-    )
-    public Result<List<RoleVo>>  getRoleListByUsername(@RequestParam(name="username",required=true)String username){
+    })
+    public Result<List<RoleVo>>  getRoleListByUsername(@RequestParam(value ="username",required=false)String username){
+        log.info("===========username:"+JSON.toJSONString(username));
         Result<List<RoleVo>> result=new Result<>();
-        /*int existsCount = sysUserService.count(new QueryWrapper<SysUser>().eq("user_name", username));
-       if(existsCount > 0 ){
-    	   result.setCode(code);
-    	   result.setMessage(message);
-    	   return result;
-       }*/
         List<RoleVo> sysRoleList=sysUserService.getRoleListByName(username);
         if(sysRoleList==null){
-            result.error500(Result.ROLE_ERROR_MSG);
-            return  result;
-        }else{
-            result.success(Result.ROLE_MSG);
+            result.setBizCode(BizResultEnum.ROLE_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_EXIST.getBizFormateMessage(), username));
+            return result;
+        }else {
             result.setResult(sysRoleList);
         }
         return result;
     }
 
     /**
-      *@ 作者：xfx
-      *@ 参数：username
-      *@ 返回值：UserPermissonVo
-      *@ 时间：2019/12/2
-      *@ Description：根据用户名查询权限
-      */
+    * @Description:  查询用户对应的权限
+    * @Param: [username]
+    * @return: org.forbes.comm.vo.Result<java.util.List<org.forbes.comm.vo.UserPermissonVo>>
+    * @Author: xfx
+    * @Date: 2019/12/7
+    */
     @RequestMapping(value = "/permission-by-name",method = RequestMethod.GET)
     @ApiOperation("查询用户权限")
     @ApiResponses(value = {
@@ -255,11 +242,13 @@ public class SysUserController {
     }
     )
     public Result<List<UserPermissonVo>>  getPermissionByUsername(@RequestParam(name="username",required=true)String username){
+        log.info("===========username:"+JSON.toJSONString(username));
         Result<List<UserPermissonVo>> result=new Result<>();
         List<UserPermissonVo> sysPerList=sysUserService.getPermissonListByUsername(username);
         if(sysPerList==null){
-            result.error500(Result.PERMISSIONS_NOT_ERROR_MSG);
-            return  result;
+            result.setBizCode(BizResultEnum.PERMISSION_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.PERMISSION_EXIST.getBizFormateMessage(), username));
+            return result;
         }else{
             result.success(Result.PERMISSIONS_MSG);
             result.setResult(sysPerList);
@@ -267,36 +256,41 @@ public class SysUserController {
         return result;
     }
 
-    /**
-      *@ 作者：xfx
-      *@ 参数：
-      *@ 返回值：
-      *@ 时间：2019/12/5
-      *@ Description：用户分配角色
-      */
-    @RequestMapping(value = "/editor_user",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/editor-user/{id}",method = RequestMethod.GET)
     @ApiOperation("编辑用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
             @ApiResponse(code=200,message = Result.EDITOR_USER)
     })
-    public Result<EditorUserVo> EditorUser(@Param("username")String username){
+    /** 
+    * @Description: 编辑用户查询用户详情，用户对应角色，所有角色
+    * @Param: [id] 
+    * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.EditorUserVo> 
+    * @Author: xfx 
+    * @Date: 2019/12/7 
+    */ 
+    public Result<EditorUserVo> EditorUser(@PathVariable Long id){
+        log.info("===========ID:"+JSON.toJSONString(id));
         Result<EditorUserVo> result=new Result<EditorUserVo>();
         EditorUserVo editorUserVo=new EditorUserVo();
-        //查询用户详情
-        UserDeatailVo userDeatailVo=sysUserService.selectUserDetailByUsername(username);
+        //查询用户
+        SysUser sysUser=sysUserService.getById(id);
+        UserDeatailVo userDeatailVo=new UserDeatailVo();
+        BeanUtils.copyProperties(sysUser,userDeatailVo);
+        editorUserVo.setUserDeatailVo(userDeatailVo);
         //查询所有角色
-        List<RoleListVo> allRoles=sysRoleService.selectRoleList();
+        List<RoleListVo> allRoleList=sysRoleService.selectRoleList();
         //查询用户对应角色
         List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userDeatailVo.getId());
         if(userDeatailVo!=null&&sysRoleList!=null){
-            editorUserVo.setAllRoleList(allRoles);
+            editorUserVo.setAllRoleList(allRoleList);
             editorUserVo.setRoleList(sysRoleList);
             editorUserVo.setUserDeatailVo(userDeatailVo);
             result.setResult(editorUserVo);
             result.success(Result.EDITOR_USER);
         }else {
-            result.error500(Result.EDITOR_USER_ERROR);
+            result.setBizCode(BizResultEnum.ROLE_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_EXIST.getBizFormateMessage(), id));
             return result;
         }
         return result;
