@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ import java.util.Date;
  */
 @ApiModel("修改角色的一个权限传入参数")
 @Data
-public class UpdatePermissionToRoleDto  implements Serializable {
+public class PermissionRoleDto implements Serializable {
 
     private static final long serialVersionUID = -1361652913559943696L;
     /**
@@ -32,24 +33,13 @@ public class UpdatePermissionToRoleDto  implements Serializable {
     private Long id;
 
     /**
-     * 更新人
-     */
-    @ApiModelProperty("更新人，不需要传值")
-    private String updateBy;
-
-    /**
-     * 更新时间
-     */
-    @ApiModelProperty("更新时间，不需要传值")
-    private Date updateTime;
-
-    /**
      * 角色ID
      * Table:     f_sys_role_permission
      * Column:    role_id
      * Nullable:  true
      */
     @ApiModelProperty(value = "角色ID")
+    @NotEmpty(message = "角色id为空")
     private Long roleId;
 
     /**
@@ -59,6 +49,7 @@ public class UpdatePermissionToRoleDto  implements Serializable {
      * Nullable:  true
      */
     @ApiModelProperty(value = "权限ID")
+    @NotEmpty(message = "权限id为空")
     private Long permissionId;
 
 }

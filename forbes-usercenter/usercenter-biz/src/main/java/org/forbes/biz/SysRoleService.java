@@ -1,7 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
+import org.forbes.comm.model.RoleAuthorizationDto;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
@@ -73,6 +73,6 @@ public interface SysRoleService  extends IService<SysRole> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    void updateRoleAuthorization(UpdateRoleAuthorizationDto updateRoleAuthorizationDto);
+    void updateRoleAuthorization(RoleAuthorizationDto roleAuthorizationDto);
 
 }
