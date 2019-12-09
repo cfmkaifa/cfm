@@ -2,10 +2,7 @@ package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.forbes.biz.SysRolePermissionService;
-import org.forbes.comm.model.AddPermissionToRoleDto;
-import org.forbes.comm.model.DeletePermissionToRoleDto;
 import org.forbes.comm.model.UpdatePermissionToRoleDto;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysRolePermission;
@@ -93,8 +90,8 @@ public class SysRolePermissionServiceImpl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer addPermissionToRole(Long roleId,Long permissionId) {
-        return sysRolePermissionExtMapper.addPermissionToRole(roleId,permissionId);
+    public Integer addPermissionToRole(SysRolePermission sysRolePermission) {
+        return sysRolePermissionExtMapper.addPermissionToRole(sysRolePermission);
     }
 
     /***
@@ -119,8 +116,8 @@ public class SysRolePermissionServiceImpl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Integer deletePermissionToRole(Long roleId,Long permissionId) {
-        return sysRolePermissionExtMapper.deletePermissionToRole(roleId,permissionId);
+    public Integer deletePermissionToRole(SysRolePermission sysRolePermission) {
+        return sysRolePermissionExtMapper.deletePermissionToRole(sysRolePermission);
     }
 
     /***

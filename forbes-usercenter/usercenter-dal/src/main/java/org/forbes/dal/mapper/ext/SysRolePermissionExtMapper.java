@@ -1,12 +1,10 @@
 package org.forbes.dal.mapper.ext;
 
 import org.apache.ibatis.annotations.Param;
-import org.forbes.comm.model.AddPermissionToRoleDto;
-import org.forbes.comm.model.DeletePermissionToRoleDto;
 import org.forbes.comm.model.UpdatePermissionToRoleDto;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
+import org.forbes.dal.entity.SysRolePermission;
 
 import java.util.List;
 
@@ -76,7 +74,7 @@ public interface SysRolePermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer addPermissionToRole(@Param("roleId") Long roleId,@Param("permissionId")Long permissionId);
+    Integer addPermissionToRole(SysRolePermission sysRolePermission);
 
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限
@@ -96,7 +94,7 @@ public interface SysRolePermissionExtMapper {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer deletePermissionToRole(@Param("roleId") Long roleId,@Param("permissionId")Long permissionId);
+    Integer deletePermissionToRole(SysRolePermission sysRolePermission);
 
     /***
      * updateRolePermissionById方法概述:根据id修改角色权限

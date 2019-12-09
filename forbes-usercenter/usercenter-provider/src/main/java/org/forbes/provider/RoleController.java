@@ -1,19 +1,19 @@
 package org.forbes.provider;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
-import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
-import org.forbes.comm.model.DeleteRoleDto;
-import org.forbes.comm.model.RolePageDto;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
+import org.forbes.comm.model.*;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
@@ -22,11 +22,7 @@ import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -71,20 +67,21 @@ public class RoleController {
       *@ 时间：2019/11/20
       *@ Description：根据用户id查询对应的角色
       */
-    @RequestMapping(value = "/get-role-list",method = RequestMethod.GET)
+    @RequestMapping(value = "/get-role-list/{userId}",method = RequestMethod.GET)
     @ApiOperation("查询用户对应角色")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "userId",value = "用户id")
+    )
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.ROLE_EMPTY_MSG),
             @ApiResponse(code=200, message = Result.ROLE_MSG)
     })
-    public Result<List<RoleVo>> selectRoleByUserId(@RequestParam(name="roleId",required=true)Long userId){
-        log.info("传入的参数为"+userId);
+    public Result<List<RoleVo>> selectRoleByUserId(@PathVariable Long userId){
+        log.debug("传入的参数为"+userId);
         Result<List<RoleVo>> result=new Result<>();
         List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
-        result.setCode(CommonConstant.SC_OK_200);
         result.success(Result.ROLE_MSG);
         result.setResult(sysRoleList);
-        log.info("返回的参数为"+RoleVo.class);
         return result;
     }
 
@@ -104,7 +101,6 @@ public class RoleController {
     public Result<List<RoleListVo>> selectAllRole(){
         Result<List<RoleListVo>> result=new Result<>();
         List<RoleListVo> sysRoles=sysRoleService.selectRoleList();
-        result.setCode(CommonConstant.SC_OK_200);
         result.success(Result.ROLE_LIST_MSG);
         result.setResult(sysRoles);
         return result;
@@ -119,6 +115,9 @@ public class RoleController {
       */
     @RequestMapping(value = "/add-role",method = RequestMethod.PUT)
     @ApiOperation("添加角色")
+    @ApiImplicitParams(
+            @ApiImplicitParam(dataTypeClass=SysRole.class)
+    )
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
@@ -147,20 +146,25 @@ public class RoleController {
       */
     @RequestMapping(value = "/update-role",method = RequestMethod.PUT)
     @ApiOperation("修改角色")
+    @ApiImplicitParams(
+            @ApiImplicitParam(dataTypeClass=SysRole.class)
+    )
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<Integer> updateRole(@RequestBody @Valid SysRole sysRole){
-        log.info("传入的参数为"+JSON.toJSONString(sysRole));
-        Result<Integer> result=new Result<>();
-        Integer res=sysRoleService.updateRoleByRoleId(sysRole);
-        if(res==1){
-            result.success(Result.COMM_ACTION_MSG);
-        }else{
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
+    public  Result<SysRole> updateRole(@RequestBody @Valid SysRole sysRole){
+        log.debug("传入的参数为"+JSON.toJSONString(sysRole));
+        Result<SysRole> result=new Result<SysRole>();
+        String roleCode = sysRole.getRoleCode();
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
+        if(existsCount > 0 ) {//存在此记录
+            result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
+            return result;
         }
-        log.info("返回的参数为"+SysRole.class);
+        sysRoleService.updateRoleByRoleId(sysRole);
+        result.setResult(sysRole);
         return result;
     }
 
@@ -171,25 +175,27 @@ public class RoleController {
       *@ 时间：2019/11/21
       *@ Description：删除角色
       */
-    @RequestMapping(value = "/delete-role",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete-role/{id}",method = RequestMethod.DELETE)
     @ApiOperation("删除角色")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "id",value = "角色id")
+    )
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<Integer> deleteRoleByRoleId(@RequestParam(name="id",required=true)Long id ){
-        log.info("传入的参数为"+id);
-        Result<Integer> result=new Result<>();
-        sysRoleService.removeById(id);
-        //判断数据库是否有需要删除的id记录
-            Integer res= sysRoleService.deleteRoleByRoleId(id);
-            if(res==1){
-                result.success(Result.COMM_ACTION_MSG);
-            }else{
-                result.error500(Result.COMM_ACTION_ERROR_MSG);
-            }
-            log.info("返回的参数为"+SysRole.class);
+    public  Result<SysRole> deleteRoleByRoleId(@PathVariable Long id){
+        log.debug("传入的参数为"+id);
+        Result<SysRole> result=new Result<SysRole>();
+        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ID, id));
+        if(existsCount != 1 ) {//不存在此记录
+            result.setBizCode(BizResultEnum.ROLE_ID_NOT_EXIST.getBizCode());
+            result.setMessage(String.format(BizResultEnum.ROLE_ID_NOT_EXIST.getBizFormateMessage(), id));
             return result;
+        }
+        sysRoleService.deleteRoleByRoleId(id);
+        result.success("删除角色成功！");
+        return result;
     }
 
     /***
@@ -203,12 +209,15 @@ public class RoleController {
      */
     @RequestMapping(value = "/select-role-authorization",method = RequestMethod.GET)
     @ApiOperation("查询角色授权")
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "roleId",value = "角色id")
+    )
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
     })
-    public Result<RoleAuthorizationVo> selectRoleAuthorization(@RequestParam(name="roleId",required=true)Long roleId){
-        log.info("传入的参数为"+roleId);
+    public Result<RoleAuthorizationVo> selectRoleAuthorization(@PathVariable Long roleId){
+        log.debug("传入的参数为"+roleId);
         Result<RoleAuthorizationVo> result=new Result<>();
         RoleAuthorizationVo roleAuthorizationVo=new RoleAuthorizationVo();
         //查询角色所有权限
@@ -236,18 +245,18 @@ public class RoleController {
     @RequestMapping(value = "/update-role-authorization",method = RequestMethod.PUT)
     @ApiOperation("角色授权(多个)")
     @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=UpdateRoleAuthorizationDto.class)
+            @ApiImplicitParam(dataTypeClass=RoleAuthorizationDto.class)
     })
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<UpdateRoleAuthorizationDto> updateRoleAuthorization(@RequestBody @Valid UpdateRoleAuthorizationDto updateRoleAuthorizationDto){
-        log.info("传入的参数为"+JSON.toJSONString(updateRoleAuthorizationDto));
-        Result<UpdateRoleAuthorizationDto> result=new Result<>();
+    public Result<RoleAuthorizationDto> updateRoleAuthorization(@RequestBody @Valid RoleAuthorizationDto roleAuthorizationDto){
+        log.debug("传入的参数为"+JSON.toJSONString(roleAuthorizationDto));
+        Result<RoleAuthorizationDto> result=new Result<>();
         try{
-        	sysRoleService.updateRoleAuthorization(updateRoleAuthorizationDto);
-            result.setResult(updateRoleAuthorizationDto);
+        	sysRoleService.updateRoleAuthorization(roleAuthorizationDto);
+            result.setResult(roleAuthorizationDto);
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
         	result.setMessage(e.getErrorMsg());
@@ -273,23 +282,24 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
-    public Result<IPage<SysRole>> selectRolePage(@RequestBody @Valid RolePageDto rolePageDto){
-        log.info("传入的参数为"+JSON.toJSONString(rolePageDto));
+    public Result<IPage<SysRole>> selectRolePage(BasePageDto<RolePageDto> pageDto){
+        log.debug("传入的参数为"+JSON.toJSONString(pageDto));
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
-        if(rolePageDto.getRoleName()!=null){
-            qw.like("roleName",rolePageDto.getRoleName());
+        if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleName())){
+            qw.like("roleName",pageDto.getData().getRoleName());
         }
-        if(rolePageDto.getRoleCode()!=null && rolePageDto.getRoleCode()!=""){
-            qw.like("roleCode",rolePageDto.getRoleCode());
+        if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleCode())){
+            qw.like("roleCode",pageDto.getData().getRoleCode());
         }
-        if(rolePageDto.getDescription()!=null && rolePageDto.getDescription()!=""){
-            qw.like("description",rolePageDto.getDescription());
+        if(ConvertUtils.isNotEmpty(pageDto.getData().getDescription())){
+            qw.like("description",pageDto.getData().getDescription());
         }
-        IPage page = new Page(rolePageDto.getCurrent(),rolePageDto.getSize());
+        IPage page = new Page(pageDto.getPageNo(),pageDto.getPageSize());
         IPage<SysRole> s = sysRoleService.page(page,qw);
         result.setResult(s);
-        log.info("返回的参数为"+SysRole.class);
+        result.success(Result.ROLE_LIST_MSG);
+        log.info("返回值为:"+JSON.toJSONString(result.getResult()));
         return result;
     }
 
@@ -303,22 +313,28 @@ public class RoleController {
     @RequestMapping(value = "/delete-role-ids",method = RequestMethod.DELETE)
     @ApiOperation("删除多个角色")
     @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=DeleteRoleDto.class)
+            @ApiImplicitParam(dataTypeClass=RoleDtos.class)
     })
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<Integer> deleteRoleByRoleIds(@RequestBody @Valid List<DeleteRoleDto> deleteRoleDto) {
-        log.info("传入的参数为"+JSON.toJSONString(deleteRoleDto));
-        Result<Integer> result=new Result<>();
-        for (DeleteRoleDto d:deleteRoleDto){
-                Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
-                if (i!=0){
-                    result.success("删除角色成功！");
-                }else {
-                    result.error500("删除角色失败！");
-                }
+    public  Result<SysRole> deleteRoleByRoleIds(@RequestParam(value = "ids",required = false) String ids) {
+        log.debug("传入dis为:"+ids);
+        Result<SysRole> result=new Result<SysRole>();
+        //拿到字符串分割
+        List<String> idts = Arrays.asList(ids.split(","));
+        //转换类型为Long
+        List<Long> idsList = idts.stream().map(id -> Long.valueOf(id)).collect(Collectors.toList());
+        for (Long d:idsList){
+            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ID, d));
+            if(existsCount != 1 ) {//不存在此记录
+                result.setBizCode(BizResultEnum.ROLE_ID_NOT_EXIST.getBizCode());
+                result.setMessage(String.format(BizResultEnum.ROLE_ID_NOT_EXIST.getBizFormateMessage(), d));
+                return result;
+            }
+            sysRoleService.deleteRoleByRoleIds(d);
+            result.success("删除角色成功！");
         }
         log.info("返回的参数为"+SysRole.class);
         return result;
