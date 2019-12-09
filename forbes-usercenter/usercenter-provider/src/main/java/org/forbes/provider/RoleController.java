@@ -166,11 +166,6 @@ public class RoleController {
         log.info("传入的参数为"+id);
         Result<Integer> result=new Result<>();
         //判断数据库是否有需要删除的id记录
-        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", id));
-        if(existsCount > 0 ){//存在此记录id
-            result.error500(Result.COMM_ACTION_ERROR_MSG);
-            return result;
-        }else {
             Integer res= sysRoleService.deleteRoleByRoleId(id);
             if(res==1){
                 result.success(Result.COMM_ACTION_MSG);
@@ -179,7 +174,6 @@ public class RoleController {
             }
             log.info("返回的参数为"+SysRole.class);
             return result;
-        }
     }
 
     /***
@@ -298,18 +292,12 @@ public class RoleController {
         log.info("传入的参数为"+JSON.toJSONString(deleteRoleDto));
         Result<Integer> result=new Result<>();
         for (DeleteRoleDto d:deleteRoleDto){
-            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq("id", d.getId()));
-            if(existsCount > 0 ){//存在此记录id
-                result.error500(Result.COMM_ACTION_ERROR_MSG);
-                return result;
-            }else {
                 Integer i = sysRoleService.deleteRoleByRoleIds(d.getId());
                 if (i!=0){
                     result.success("删除角色成功！");
                 }else {
                     result.error500("删除角色失败！");
                 }
-            }
         }
         log.info("返回的参数为"+SysRole.class);
         return result;
