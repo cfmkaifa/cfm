@@ -47,40 +47,7 @@ public interface SysUserExtMapper extends BaseMapper<SysUser>{
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	IPage<UserVo> pageUsers(IPage<UserVo> page, @Param("sysUser")SysUserDto sysUser);
-	
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  */
-	Integer updateUserStatus(@Param("username") String username,@Param("status") String status);
 
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：sysUsers
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  */
-	Integer addUser(SysUser sysUser);
-
-	/**
-	 *@ 作者：xfx
-	 *@ 参数：
-	 *@ 返回值：
-	 *@ 时间：2019/11/19
-	 *@ Description：修改用户
-	 */
-	Integer updateUserByUsername(SysUser sysUser);
-
-	/**
-	 *@ 作者：xfx
-	 *@ 参数：username
-	 *@ 返回值：
-	 *@ 时间：2019/11/20
-	 *@ Description：
-	 */
-	UserDeatailVo selectUserDetailByUsername(@Param("username")String username);
 
 	/**
 	 *@ 作者：xfx
@@ -99,5 +66,14 @@ public interface SysUserExtMapper extends BaseMapper<SysUser>{
 	 *@ Description：根据用户名查询权限
 	 */
 	List<UserPermissonVo> getPermissonListByUsername(@Param("username")String username);
+
+	/**
+	 * @Author xfx
+	 * @Date 11:55 2019/12/9
+	 * @Param [user, roles]
+	 * @return void
+	 * 编辑用户和角色
+	 **/
+	public void editUserWithRole(SysUser user,String roles);
 
 }

@@ -1,6 +1,7 @@
 package org.forbes.biz.impl;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.enums.UserStausEnum;
 import org.forbes.comm.model.SysUserDto;
@@ -8,7 +9,6 @@ import org.forbes.comm.model.UserRoleDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.vo.RoleVo;
-import org.forbes.comm.vo.UserDeatailVo;
 import org.forbes.comm.vo.UserPermissonVo;
 import org.forbes.comm.vo.UserVo;
 import org.forbes.dal.entity.SysUser;
@@ -16,6 +16,7 @@ import org.forbes.dal.entity.SysUserRole;
 import org.forbes.dal.mapper.SysUserMapper;
 import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserExtMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
@@ -99,6 +100,34 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		sysUser.setPassword(passwordEncode);
 		sysUser.setStatus(UserStausEnum.NORMAL.getCode());
 		baseMapper.insert(sysUser);
+		/**角色关联**/
+		List<UserRoleDto>  userRoleDtos = sysUserDto.getUserRoleDtos();
+		if(ConvertUtils.isNotEmpty(userRoleDtos)){
+			Long userId = sysUser.getId();
+			userRoleDtos.stream().forEach(userRoleDto -> {
+				SysUserRole  sysUserRole = new SysUserRole();
+				sysUserRole.setRoleId(userRoleDto.getRoleId());
+				sysUserRole.setUserId(userId);
+				sysUserRoleMapper.insert(sysUserRole);
+			});
+		}
+	}
+
+	/**
+	 * @Author xfx
+	 * @Date 11:55 2019/12/9
+	 * @Param [user, roles]
+	 * @return void
+	 * 编辑用户和角色
+	 **/
+	@Override
+	@Transactional(rollbackFor=Exception.class)
+	public void editUserWithRole(SysUserDto sysUserDto) {
+		SysUser sysUser = new SysUser();
+		BeanUtils.copyProperties(sysUserDto,sysUser);
+		this.updateById(sysUser);
+		//先删后加
+		sysUserRoleMapper.delete(new QueryWrapper<SysUserRole>().eq(ConvertUtils.camelToUnderline("userId"), sysUserDto.getId()));
 		/**角色关联**/
 		List<UserRoleDto>  userRoleDtos = sysUserDto.getUserRoleDtos();
 		if(ConvertUtils.isNotEmpty(userRoleDtos)){

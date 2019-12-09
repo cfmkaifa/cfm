@@ -12,6 +12,7 @@ public enum BizResultEnum {
 	EMPTY("001001","参数为空","%s为空"),
 	USER_NAME_EXISTS("001001002","用户名已经存在","%s对应用户已经存在"),
 	USER_NAME_NOT_EXISTS("001001003","用户不存在","%s对应用户不存在"),
+	USER_EXIST("001001004","用户已存在","%s用户已存在"),
 	ROLE_EXIST("001002001","用户角色不存在","%s对应用户角色不存在"),
 	PERMISSION_EXIST("001003004","权限不存在","%s查询权限不存在");
 

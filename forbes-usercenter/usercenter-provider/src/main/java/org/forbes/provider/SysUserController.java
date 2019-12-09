@@ -1,12 +1,11 @@
 package org.forbes.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.annotations.*;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
@@ -16,14 +15,7 @@ import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UpdateStatusDto;
 import org.forbes.comm.utils.ConvertUtils;
-import org.forbes.comm.vo.CommVo;
-import org.forbes.comm.vo.EditorUserVo;
-import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.RoleListVo;
-import org.forbes.comm.vo.RoleVo;
-import org.forbes.comm.vo.UserDeatailVo;
-import org.forbes.comm.vo.UserPermissonVo;
-import org.forbes.comm.vo.UserVo;
+import org.forbes.comm.vo.*;
 import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.BeanUtils;
@@ -148,7 +140,7 @@ public class SysUserController {
     @ApiOperation("根据用户id修改用户")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
-            @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
+            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG)
     })
     public  Result<SysUserDto> updateUser(@RequestBody @Valid SysUserDto userDto){
         log.info("==================用户请求参数："+JSON.toJSONString(userDto));
@@ -255,14 +247,14 @@ public class SysUserController {
     }
 
     /** 
-    * @Description: 编辑用户查询用户详情，用户对应角色，所有角色
+    * @Description: 编辑用户下查询用户详情，用户对应角色，所有角色
     * @Param: [id] 
     * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.EditorUserVo> 
     * @Author: xfx 
     * @Date: 2019/12/7 
     */
     @RequestMapping(value = "/editor-user/{id}",method = RequestMethod.GET)
-    @ApiOperation("编辑用户")
+    @ApiOperation("编辑用户查询角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
             @ApiResponse(code=200,message = Result.EDITOR_USER)
@@ -294,6 +286,40 @@ public class SysUserController {
         return result;
     }
 
+
+    /** 
+    * @Description: 编辑用户，包括修改用户和修改角色
+    * @Param: [sysUserDto, roles] 
+    * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.SysUserVo> 
+    * @Author: xfx 
+    * @Date: 2019/12/9 
+    */
+    @ApiOperation("编辑用户")
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "sysUserDto",value = "用户相关信息",required = true,dataTypeClass = SysUserDto.class),
+            @ApiImplicitParam(name = "roles",value = "角色IDS",required = true)
+    })
+    @RequestMapping(value = "/edit", method = RequestMethod.PUT)
+    public Result<SysUserVo> saveUserRole(@RequestBody @Valid SysUserDto sysUserDto){
+        log.info("================sysUserDto:"+JSON.toJSONString(sysUserDto));
+         Result<SysUserVo> result=new Result<>();
+         SysUser sysUser=sysUserService.getById(sysUserDto.getId());
+         SysUser user=new SysUser();
+         BeanUtils.copyProperties(sysUserDto,user);
+         try {
+             if(sysUser==null){
+                 result.error500(Result.EXIST_ERROR_USER);
+             }else {
+                 sysUserService.editUserWithRole(sysUserDto);
+                 result.success(Result.UP_SUCCESS_MSG);
+             }
+         } catch (Exception e){
+             e.printStackTrace();
+             log.info(e.getMessage());
+             result.error500(String.format(BizResultEnum.USER_EXIST.getBizFormateMessage(), sysUserDto.getUsername()));
+         }
+        return result;
+    }
 
     /** 
     * @Description: 用户校验

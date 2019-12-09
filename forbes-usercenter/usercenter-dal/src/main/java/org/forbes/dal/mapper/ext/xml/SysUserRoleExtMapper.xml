@@ -7,62 +7,6 @@
         <include refid="org.forbes.dal.mapper.SysUserRoleMapper.Base_Column_List" />
     </sql>
 
-    <!--用户角色中间表添加-->
-    <insert id="addUserAndRole" parameterType="org.forbes.dal.entity.SysUserRole">
-        INSERT INTO f_sys_user_role
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="createBy != null">
-                create_by,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateBy != null">
-                update_by,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="roleId != null">
-                role_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="createBy != null">
-                #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                #{updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="userId != null">
-                #{userId,jdbcType=BIGINT},
-            </if>
-            <if test="roleId != null">
-                #{roleId,jdbcType=BIGINT},
-            </if>
-        </trim>
-    </insert>
-
-    <!--根据用户id，角色id删除用户角色中间表-->
-    <delete id="deleteUserAndRole" parameterType="long">
-        DELETE FROM f_sys_user_role WHERE user_id=#{userId,jdbcType=BIGINT} AND role_id=#{roleId,jdbcType=BIGINT}
-    </delete>
-
     <!--根据用户的id查询用户角色中间表集合-->
     <select id="selectUserRoleListByUserId" parameterType="long" resultMap="BaseResultMap">
         SELECT
@@ -90,7 +34,6 @@
         <foreach item="roleId" collection="roleIdArray" open="(" separator="," close=")">
             #{roleId,jdbcType=BIGINT}
         </foreach>
-
     </delete>
 
     <!--批量添加-->
@@ -104,6 +47,5 @@
             #{item.roleId,jdbcType=BIGINT}
             )
         </foreach>
-
     </insert>
 </mapper>
