@@ -14,4 +14,7 @@ public interface PermsCommonConstant {
     public static final String IF_LEAF = "is_leaf";//是否子集
     public static final String SORT_NO = "sort_no";//排序号
 
+    /*****角色相关常量*****/
+    public static final String ROLE_NAME = "role_name";//角色名称
+    public static final String ROLE_CODE = "role_code";//角色编码
 }

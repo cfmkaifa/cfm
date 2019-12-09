@@ -77,7 +77,7 @@
     </select>
 
     <!--给一个角色添加权限-->
-    <insert id="addPermissionToRole" parameterType="org.forbes.comm.model.AddPermissionToRoleDto">
+    <insert id="addPermissionToRole" parameterType="org.forbes.comm.model.PermissionIdRoleDto">
         INSERT INTO f_sys_role_permission
         (role_id,permission_id)
         VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})

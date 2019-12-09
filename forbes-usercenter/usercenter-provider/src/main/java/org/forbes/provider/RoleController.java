@@ -10,6 +10,7 @@ import org.forbes.biz.SysPermissionService;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.comm.constant.DataColumnConstant;
+import org.forbes.comm.constant.PermsCommonConstant;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.*;
@@ -39,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName
- * @Description TODO
+ * @Description 角色控制
  * @Author lzw
  * @Date 2019/11/20 11:42
  * @Version 1.0
@@ -157,11 +158,20 @@ public class RoleController {
         log.debug("传入的参数为"+JSON.toJSONString(sysRole));
         Result<SysRole> result=new Result<SysRole>();
         String roleCode = sysRole.getRoleCode();
-        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
-        if(existsCount > 0 ) {//存在此记录
-            result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
-            result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
+        SysRole sysRole1 = sysRoleService.getById(sysRole.getId());
+        if(sysRole1 ==null){
+            result.setMessage(Result.UPDATE_ROLE_ERROR_MSG);
             return result;
+        }
+        //判断当前角色编码与输入的是否一致
+        if (!sysRole1.getRoleCode().equalsIgnoreCase(sysRole.getRoleCode())) {
+            //查询是否和其他角色编码一致
+            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
+            if (existsCount > 0) {//存在此记录
+                result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
+                result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
+                return result;
+            }
         }
         sysRoleService.updateRoleByRoleId(sysRole);
         result.setResult(sysRole);
@@ -245,18 +255,18 @@ public class RoleController {
     @RequestMapping(value = "/update-role-authorization",method = RequestMethod.PUT)
     @ApiOperation("角色授权(多个)")
     @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=RoleAuthorizationDto.class)
+            @ApiImplicitParam(dataTypeClass=RolePermissionDto.class)
     })
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<RoleAuthorizationDto> updateRoleAuthorization(@RequestBody @Valid RoleAuthorizationDto roleAuthorizationDto){
-        log.debug("传入的参数为"+JSON.toJSONString(roleAuthorizationDto));
-        Result<RoleAuthorizationDto> result=new Result<>();
+    public Result<RolePermissionDto> updateRoleAuthorization(@RequestBody @Valid RolePermissionDto rolePermissionDto){
+        log.debug("传入的参数为"+JSON.toJSONString(rolePermissionDto));
+        Result<RolePermissionDto> result=new Result<>();
         try{
-        	sysRoleService.updateRoleAuthorization(roleAuthorizationDto);
-            result.setResult(roleAuthorizationDto);
+        	sysRoleService.updateRoleAuthorization(rolePermissionDto);
+            result.setResult(rolePermissionDto);
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
         	result.setMessage(e.getErrorMsg());
@@ -287,13 +297,10 @@ public class RoleController {
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
         if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleName())){
-            qw.like("roleName",pageDto.getData().getRoleName());
+            qw.like(PermsCommonConstant.ROLE_NAME,pageDto.getData().getRoleName());
         }
         if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleCode())){
-            qw.like("roleCode",pageDto.getData().getRoleCode());
-        }
-        if(ConvertUtils.isNotEmpty(pageDto.getData().getDescription())){
-            qw.like("description",pageDto.getData().getDescription());
+            qw.eq(PermsCommonConstant.ROLE_CODE,pageDto.getData().getRoleCode());
         }
         IPage page = new Page(pageDto.getPageNo(),pageDto.getPageSize());
         IPage<SysRole> s = sysRoleService.page(page,qw);

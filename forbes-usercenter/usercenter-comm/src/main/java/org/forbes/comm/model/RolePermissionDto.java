@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(description="修改角色授权参数")
-public class RoleAuthorizationDto implements Serializable{
+public class RolePermissionDto implements Serializable{
 
     private static final long serialVersionUID = 7501657572606521470L;
 
@@ -39,7 +39,7 @@ public class RoleAuthorizationDto implements Serializable{
      */
     @ApiModelProperty(value = "权限ID集合(必传)")
     @NotEmpty(message="权限ID集合为空")
-    private List<AddPermissionToRoleDto> addPermissionToRoleDtos;
+    private List<PermissionIdRoleDto> permissionIdRoleDtos;
 
     /**
      * 角色ID

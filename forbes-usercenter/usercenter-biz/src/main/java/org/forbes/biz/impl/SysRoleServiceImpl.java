@@ -5,8 +5,8 @@ import java.util.List;
 import org.forbes.biz.SysRoleService;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
-import org.forbes.comm.model.AddPermissionToRoleDto;
-import org.forbes.comm.model.RoleAuthorizationDto;
+import org.forbes.comm.model.PermissionIdRoleDto;
+import org.forbes.comm.model.RolePermissionDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
@@ -116,24 +116,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public void updateRoleAuthorization(RoleAuthorizationDto roleAuthorizationDto) {
+    public void updateRoleAuthorization(RolePermissionDto rolePermissionDto) {
         SysRole sysRole=new SysRole();
-        List<AddPermissionToRoleDto>  addPermissionToRoleDtos = roleAuthorizationDto.getAddPermissionToRoleDtos();
-        if(ConvertUtils.isNotEmpty(addPermissionToRoleDtos)){
-            addPermissionToRoleDtos.stream().forEach(addPermissionToRoleDto -> {
+        List<PermissionIdRoleDto> permissionIdRoleDtos = rolePermissionDto.getPermissionIdRoleDtos();
+        if(ConvertUtils.isNotEmpty(permissionIdRoleDtos)){
+            permissionIdRoleDtos.stream().forEach(permissionIdRoleDto -> {
                 Long roleId=sysRole.getId();
                 SysRolePermission sysRolePermission=new SysRolePermission();
-                Long permissionId = addPermissionToRoleDto.getPermissionId();
+                Long permissionId = permissionIdRoleDto.getPermissionId();
                 /*****判断上级****/
                 SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
                 Long parentId = sysPermission.getParentId();
                 if(-1 != parentId.longValue()){
-                	long notParentCount = addPermissionToRoleDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
+                	long notParentCount = permissionIdRoleDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
                 	if(0 == notParentCount){
                 		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
                 	}
                 }
-                sysRolePermission.setPermissionId(addPermissionToRoleDto.getPermissionId());
+                sysRolePermission.setPermissionId(permissionIdRoleDto.getPermissionId());
                 sysRolePermission.setRoleId(roleId);
                 sysRolePermissionMapper.insert(sysRolePermission);
             });

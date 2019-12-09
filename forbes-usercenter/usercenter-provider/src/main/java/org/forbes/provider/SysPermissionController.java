@@ -43,6 +43,9 @@ public class SysPermissionController {
     @Autowired
     SysRolePermissionService sysRolePermissionService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     /***
      * selectPage方法概述: 分页多条件查询
      * @param pageDto 分页条件
@@ -64,7 +67,7 @@ public class SysPermissionController {
     public Result<IPage<SysPermission>> selectPage(BasePageDto<SysPermissionPageDto> pageDto ){
         log.info("传入参数为："+JSON.toJSONString(pageDto)+",pageNo:"+pageDto.getPageNo()+",pageSize:"+pageDto.getPageSize());
         Result<IPage<SysPermission>> result = new Result<>();
-        QueryWrapper<SysPermission> qw = new QueryWrapper<SysPermission>();
+        QueryWrapper qw = new QueryWrapper();
         if(ConvertUtils.isNotEmpty(pageDto.getData().getType()) ){
             qw.eq("type",pageDto.getData().getType());
         }
@@ -99,6 +102,10 @@ public class SysPermissionController {
             if (exitsCount > 0){//如果编码存在，则返回false
                 result.setMessage(Result.EXISTS_PERMISSION_MSG);
                 result.setResult(false);
+                return result;
+            }else {//如果编码不存在则可以进行下一步
+                result.success(Result.AVAILABLE_PERMISSION_MSG);
+                result.setResult(true);
                 return result;
             }
     }

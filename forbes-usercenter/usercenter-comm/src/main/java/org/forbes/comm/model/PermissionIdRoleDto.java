@@ -19,7 +19,7 @@ import java.util.Date;
  */
 @ApiModel(description="给角色添加权限传入参数")
 @Data
-public class AddPermissionToRoleDto implements Serializable{
+public class PermissionIdRoleDto implements Serializable{
 
     private static final long serialVersionUID = -6733387652543628699L;
     /**
