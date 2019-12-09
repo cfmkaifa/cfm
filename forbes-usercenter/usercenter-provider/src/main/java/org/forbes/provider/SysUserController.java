@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import io.swagger.annotations.*;
 import org.forbes.biz.ISysUserService;
 import org.forbes.biz.SysRoleService;
 import org.forbes.comm.constant.DataColumnConstant;
@@ -12,6 +15,7 @@ import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UpdateStatusDto;
+import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.CommVo;
 import org.forbes.comm.vo.EditorUserVo;
 import org.forbes.comm.vo.Result;
@@ -35,12 +39,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/user")
@@ -256,20 +254,20 @@ public class SysUserController {
         return result;
     }
 
-    @RequestMapping(value = "/editor-user/{id}",method = RequestMethod.GET)
-    @ApiOperation("编辑用户")
-    @ApiResponses(value = {
-            @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
-            @ApiResponse(code=200,message = Result.EDITOR_USER)
-    })
     /** 
     * @Description: 编辑用户查询用户详情，用户对应角色，所有角色
     * @Param: [id] 
     * @return: org.forbes.comm.vo.Result<org.forbes.comm.vo.EditorUserVo> 
     * @Author: xfx 
     * @Date: 2019/12/7 
-    */ 
-    public Result<EditorUserVo> EditorUser(@PathVariable Long id){
+    */
+    @RequestMapping(value = "/editor-user/{id}",method = RequestMethod.GET)
+    @ApiOperation("编辑用户")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
+            @ApiResponse(code=200,message = Result.EDITOR_USER)
+    })
+    public Result<EditorUserVo> editorUser(@PathVariable Long id){
         log.info("===========ID:"+JSON.toJSONString(id));
         Result<EditorUserVo> result=new Result<EditorUserVo>();
         EditorUserVo editorUserVo=new EditorUserVo();
@@ -293,6 +291,58 @@ public class SysUserController {
             result.setMessage(String.format(BizResultEnum.ROLE_EXIST.getBizFormateMessage(), id));
             return result;
         }
+        return result;
+    }
+
+
+    /** 
+    * @Description: 用户校验
+    * @Param: [sysUserDto] 
+    * @return: org.forbes.comm.vo.Result<java.lang.Boolean> 
+    * @Author: xfx 
+    * @Date: 2019/12/9 
+    */
+    @RequestMapping(value = "/check-user-unique",method = RequestMethod.GET)
+    @ApiOperation("判断用户是否唯一")
+    @ApiResponses(value = {
+            @ApiResponse(code=500,message = Result.UNIQUE_ERROR_USER),
+            @ApiResponse(code=200,message = Result.UNIQUE_USER)
+    })
+    public Result<Boolean> uniqueUser(SysUserDto sysUserDto){
+        log.info("====================sysUserDto:"+JSON.toJSONString(sysUserDto));
+        Result<Boolean> result=new Result<>();
+        Long id=sysUserDto.getId();
+        try {
+            SysUser oldUser = null;
+            if (ConvertUtils.isNotEmpty(id)) {
+                oldUser = sysUserService.getById(id);
+            } else {
+                sysUserDto.setId(null);
+            }
+            SysUser tempUser = new SysUser();
+            BeanUtils.copyProperties(sysUserDto, tempUser);
+            SysUser newUser = sysUserService.getOne(new QueryWrapper<SysUser>(tempUser));
+            if (newUser != null) {
+                //如果根据传入信息查询到用户了，那么需要做校验。
+                if (oldUser == null) {
+                    //oldUser为空=>新增模式=>只要用户信息存在则返回false
+                    result.setSuccess(false);
+                    result.setMessage(Result.UNIQUE_USER);
+                    return result;
+                } else if (!id.equals(newUser.getId())) {
+                    //否则=>编辑模式=>判断两者ID是否一致-
+                    result.setSuccess(false);
+                    result.setMessage(Result.UNIQUE_USER);
+                    return result;
+                }
+            }
+        } catch (Exception e){
+            result.setSuccess(false);
+            result.setResult(false);
+            result.setMessage(e.getMessage());
+            return result;
+        }
+        result.setSuccess(true);
         return result;
     }
 }

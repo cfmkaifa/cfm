@@ -91,17 +91,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/20
-	  *@ Description：
-	  */
-	public UserDeatailVo selectUserDetailByUsername(String username) {
-		return sysUserExtMapper.selectUserDetailByUsername(username);
-	}
-
-	/**
 	 *@ 作者：xfx
 	 *@ 参数：
 	 *@ 返回值：

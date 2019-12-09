@@ -133,7 +133,11 @@ public class Result<T> implements Serializable {
 
 	/*****编辑用户信息*****/
 	public static final  String EDITOR_USER = "查询用户信息成功";
-	public static final  String EDITOR_USER_ERROR = "查询用户信息失败s";
+	public static final  String EDITOR_USER_ERROR = "查询用户信息失败";
+
+	/*****判断用户是否唯一*****/
+	public static final  String UNIQUE_USER = "用户账号已存在";
+	public static final  String UNIQUE_ERROR_USER="用户账号不存在";
 
 	/**
 	 * 返回代码
