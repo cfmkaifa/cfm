@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lzw
@@ -26,7 +27,7 @@ public class UpdateRoleAuthorizationDto implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id(必传)")
+    @ApiModelProperty("主键id")
     private Long id;
 
     /**
@@ -35,8 +36,8 @@ public class UpdateRoleAuthorizationDto implements Serializable{
      * Column:    permission_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "权限ID(必传)")
-    private Long permissionId;
+    @ApiModelProperty(value = "权限ID集合(必传)")
+    private List<AddPermissionToRoleDto> addPermissionToRoleDtos;
 
     /**
      * 角色ID
@@ -47,57 +48,57 @@ public class UpdateRoleAuthorizationDto implements Serializable{
     @ApiModelProperty(value = "角色ID(必传)")
     private Long roleId;
 
-    /**
-     * 父级id
-     * Table:     f_sys_permission
-     * Column:    parent_id
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "父级id")
-    private Integer parentId;
-
-    /**
-     * 资源名称
-     * Table:     f_sys_permission
-     * Column:    name
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "资源名称")
-    private String name;
-
-    /**
-     * 描述
-     * Table:     f_sys_permission
-     * Column:    description
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "描述")
-    private String description;
-
-    /**
-     * 菜单权限编码
-     * Table:     f_sys_permission
-     * Column:    perms
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "菜单权限编码")
-    private String perms;
-
-    /**
-     * 后台请求地址
-     * Table:     f_sys_permission
-     * Column:    url
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "后台请求地址")
-    private String url;
-
-    /**
-     * 菜单图标
-     * Table:     f_sys_permission
-     * Column:    icon
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "菜单图标")
-    private byte[] icon;
+//    /**
+//     * 父级id
+//     * Table:     f_sys_permission
+//     * Column:    parent_id
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "父级id")
+//    private Integer parentId;
+//
+//    /**
+//     * 资源名称
+//     * Table:     f_sys_permission
+//     * Column:    name
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "资源名称")
+//    private String name;
+//
+//    /**
+//     * 描述
+//     * Table:     f_sys_permission
+//     * Column:    description
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "描述")
+//    private String description;
+//
+//    /**
+//     * 菜单权限编码
+//     * Table:     f_sys_permission
+//     * Column:    perms
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "菜单权限编码")
+//    private String perms;
+//
+//    /**
+//     * 后台请求地址
+//     * Table:     f_sys_permission
+//     * Column:    url
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "后台请求地址")
+//    private String url;
+//
+//    /**
+//     * 菜单图标
+//     * Table:     f_sys_permission
+//     * Column:    icon
+//     * Nullable:  true
+//     */
+//    @ApiModelProperty(value = "菜单图标")
+//    private byte[] icon;
 }

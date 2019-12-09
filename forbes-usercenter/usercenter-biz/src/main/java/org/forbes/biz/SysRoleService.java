@@ -1,6 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.forbes.comm.model.UpdateRoleAuthorizationDto;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
@@ -62,5 +63,16 @@ public interface SysRoleService  extends IService<SysRole> {
      *@ Description：删除多个角色
      */
     Integer deleteRoleByRoleIds(Long id);
+
+    /***
+     * updateRoleAuthorization方法概述:用户授权
+     * @param
+     * @return
+     * @创建人 Tom
+     * @创建时间 2019/12/9 11:41
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    void updateRoleAuthorization(UpdateRoleAuthorizationDto updateRoleAuthorizationDto);
 
 }

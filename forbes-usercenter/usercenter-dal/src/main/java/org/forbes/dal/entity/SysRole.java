@@ -1,7 +1,11 @@
 package org.forbes.dal.entity;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -15,6 +19,14 @@ public class SysRole extends BaseEntity {
 	
 	private static final long serialVersionUID = -1667826254533837671L;
 
+    /**
+     * id
+     */
+    @TableId(type = IdType.AUTO)
+    @JSONField(format="yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty("角色id")
+    private Long id;
 
     /**
      * 角色名称

@@ -44,6 +44,7 @@
         ON rp.permission_id = p.id JOIN f_sys_role r
         ON rp.role_id = r.id
     </select>
+
     <!--查询一个角色拥有的权限-->
     <select id="getPermissionInRole" resultType="org.forbes.comm.vo.PermissionInRoleVo">
        SELECT
@@ -53,6 +54,17 @@
        FROM f_sys_permission p
        WHERE p.id IN (SELECT rp.permission_id FROM f_sys_role_permission rp WHERE rp.role_id=#{roleId,jdbcType=BIGINT})
 </select>
+
+    <!--
+        SELECT
+              rp.id,
+			  rp.permission_id,
+			  rp.role_id,
+			  p.id,
+			  p.`name`
+        FROM f_sys_role_permission rp JOIN f_sys_permission p on rp.permission_id=p.id
+        WHERE rp.role_id =#{roleId,jdbcType=BIGINT}
+       -->
 
     <!--查询一个角色未拥有的权限-->
     <select id="getPermissionNotInRole" resultType="org.forbes.comm.vo.PermissionInRoleVo">
@@ -66,9 +78,9 @@
 
     <!--给一个角色添加权限-->
     <insert id="addPermissionToRole" parameterType="org.forbes.comm.model.AddPermissionToRoleDto">
-      INSERT INTO f_sys_role_permission
-      (role_id,permission_id)
-      VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
+        INSERT INTO f_sys_role_permission
+        (role_id,permission_id)
+        VALUES (#{roleId,jdbcType=BIGINT},#{permissionId,jdbcType=BIGINT})
     </insert>
 
     <!--修改角色的一个权限(中间表)-->
