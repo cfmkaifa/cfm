@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * Table: f_sys_role_permission
  */
@@ -20,6 +22,7 @@ public class SysRolePermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "角色ID")
+    @NotEmpty(message = "角色id为空")
     private Long roleId;
 
     /**
@@ -29,6 +32,7 @@ public class SysRolePermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "权限ID")
+    @NotEmpty(message = "权限id为空")
     private Long permissionId;
 
 }

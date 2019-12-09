@@ -84,7 +84,7 @@
     </insert>
 
     <!--修改角色的一个权限(中间表)-->
-    <update id="updatePermissionToRole" parameterType="org.forbes.comm.model.UpdatePermissionToRoleDto">
+    <update id="updatePermissionToRole" parameterType="org.forbes.comm.model.PermissionRoleDto">
         UPDATE f_sys_role_permission
         SET permission_id = #{permissionId,jdbcType=BIGINT}
         WHERE role_id = #{roleId,jdbcType=BIGINT} AND id = #{id,jdbcType=BIGINT}

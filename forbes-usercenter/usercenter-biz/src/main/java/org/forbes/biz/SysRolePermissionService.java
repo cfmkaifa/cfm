@@ -1,8 +1,7 @@
 package org.forbes.biz;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.forbes.comm.model.UpdatePermissionToRoleDto;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
+import org.forbes.comm.model.PermissionRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.dal.entity.SysRolePermission;
@@ -71,7 +70,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer addPermissionToRole(Long roleId,Long permissionId);
+    Integer addPermissionToRole(SysRolePermission sysRolePermission);
 
     /***
      * updatePermissionToRole方法概述:TODO 修改角色的一个权限
@@ -81,7 +80,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer updatePermissionToRole(UpdatePermissionToRoleDto updatePermissionToRoleDto);
+    Integer updatePermissionToRole(PermissionRoleDto permissionRoleDto);
 
     /***
      * deletePermissionToRole方法概述:TODO 删除角色的一个权限
@@ -91,7 +90,7 @@ public interface SysRolePermissionService extends IService<SysRolePermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Integer deletePermissionToRole(Long roleId,Long permissionId);
+    Integer deletePermissionToRole(SysRolePermission sysRolePermission);
 
     /***
      * updateRolePermissionById方法概述:根据id修改角色权限

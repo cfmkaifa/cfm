@@ -15,7 +15,7 @@ import java.io.Serializable;
  **/
 @ApiModel(description = "删除角色传参")
 @Data
-public class DeleteRoleDto implements Serializable{
+public class RoleDtos implements Serializable{
 
     private static final long serialVersionUID = 4266736212045696576L;
 
