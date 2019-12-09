@@ -47,68 +47,37 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public SysUser  getUserByName(String username){
 		return sysUserExtMapper.getUserByName(username);
 	}
-
-	/****
-	 * 
-	 */
+	/**
+	 * @Author xfx
+	 * @Date 10:48 2019/12/9
+	 * @Param [page, sysUserDto]
+	 * @return com.baomidou.mybatisplus.core.metadata.IPage<org.forbes.comm.vo.UserVo>
+	 * 分页查询用户
+	 **/
 	@Override
 	public IPage<UserVo> pageUsers(IPage<UserVo> page, SysUserDto sysUserDto){
 		return sysUserExtMapper.pageUsers(page, sysUserDto);
 	}
 
 	/**
-	  *@ 作者：xfx
-	  *@ 参数：username,status
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  */
-	@Transactional
-	public Integer updateUserStatus(String username, String status) {
-		return sysUserExtMapper.updateUserStatus(username,status);
-	}
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  *@ Description：
-	  */
-	@Transactional
-	public Integer addUser(SysUser sysUser) {
-		return sysUserExtMapper.addUser(sysUser);
-	}
-
-	/**
-	  *@ 作者：xfx
-	  *@ 参数：
-	  *@ 返回值：
-	  *@ 时间：2019/11/19
-	  *@ Description：
-	  */
-	@Transactional
-	public Integer updateUserByUsername(SysUser sysUser) {
-		return sysUserExtMapper.updateUserByUsername(sysUser);
-	}
-
-	/**
-	 *@ 作者：xfx
-	 *@ 参数：
-	 *@ 返回值：
-	 *@ 时间：2019/12/2
-	 *@ Description：
-	 */
+	 * @Author xfx
+	 * @Date 10:51 2019/12/9
+	 * @Param [username]
+	 * @return java.util.List<org.forbes.comm.vo.RoleVo>
+	 * 描述：查询用户角色
+	 **/
 	@Override
 	public List<RoleVo> getRoleListByName(String username) {
 		return sysUserExtMapper.getRoleListByName(username);
 	}
 
 	/**
-	 *@ 作者：xfx
-	 *@ 参数：
-	 *@ 返回值：
-	 *@ 时间：2019/12/2
-	 *@ Description：根据用户名查询权限
-	 */
+	 * @Author xfx
+	 * @Date 10:52 2019/12/9
+	 * @Param [username]
+	 * @return java.util.List<org.forbes.comm.vo.UserPermissonVo>
+	 * 描述：根据用户名查询权限
+	 **/
 	@Override
 	public List<UserPermissonVo> getPermissonListByUsername(String username) {
 		return sysUserExtMapper.getPermissonListByUsername(username);
