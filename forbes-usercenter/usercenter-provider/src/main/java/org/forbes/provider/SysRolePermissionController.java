@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.forbes.biz.SysRolePermissionService;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.BizResultEnum;
-import org.forbes.comm.model.UpdatePermissionToRoleDto;
+import org.forbes.comm.model.PermissionRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.Result;
 import org.forbes.comm.vo.SysRolePermissionVo;
 import org.forbes.config.RedisUtil;
-import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysRolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -137,24 +136,24 @@ public class SysRolePermissionController {
     @RequestMapping(value = "/update-permission-to-role", method = RequestMethod.PUT)
     @ApiOperation("修改角色的一个权限")
     @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=UpdatePermissionToRoleDto.class)
+            @ApiImplicitParam(dataTypeClass=PermissionRoleDto.class)
     })
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_ROLE_PERMISSION_MSG)
     })
-    public Result<UpdatePermissionToRoleDto> updatePermissionToRole(@RequestBody @Valid UpdatePermissionToRoleDto updatePermissionToRoleDto){
-        log.debug("传入的参数为"+ JSON.toJSONString(updatePermissionToRoleDto));
-        Result<UpdatePermissionToRoleDto> result = new Result<UpdatePermissionToRoleDto>();
-        Long permissionId = updatePermissionToRoleDto.getPermissionId();
+    public Result<PermissionRoleDto> updatePermissionToRole(@RequestBody @Valid PermissionRoleDto permissionRoleDto){
+        log.debug("传入的参数为"+ JSON.toJSONString(permissionRoleDto));
+        Result<PermissionRoleDto> result = new Result<PermissionRoleDto>();
+        Long permissionId = permissionRoleDto.getPermissionId();
         int existsCount = sysRolePermissionService.count(new QueryWrapper<SysRolePermission>().eq(DataColumnConstant.PERMISSION_ID, permissionId));
         if(existsCount > 0 ) {//存在此记录
             result.setBizCode(BizResultEnum.PERMISSION_EXIST.getBizCode());
             result.setMessage(String.format(BizResultEnum.PERMISSION_EXIST.getBizFormateMessage(), permissionId));
             return result;
         }
-        sysRolePermissionService.updatePermissionToRole(updatePermissionToRoleDto);
-        result.setResult(updatePermissionToRoleDto);
+        sysRolePermissionService.updatePermissionToRole(permissionRoleDto);
+        result.setResult(permissionRoleDto);
         return result;
     }
 
