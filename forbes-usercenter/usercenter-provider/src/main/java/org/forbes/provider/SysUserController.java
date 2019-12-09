@@ -83,9 +83,9 @@ public class SysUserController {
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG),
             @ApiResponse(code=200,response = CommVo.class,message = Result.COMM_ACTION_MSG)
     })
-    public Result<UserDeatailVo> updateStausById(@PathVariable Long id,@RequestParam(value="status",required=true)String status){
+    public Result<boolean> updateStausById(@PathVariable Long id,@RequestParam(value="status",required=true)String status){
         log.info("===========id:"+JSON.toJSONString(id)+"=========status:"+JSON.toJSONString(status));
-    	Result<UserDeatailVo> result=new Result<UserDeatailVo>();
+    	Result<SysUser> result=new Result<SysUser>();
         SysUser sysUser=sysUserService.getById(id);
         sysUser.setStatus(status);
         boolean res=sysUserService.updateById(sysUser);

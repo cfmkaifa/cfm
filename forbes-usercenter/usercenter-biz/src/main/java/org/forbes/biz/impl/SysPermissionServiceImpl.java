@@ -81,7 +81,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
             //SysPermission parentSysPermission = sysPermissionService.getOne(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.ID,sysPermission.getParentId()));
             SysPermission parentSysPermission = sysPermissionService.getById(sysPermission.getParentId());
             if(parentSysPermission != null){//父级权限不为空，则把父级权限改为不是子集
-                parentSysPermission.setIsLeaf(String.valueOf(YesNoEnum.NO));
+                parentSysPermission.setIsLeaf(YesNoEnum.NO.getCode());
                 sysPermissionService.updateById(parentSysPermission);
                 return true;
             }
