@@ -382,21 +382,21 @@ public class SysPermissionController {
 	private void receTreeModelList(List<TreeModel> treeList,List<SysPermission> metaList,TreeModel temp) {
 		try {
 			for (SysPermission permission : metaList) {
-				Long tempPid = permission.getParentId();
+				Long tempPid = permission.getId();
 				String icon = permission.getIcon();
 				Long parentId = permission.getParentId();
 				String name = permission.getName();
 				String isLeaf = permission.getIsLeaf();
 				TreeModel tree = new TreeModel(tempPid,icon,parentId,name,isLeaf);
 				if(temp == null 
-						&& -1 == tempPid) {
+						&& -1 == parentId) {
 					treeList.add(tree);
 					if(!tree.getLeaf()) {
 						receTreeModelList(treeList, metaList, tree);
 					}
 				}else if(temp!=null 
 						&& -1 != tempPid 
-						&& tempPid.equals(temp.getKey())){
+						&& parentId.equals(temp.getKey())){
 					temp.getChildren().add(tree);
 					if(!tree.getLeaf()) {
 						receTreeModelList(treeList, metaList, tree);
