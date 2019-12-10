@@ -174,6 +174,7 @@ public class SysUserController {
                 return result;
             }
         }
+
         if(phone!=null){
             int phonecount=sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.PHONE, email));
             if(phonecount>0){
