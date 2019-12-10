@@ -14,18 +14,9 @@ import java.io.Serializable;
  */
 @ApiModel(description="删除角色权限传入参数")
 @Data
-public class DeletePermissionToRoleDto implements Serializable{
+public class PermissionDto implements Serializable{
 
     private static final long serialVersionUID = 7892623815115984475L;
-
-    /**
-     * 角色ID
-     * Table:     f_sys_role_permission
-     * Column:    role_id
-     * Nullable:  true
-     */
-    @ApiModelProperty(value = "角色ID")
-    private Long roleId;
 
     /**
      * 权限ID

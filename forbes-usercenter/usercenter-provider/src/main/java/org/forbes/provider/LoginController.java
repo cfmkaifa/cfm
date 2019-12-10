@@ -112,7 +112,7 @@ public class LoginController {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	@ApiOperation("退出登录")
-	@RequestMapping(value = "/logout")
+	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public Result<Object> logout(HttpServletRequest request,HttpServletResponse response) {
 	    String token = request.getHeader(CommonConstant.X_ACCESS_TOKEN);
 	    if(ConvertUtils.isNotEmpty(token)){
