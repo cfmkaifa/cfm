@@ -392,14 +392,14 @@ public class SysPermissionController {
 					String isLeaf = permission.getIsLeaf();
 					TreeModel tree = new TreeModel(id,icon,tempPid,name,isLeaf);
 					if(temp == null
-							&& -1 == tempPid) {
+							&& 0 == tempPid) {
 						idMaps.put(id,true);
 						treeList.add(tree);
 						if(!tree.getLeaf()) {
 							receTreeModelList(treeList, metaList, tree,idMaps);
 						}
 					}else if(temp!=null
-							&& -1 != tempPid
+							&& 0 != tempPid
 							&& tempPid.equals(Long.valueOf(temp.getKey()))){
 						idMaps.put(id,true);
 						temp.getChildren().add(tree);
@@ -471,13 +471,13 @@ public class SysPermissionController {
 				Long tempPid = permission.getParentId();
 				JSONObject json = recePermissionJsonObject(permission);
 				if(parentJson==null 
-						&& -1 == tempPid) {
+						&& 0 == tempPid) {
 					jsonArray.add(json);
 					if(YesNoEnum.NO.equals(permission.getIsLeaf())) {
 						recePermissionJsonArray(jsonArray, metaList, json);
 					}
 				}else if(parentJson!=null 
-						&& -1 != tempPid
+						&& 0 != tempPid
 						&& tempPid.equals(Long.parseLong(parentJson.getString(CommonConstant.ID)))){
 					//类型( 0：一级菜单 1：子菜单  2：按钮 )
 					if(PermissionTypeEnum.BUTTON.getCode().equals(menuType.toString())) {

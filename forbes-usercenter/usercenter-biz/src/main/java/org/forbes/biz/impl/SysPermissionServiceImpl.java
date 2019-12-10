@@ -35,7 +35,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     @Override
     public boolean save(SysPermission entity) {
     	if(ConvertUtils.isEmpty(entity.getParentId())){
-    		entity.setParentId(-1L);
+    		entity.setParentId(0L);
     	}
         boolean retBool =  retBool(baseMapper.insert(entity));
         Long parentId = entity.getParentId();
@@ -50,12 +50,12 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     @Override
     public boolean updateById(SysPermission entity) {
     	if(ConvertUtils.isEmpty(entity.getParentId())){
-    		entity.setParentId(-1L);
+    		entity.setParentId(0L);
     	}
     	SysPermission oldSysPermission = baseMapper.selectById(entity.getId());
     	Long parentId = entity.getParentId();
     	Long oldParentId = oldSysPermission.getParentId();
-    	if(-1 !=  parentId 
+    	if(0 !=  parentId 
     			&& parentId != oldParentId){
     		noLeafParent(parentId);
     		yesLeafParent(oldParentId);
@@ -76,7 +76,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     @Transactional(propagation = Propagation.MANDATORY,rollbackFor = Exception.class)
     public void noLeafParent(Long parentId){
-    	if(-1 !=  parentId){
+    	if(0 !=  parentId){
     		SysPermission parentSysPermission = baseMapper.selectById(parentId);
     		if(YesNoEnum.YES.getCode()
     				.equalsIgnoreCase(parentSysPermission.getIsLeaf())){
@@ -97,7 +97,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      */
     @Transactional(propagation = Propagation.MANDATORY,rollbackFor = Exception.class)
     public void yesLeafParent(Long parentId){
-    	if(-1 !=  parentId){
+    	if(0 !=  parentId){
     		int childCount = baseMapper.selectCount(new QueryWrapper<SysPermission>().eq(DataColumnConstant.PARENT_ID, parentId));
     		if(0 == childCount){
     			SysPermission parentSysPermission = baseMapper.selectById(parentId);

@@ -75,7 +75,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                 /*****判断上级****/
                 SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
                 Long parentId = sysPermission.getParentId();
-                if(-1 != parentId.longValue()){
+                if(0 != parentId.longValue()){
                 	long notParentCount = permissionIdRoleDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
                 	if(0 == notParentCount){
                 		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
