@@ -13,5 +13,7 @@ public interface PermsCommonConstant {
     public static final String PERMISSION_ID = "permission_id";//中间表权限id
     public static final String IF_LEAF = "is_leaf";//是否子集
     public static final String SORT_NO = "sort_no";//排序号
+    public static final String TYPE = "type";//类型
+    public static final String NAME = "name";//姓名
 
 }

@@ -25,7 +25,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
     SysPermissionService sysPermissionService;
 
     /***
-     * getPermission方法概述:TODO 查询所有权限
+     * getPermission方法概述: 查询所有权限
      * @return
      * @创建人 niehy(Frunk)
      * @创建时间 2019/12/2
@@ -45,13 +45,21 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Boolean addChangeLeaf(SysPermission sysPermission) {
-     /*   if(sysPermission.getParentId()!= null) {//父级id有值
-            sysPermissionService.get
-
-        }*/
-
-        return null;
+    public void addChangeLeaf(SysPermission sysPermission) {
+       if(sysPermission.getParentId()!= null) {//父级id有值
+           int parentIdCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PARENT_ID,sysPermission.getParentId()));
+           if (parentIdCount > 0) {//大于0说明该父节点下有其他子集(is_leaf=false)，不操作
+               sysPermissionService.save(sysPermission);
+           }
+           if(parentIdCount == 0){//大于0说明该父节点下没有其他子集(is_leaf=true)，将是否为子节点改为否
+               SysPermission parentPermission = sysPermissionService.getById(sysPermission.getParentId());
+               parentPermission.setIsLeaf(YesNoEnum.NO.getCode());
+               sysPermissionService.updateById(parentPermission);
+               sysPermissionService.save(sysPermission);
+           }
+        }else {
+           sysPermissionService.save(sysPermission);
+       }
     }
 
     /***
@@ -63,8 +71,20 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Boolean updateChangeLeaf(SysPermission sysPermission) {
-        return null;
+    public void updateChangeLeaf(SysPermission sysPermission) {
+
+        if(sysPermission.getParentId() != null){
+            //查询父级权限的内容
+            SysPermission parentPermission = sysPermissionService.getById(sysPermission.getParentId());
+            //执行修改传入权限
+            sysPermissionService.updateById(sysPermission);
+            //查询父级权限
+            int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.ID,parentPermission.getParentId()));
+            if(exitsCount == 0){
+                parentPermission.setIsLeaf(YesNoEnum.YES.getCode());
+                sysPermissionService.updateById(parentPermission);
+            }
+        }
     }
 
     /***
@@ -76,24 +96,22 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public Boolean deleteChangeLeaf(SysPermission sysPermission) {
+    public void deleteChangeLeaf(SysPermission sysPermission) {
         if(sysPermission.getParentId()!= null){//父级id有值
             //SysPermission parentSysPermission = sysPermissionService.getOne(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.ID,sysPermission.getParentId()));
             SysPermission parentSysPermission = sysPermissionService.getById(sysPermission.getParentId());
             if(parentSysPermission != null){//父级权限不为空，则把父级权限改为不是子集
-                parentSysPermission.setIsLeaf(String.valueOf(YesNoEnum.NO));
+                parentSysPermission.setIsLeaf(YesNoEnum.NO.getCode());
+                sysPermissionService.removeById(sysPermission.getId());
                 sysPermissionService.updateById(parentSysPermission);
-                return true;
             }
         }else {//父级id没有值，判断他的id是否为其他权限的父级id
             int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PARENT_ID,sysPermission.getId()));
             if(exitsCount > 0){//如果存在数大于0，说明该权限是其他权限的父级,则不更改子集
-                return false;
             }else if(exitsCount == 0){
-                return true;
+                sysPermissionService.removeById(sysPermission.getId());
             }
         }
-        return false;
     }
 
 }

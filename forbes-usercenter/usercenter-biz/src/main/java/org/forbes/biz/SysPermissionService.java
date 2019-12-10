@@ -28,7 +28,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Boolean addChangeLeaf(SysPermission sysPermission);
+    void addChangeLeaf(SysPermission sysPermission);
 
     /***
      * updateChangeLeaf方法概述: 修改判断子集
@@ -39,7 +39,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Boolean updateChangeLeaf(SysPermission sysPermission);
+     void updateChangeLeaf(SysPermission sysPermission);
 
     /***
      * deleteChangeLeaf方法概述: 删除判断子集
@@ -50,6 +50,6 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    Boolean deleteChangeLeaf(SysPermission sysPermission);
+    void deleteChangeLeaf(SysPermission sysPermission);
 
 }
