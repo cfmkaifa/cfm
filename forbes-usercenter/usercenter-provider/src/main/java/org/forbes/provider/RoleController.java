@@ -208,7 +208,7 @@ public class RoleController {
 
     /***
      * grantRole方法慨述:角色授权
-     * @param rolePermissionDto
+     * @param rolePermissionDtos
      * @return Result<RolePermissionDto>
      * @创建人 huanghy
      * @创建时间 2019年12月10日 下午1:35:36
