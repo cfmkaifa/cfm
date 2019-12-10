@@ -43,6 +43,8 @@ public class SysPermissionController {
     @Autowired
     SysRolePermissionService sysRolePermissionService;
 
+
+
     /***
      * selectPage方法概述: 分页多条件查询
      * @param pageDto 分页条件
@@ -100,7 +102,7 @@ public class SysPermissionController {
                 result.setMessage(Result.EXISTS_PERMISSION_MSG);
                 result.setResult(false);
                 return result;
-            }else {//如果编码不存在则可以进行下一步
+            }else {//如果编码不存在则进行下一步
                 result.setMessage(Result.AVAILABLE_PERMISSION_MSG);
                 result.setResult(true);
                 return result;
