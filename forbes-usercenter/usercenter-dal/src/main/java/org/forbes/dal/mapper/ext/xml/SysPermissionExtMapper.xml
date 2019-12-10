@@ -6,23 +6,22 @@
   <sql id="Base_Column_List" >
    <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
   </sql>
-    <!--查询所有权限-->
-    <select id="getPermission" resultType="org.forbes.comm.vo.PermissionVo">
-        SELECT
-         id,
-        parent_id,
-        name,
-        perms,
-        icon,
-        is_route,
-        is_leaf,
-        is_hidden,
-        sort_no,
-        description
-        redirect,
-        url,
-        type
-        type
-        FROM f_sys_permission
+    <!--根据角色ID查询权限信息-->
+    <select id="searchPersByRoleIds"  resultMap="BaseResultMap">
+		    SELECT 
+				  <include refid="Base_Column_List" />
+				FROM
+				  `f_sys_permission` sps 
+				WHERE EXISTS 
+				  (SELECT 
+				    1 
+				  FROM
+				    `f_sys_role_permission` srp 
+				  WHERE sps.`id` = srp.`permission_id` 
+		    			AND srp.`role_id` IN
+		    			<foreach collection="roleIds" item="roleId" open="(" separator=","  close=")">
+		    				#{createTime,jdbcType=BIGINT}
+		    			</foreach>
+				    )
     </select>
 </mapper>

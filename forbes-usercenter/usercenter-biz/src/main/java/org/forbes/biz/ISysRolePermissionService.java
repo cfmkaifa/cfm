@@ -8,7 +8,7 @@ import org.forbes.dal.entity.SysRolePermission;
 
 import java.util.List;
 
-public interface SysRolePermissionService extends IService<SysRolePermission> {
+public interface ISysRolePermissionService extends IService<SysRolePermission> {
 
     /***
      * getPermissionByRole方法概述:TODO 通过角色id查询一个角色的所有权限

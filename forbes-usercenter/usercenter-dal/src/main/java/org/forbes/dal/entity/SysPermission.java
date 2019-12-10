@@ -1,17 +1,23 @@
 package org.forbes.dal.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.Example;
-import lombok.Data;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * Table: f_sys_permission
  */
 @Data
+@ApiModel(description="权限信息")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("f_sys_permission")
 public class SysPermission extends BaseEntity {
    
@@ -88,7 +94,6 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "是否子集")
-    @NotEmpty(message="是否子集为空")
     private String isLeaf;
 
     /**
@@ -143,7 +148,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "菜单图标")
-    private byte[] icon;
+    private String icon;
 
     /**
      * 类型

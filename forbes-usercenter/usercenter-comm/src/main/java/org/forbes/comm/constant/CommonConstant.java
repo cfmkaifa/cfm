@@ -25,4 +25,10 @@ public interface CommonConstant {
     public static final String USER_NAME = "username";
     public static final String PROVILES_CODE = "spring.profiles.active";
     public static final String ACTIVE_CODE = "dev";
+    public static final String TREE_LIST_CODE = "treeList";
+    public static final String IDS_CODE = "ids";
+    public static final String PERMISSION_LIST = "permissionList";
+    public static final String ID = "id";
+    public static final String META = "meta";
+    public static final String CHILDREN = "children";
 }

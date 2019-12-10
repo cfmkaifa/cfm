@@ -3,87 +3,62 @@
 <mapper namespace="org.forbes.dal.mapper.ext.SysUserExtMapper" >
       <resultMap id="BaseResultMap" type="org.forbes.dal.entity.SysUser" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
       </resultMap>
-      <resultMap id="BaseResultMaps" type="org.forbes.comm.vo.UserDeatailVo" extends="org.forbes.dal.mapper.SysUserMapper.BaseResultMap">
-      </resultMap>
+       <!--多条件查询用户-->
+	    <resultMap id="UserBaseResultMap" type="org.forbes.comm.vo.UserVo" >
+	        <!-- 主键 -->
+	        <id column="id" property="id" jdbcType="BIGINT" />
+	        <!-- 登录账号 -->
+	        <id column="username" property="username" jdbcType="VARCHAR" />
+	        <!-- 状态 -->
+	        <id column="status" property="status" jdbcType="VARCHAR" />
+	        <id column="admin_flag" property="adminFlag" jdbcType="VARCHAR" />
+	        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+	        <!-- 创建时间 -->
+	        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	        <!-- 更新人 -->
+	        <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+	        <!-- 更新时间 -->
+	        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	        <!-- 密码 -->
+	        <result column="password" property="password" jdbcType="VARCHAR" />
+	        <!-- md5密码盐 -->
+	        <result column="salt" property="salt" jdbcType="VARCHAR" />
+	        <!-- 头像 -->
+	        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+	        <!-- 邮件 -->
+	        <result column="email" property="email" jdbcType="VARCHAR" />
+	        <!-- 电话 -->
+	        <result column="phone" property="phone" jdbcType="VARCHAR" />
+	        <!-- 姓名 -->
+	        <result column="realname" property="realname" jdbcType="VARCHAR" />
+	    </resultMap>
       <sql id="Base_Column_List" >
        <include refid="org.forbes.dal.mapper.SysUserMapper.Base_Column_List" />
       </sql>
-        <resultMap id="Role_BaseResultMap" type="org.forbes.comm.vo.RoleVo" extends="org.forbes.dal.mapper.SysRoleMapper.BaseResultMap">
-        </resultMap>
-
-    <sql id="Role_Base_Column_List" >
-        <include refid="org.forbes.dal.mapper.SysRoleMapper.Base_Column_List" />
-    </sql>
-
-    <!--多条件查询用户-->
-    <resultMap id="UserBaseResultMap" type="org.forbes.comm.vo.UserVo" >
-        <!-- 主键 -->
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <!-- 登录账号 -->
-        <id column="username" property="username" jdbcType="VARCHAR" />
-        <!-- 状态 -->
-        <id column="status" property="status" jdbcType="VARCHAR" />
-        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
-        <!-- 创建时间 -->
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <!-- 更新人 -->
-        <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
-        <!-- 更新时间 -->
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-        <!-- 密码 -->
-        <result column="password" property="password" jdbcType="VARCHAR" />
-        <!-- md5密码盐 -->
-        <result column="salt" property="salt" jdbcType="VARCHAR" />
-        <!-- 头像 -->
-        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-        <!-- 邮件 -->
-        <result column="email" property="email" jdbcType="VARCHAR" />
-        <!-- 电话 -->
-        <result column="phone" property="phone" jdbcType="VARCHAR" />
-        <!-- 姓名 -->
-        <result column="realname" property="realname" jdbcType="VARCHAR" />
-    </resultMap>
-    <!--权限-->
-    <resultMap id="Per_BaseResultMap" type="org.forbes.comm.vo.UserPermissonVo" extends="org.forbes.dal.mapper.SysPermissionMapper.BaseResultMap">
-    </resultMap>
-    <sql id="Per_Base_Column_List" >
-        <include refid="org.forbes.dal.mapper.SysPermissionMapper.Base_Column_List" />
-    </sql>
-
-    <!--根据用户名查询权限-->
-    <select id="getPermissonListByUsername" parameterType="string" resultMap="Per_BaseResultMap">
-        SELECT
-        p.id, p.create_by, p.create_time, p.update_by, p.update_time, p.parent_id, p.name, p.perms, p.component,
-    p.component_name, p.always_show, p.is_route, p.is_leaf, p.is_hidden, p.sort_no, p.description,
-    p.redirect, p.url,p.icon
-        FROM f_sys_permission p JOIN f_sys_role_permission rp
-        ON p.id = rp.permission_id
-        JOIN f_sys_role r
-        ON rp.role_id = r.id JOIN f_sys_user_role ur
-        ON r.id = ur.role_id JOIN f_sys_user u
-        ON ur.user_id = u.id
-        WHERE u.username=#{username,jdbcType=VARCHAR}
-    </select>
-
-    <!--根据用户名查询角色-->
-    <select id="getRoleListByName" parameterType="string" resultMap="Role_BaseResultMap">
-        SELECT
-        <include refid="Role_Base_Column_List" />
-        FROM
-        f_sys_role fsr WHERE fsr.id IN (
-            SELECT fsur.role_id FROM f_sys_user_role AS fsur WHERE fsur.user_id IN (
-             SELECT fsu.id FROM f_sys_user fsu WHERE fsu.username=#{username,jdbcType=VARCHAR}))
-    </select>
-  <!--根据用户名查询用户-->
-  <select id="getUserByName" resultMap="BaseResultMap">
-  	SELECT 
-	  <include refid="Base_Column_List" />
-	FROM
-	  `f_sys_user` fsu 
-	WHERE fsu.`username` = #{username,jdbcType=VARCHAR} 
-	  OR fsu.`phone` = #{username,jdbcType=VARCHAR}  
-	  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
-  </select>
+	  <!--根据用户名查询用户-->
+	  <select id="getUserByName" resultMap="BaseResultMap">
+	  	SELECT 
+		  <include refid="Base_Column_List" />
+		FROM
+		  `f_sys_user` fsu 
+		WHERE fsu.`username` = #{username,jdbcType=VARCHAR} 
+		  OR fsu.`phone` = #{username,jdbcType=VARCHAR}  
+		  OR fsu.`email` = #{username,jdbcType=VARCHAR} 
+	  </select>
+	 <!--根据用户ID查询角色信息-->
+	 <select id="selectRole"  resultType="java.lang.String">
+		 SELECT 
+			  sr.`role_name` 
+			FROM
+			  `f_sys_role` sr 
+			WHERE EXISTS 
+			  (SELECT 
+			    1 
+			  FROM
+			    `f_sys_user_role` sur 
+			  WHERE sur.`role_id` = sr.`id` 
+			    AND sur.`user_id` = #{userId,jdbcType=BIGINT})
+	 </select>
     <!--多条件查询用户+分页-->
     <select id="pageUsers" parameterType="org.forbes.comm.model.SysUserDto" resultMap="UserBaseResultMap">
         SELECT
@@ -101,145 +76,5 @@
                 AND fsu.realname like concat('\'%',#{sysUser.realname,jdbcType=VARCHAR},'%\'')
             </if>
         </where>
-    </select>
-    <!--多条件查询用户分页条数-->
-    <!--根据用户名修改状态-->
-    <update id="updateUserStatus" parameterType="string">
-        UPDATE f_sys_user AS  fsu SET fsu.status=#{status,jdbcType=VARCHAR} WHERE fsu.username=#{username,jdbcType=VARCHAR}
-    </update>
-
-    <!--添加用户-->
-    <insert id="addUser" parameterType="org.forbes.dal.entity.SysUser">
-        INSERT INTO f_sys_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
-            <if test="username != null">
-                username,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="password != null">
-                password,
-            </if>
-            <if test="salt != null">
-                salt,
-            </if>
-            <if test="avatar != null">
-                avatar,
-            </if>
-            <if test="createBy != null">
-                create_by,
-            </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
-            <if test="updateBy != null">
-                update_by,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="email != null">
-                email,
-            </if>
-            <if test="phone != null">
-                phone,
-            </if>
-            <if test="realname != null">
-                realname,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="createBy != null">
-                #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                #{updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="email != null">
-                #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="realname != null">
-                #{realname,jdbcType=VARBINARY},
-            </if>
-        </trim>
-    </insert>
-
-    <!--根据username修改用户-->
-    <update id="updateUserByUsername" parameterType="org.forbes.dal.entity.SysUser">
-        UPDATE f_sys_user
-        <set>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="salt != null">
-                salt = #{salt,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                avatar = #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="createBy != null">
-                create_by = #{createBy,jdbcType=VARCHAR},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateBy != null">
-                update_by = #{updateBy,jdbcType=VARCHAR},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="email != null">
-                email = #{email,jdbcType=VARCHAR},
-            </if>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR},
-            </if>
-            <if test="realname != null">
-                realname = #{realname,jdbcType=VARBINARY},
-            </if>
-        </set>
-        WHERE
-         username = #{username,jdbcType=VARCHAR}
-    </update>
-
-    <!--查询用户详情-->
-    <select id="selectUserDetailByUsername" parameterType="string" resultMap="BaseResultMaps">
-        SELECT
-        <include refid="Base_Column_List" />
-        FROM
-        `f_sys_user` fsu
-        WHERE fsu.`username` = #{username,jdbcType=VARCHAR}
     </select>
 </mapper>

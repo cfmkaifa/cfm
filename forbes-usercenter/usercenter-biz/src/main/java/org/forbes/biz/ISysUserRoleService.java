@@ -1,14 +1,14 @@
 package org.forbes.biz;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import org.forbes.comm.model.UserRoleDto;
+import java.util.List;
+
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserRoleVo;
 import org.forbes.dal.entity.SysUserRole;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface SysUserRoleService extends IService<SysUserRole> {
+public interface ISysUserRoleService extends IService<SysUserRole> {
 
     /**
       *@ 作者：xfx

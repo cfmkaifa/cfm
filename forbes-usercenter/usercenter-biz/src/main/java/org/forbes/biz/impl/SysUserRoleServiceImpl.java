@@ -1,8 +1,9 @@
 package org.forbes.biz.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
-import org.forbes.biz.SysUserRoleService;
+import org.forbes.biz.ISysUserRoleService;
 import org.forbes.comm.vo.RoleVo;
 import org.forbes.comm.vo.UserRoleVo;
 import org.forbes.dal.entity.SysUserRole;
@@ -10,12 +11,11 @@ import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserRoleExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements ISysUserRoleService {
 
 
     @Autowired

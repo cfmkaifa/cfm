@@ -3,35 +3,49 @@ package org.forbes.comm.model;
 import java.io.Serializable;
 import java.util.List;
 
-import io.swagger.annotations.Api;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.forbes.comm.constant.UpdateValid;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * @ClassName
- * @Description TODO
+ * @Description 用户信息
  * @Author
  * @Date 2019/11/22 13:33
  * @Version 1.0
  **/
 @Data
-@ApiModel("多条件查询用户请求参数")
+@ApiModel(description="用户信息")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class SysUserDto implements Serializable{
 
     private static final long serialVersionUID = 4511975727752590523L;
 
-
-    @ApiModelProperty("'用户id'")
+    
+    @ApiModelProperty("主键ID")
+    @NotNull(message="主键ID为空",groups = UpdateValid.class)
     private Long id;
-
+    
     @ApiModelProperty("用户状态")
+    @NotEmpty(message="用户状态为空")
     private String status;
 
     @ApiModelProperty("用户名")
+    @NotEmpty(message="用户名为空")
     private String username;
 
     @ApiModelProperty("姓名/工厂名称或者公司名称")
@@ -51,7 +65,12 @@ public class SysUserDto implements Serializable{
     @ApiModelProperty("头像")
     private String avatar;
     
-    @ApiModelProperty("用户角色信息")
+    
+    @ApiModelProperty(value="管理员标识(0-超级管理员,1-普通人员)")
+	@NotEmpty(message="管理员标识不能为空")
+    private String adminFlag;
+    
+    @ApiModelProperty("用户角色关联信息")
     private List<UserRoleDto>  userRoleDtos;
 
 }

@@ -155,7 +155,7 @@ public class Result<T> implements Serializable {
 	 * 返回代码
 	 */
 	private Integer code = CommonConstant.SC_OK_200;
-	private String  bizCode = "";
+	private String  bizCode = "0000";
 	
 	/**
 	 * 返回数据对象 data

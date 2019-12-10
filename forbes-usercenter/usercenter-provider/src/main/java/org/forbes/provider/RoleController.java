@@ -2,28 +2,31 @@ package org.forbes.provider;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.forbes.biz.SysPermissionService;
-import org.forbes.biz.SysRolePermissionService;
-import org.forbes.biz.SysRoleService;
+import org.forbes.biz.ISysRoleService;
+import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.constant.PermsCommonConstant;
+import org.forbes.comm.constant.SaveValid;
+import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
-import org.forbes.comm.model.*;
+import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.RolePageDto;
+import org.forbes.comm.model.RolePermissionDto;
 import org.forbes.comm.utils.ConvertUtils;
-import org.forbes.comm.vo.PermissionInRoleVo;
-import org.forbes.comm.vo.PermissionVo;
 import org.forbes.comm.vo.Result;
-import org.forbes.comm.vo.RoleAuthorizationVo;
-import org.forbes.comm.vo.RoleListVo;
-import org.forbes.comm.vo.RoleVo;
 import org.forbes.dal.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -53,77 +56,47 @@ public class RoleController {
 
 
     @Autowired
-    private SysRoleService sysRoleService;
+    private ISysRoleService sysRoleService;
 
-    @Autowired
-    SysRolePermissionService sysRolePermissionService;
+   
 
-    @Autowired
-    SysPermissionService sysPermissionService;
-
-    /**
-      *@ 作者：lzw
-      *@ 参数：roleDto
-      *@ 返回值：RoleVo
-      *@ 时间：2019/11/20
-      *@ Description：根据用户id查询对应的角色
-      */
-    @RequestMapping(value = "/get-role-list/{userId}",method = RequestMethod.GET)
-    @ApiOperation("查询用户对应角色")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "userId",value = "用户id")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code=500,message= Result.ROLE_EMPTY_MSG),
-            @ApiResponse(code=200, message = Result.ROLE_MSG)
-    })
-    public Result<List<RoleVo>> selectRoleByUserId(@PathVariable Long userId){
-        log.debug("传入的参数为"+userId);
-        Result<List<RoleVo>> result=new Result<>();
-        List<RoleVo> sysRoleList=sysRoleService.selectRoleByUserId(userId);
-        result.success(Result.ROLE_MSG);
-        result.setResult(sysRoleList);
-        return result;
-    }
-
-    /**
-      *@ 作者：lzw
-      *@ 参数：
-      *@ 返回值：RoleListVo
-      *@ 时间：2019/11/21
-      *@ Description：查询所有角色
-      */
-    @RequestMapping(value = "/role-list",method = RequestMethod.GET)
+    /***
+     * selectAllRole方法慨述:查询所有角色
+     * @return Result<List<SysRole>>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 上午11:57:37
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     @ApiOperation("查询所有角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message =Result.ROLE_LIST_MSG),
-            @ApiResponse(code = 500,response =RoleListVo.class,message = Result.ROLE_LIST_ERROR_MSG)
+            @ApiResponse(code = 500,message = Result.ROLE_LIST_ERROR_MSG)
     })
-    public Result<List<RoleListVo>> selectAllRole(){
-        Result<List<RoleListVo>> result=new Result<>();
-        List<RoleListVo> sysRoles=sysRoleService.selectRoleList();
-        result.success(Result.ROLE_LIST_MSG);
+    public Result<List<SysRole>> selectAllRole(){
+        Result<List<SysRole>> result=new Result<>();
+        List<SysRole> sysRoles = sysRoleService.list();
         result.setResult(sysRoles);
         return result;
     }
 
-    /**
-      *@ 作者：lzw
-      *@ 参数：addRoleDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/11/20
-      *@ Description：
-      */
-    @RequestMapping(value = "/add-role",method = RequestMethod.PUT)
+    /***
+     * addRole方法慨述:添加角色
+     * @param sysRole
+     * @return Result<SysRole>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 上午11:58:15
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
     @ApiOperation("添加角色")
-    @ApiImplicitParams(
-            @ApiImplicitParam(dataTypeClass=SysRole.class)
-    )
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<SysRole> addRole(@RequestBody @Valid SysRole sysRole){
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public  Result<SysRole> addRole(@RequestBody @Validated(value=SaveValid.class) SysRole sysRole){
         log.debug("传入的参数为"+ JSON.toJSONString(sysRole));
         Result<SysRole> result=new Result<SysRole>();
         String roleCode = sysRole.getRoleCode();
@@ -133,38 +106,38 @@ public class RoleController {
             result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
             return result;
         }
-        sysRoleService.addRole(sysRole);
+        sysRoleService.save(sysRole);
         result.setResult(sysRole);
         return result;
     }
 
-    /**
-      *@ 作者：lzw
-      *@ 参数：updateRoleDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/11/21
-      *@ Description：角色修改
-      */
-    @RequestMapping(value = "/update-role",method = RequestMethod.PUT)
-    @ApiOperation("修改角色")
-    @ApiImplicitParams(
-            @ApiImplicitParam(dataTypeClass=SysRole.class)
-    )
+    /***
+     * updateRole方法慨述:编辑角色
+     * @param sysRole
+     * @return Result<SysRole>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 下午12:00:04
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @ApiOperation("编辑角色")
     @ApiResponses(value = {
             @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
             @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
     })
-    public  Result<SysRole> updateRole(@RequestBody @Valid SysRole sysRole){
+    @RequestMapping(value = "/edit",method = RequestMethod.PUT)
+    public  Result<SysRole> updateRole(@RequestBody @Validated(value=UpdateValid.class) SysRole sysRole){
         log.debug("传入的参数为"+JSON.toJSONString(sysRole));
         Result<SysRole> result=new Result<SysRole>();
-        String roleCode = sysRole.getRoleCode();
-        SysRole sysRole1 = sysRoleService.getById(sysRole.getId());
-        if(sysRole1 ==null){
-            result.setMessage(Result.UPDATE_ROLE_ERROR_MSG);
-            return result;
+        SysRole oldSysRole = sysRoleService.getById(sysRole.getId());
+        if(ConvertUtils.isEmpty(oldSysRole)){
+        	 result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+	   		 result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+	   		 return result;
         }
+        String roleCode = sysRole.getRoleCode();
         //判断当前角色编码与输入的是否一致
-        if (!sysRole1.getRoleCode().equalsIgnoreCase(sysRole.getRoleCode())) {
+        if (!roleCode.equalsIgnoreCase(oldSysRole.getRoleCode())) {
             //查询是否和其他角色编码一致
             int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
             if (existsCount > 0) {//存在此记录
@@ -173,100 +146,88 @@ public class RoleController {
                 return result;
             }
         }
-        sysRoleService.updateRoleByRoleId(sysRole);
+        sysRoleService.updateById(sysRole);
         result.setResult(sysRole);
         return result;
     }
 
-    /**
-      *@ 作者：lzw
-      *@ 参数：deleteRoleDto
-      *@ 返回值：CommVo,写操作公共返回结果
-      *@ 时间：2019/11/21
-      *@ Description：删除角色
-      */
-    @RequestMapping(value = "/delete-role/{id}",method = RequestMethod.DELETE)
+    /***
+     * delete方法慨述:删除角色
+     * @param id
+     * @return Result<SysRole>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 下午1:34:01
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
     @ApiOperation("删除角色")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "id",value = "角色id")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
-            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
-    })
-    public  Result<SysRole> deleteRoleByRoleId(@PathVariable Long id){
-        log.debug("传入的参数为"+id);
-        Result<SysRole> result=new Result<SysRole>();
-        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ID, id));
-        if(existsCount != 1 ) {//不存在此记录
-            result.setBizCode(BizResultEnum.ROLE_ID_NOT_EXIST.getBizCode());
-            result.setMessage(String.format(BizResultEnum.ROLE_ID_NOT_EXIST.getBizFormateMessage(), id));
-            return result;
-        }
-        sysRoleService.deleteRoleByRoleId(id);
-        result.success("删除角色成功！");
-        return result;
-    }
+   	@ApiImplicitParams(value = {
+   		@ApiImplicitParam(name = "id",value = "用户ID",required = true)
+   	})
+   	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+   	public Result<SysRole> delete(@RequestParam(name="id",required=true) String id) {
+   		Result<SysRole> result = new Result<SysRole>();
+   		SysRole sysRole = sysRoleService.getById(id);
+   		if(ConvertUtils.isEmpty(sysRole)){
+      		 result.setBizCode(BizResultEnum.ENTITY_EMPTY.getBizCode());
+   	   		 result.setMessage(BizResultEnum.ENTITY_EMPTY.getBizMessage());
+   	   		 return result;
+   		}
+   		sysRoleService.removeById(id);
+   		return result;
+   	}
+   	
+   	/***批量删除角色
+   	 * deleteBatch方法慨述:
+   	 * @param ids
+   	 * @return Result<SysUser>
+   	 * @创建人 huanghy
+   	 * @创建时间 2019年6月3日 下午5:58:16
+   	 * @修改人 (修改了该文件，请填上修改人的名字)
+   	 * @修改日期 (请填上修改该文件时的日期)
+   	 */
+   	@ApiOperation("批量删除角色")
+   	@ApiImplicitParams(value = {
+   		@ApiImplicitParam(name = "ids",value = "用户IDs",required = true)
+   	})
+   	@RequestMapping(value = "/delete-batch", method = RequestMethod.DELETE)
+   	public Result<Boolean> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
+   		// 定义SysUserDepart实体类的数据库查询对象
+   		Result<Boolean> result = new Result<Boolean>();
+   		try {
+   			sysRoleService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
+   		}catch(ForbesException e){
+   			result.setBizCode(e.getErrorCode());
+   			result.setMessage(e.getErrorMsg());
+   		}
+   		return result;
+   	}
+
+    
+    
 
     /***
-     * selectRoleAuthorization方法概述:查询角色授权
-     * @param
-     * @return
-     * @创建人 Tom
-     * @创建时间 2019/12/5 10:22
+     * grantRole方法慨述:角色授权
+     * @param rolePermissionDto
+     * @return Result<RolePermissionDto>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 下午1:35:36
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select-role-authorization",method = RequestMethod.GET)
-    @ApiOperation("查询角色授权")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "roleId",value = "角色id")
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.PERMISSIONS_MSG)
-    })
-    public Result<RoleAuthorizationVo> selectRoleAuthorization(@PathVariable Long roleId){
-        log.debug("传入的参数为"+roleId);
-        Result<RoleAuthorizationVo> result=new Result<>();
-        RoleAuthorizationVo roleAuthorizationVo=new RoleAuthorizationVo();
-        //查询角色所有权限
-        List<PermissionVo> permissionList = sysPermissionService.getPermission();
-        //查询角色所拥有权限
-        List<PermissionInRoleVo> sysPermList = sysRolePermissionService.getPermissionInRole(roleId);
-        //查询角色所有权限
-        roleAuthorizationVo.setPermissionVoInfo(permissionList);
-        //查询角色所拥有权限
-        roleAuthorizationVo.setPermissionInRoleVoInfo(sysPermList);
-        result.setResult(roleAuthorizationVo);
-        log.info("返回的参数为"+RoleAuthorizationVo.class);
-        return result;
-    }
-
-    /***
-     * updateRoleAuthorization方法概述:修改角色授权
-     * @param
-     * @return
-     * @创建人 Tom
-     * @创建时间 2019/12/5 14:14
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @RequestMapping(value = "/update-role-authorization",method = RequestMethod.PUT)
-    @ApiOperation("角色授权(多个)")
-    @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=RolePermissionDto.class)
-    })
+    @RequestMapping(value = "/grant-role/{roleId}",method = RequestMethod.POST)
+    @ApiOperation("角色授权")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<RolePermissionDto> updateRoleAuthorization(@RequestBody @Valid RolePermissionDto rolePermissionDto){
+    public Result<Boolean> grantRole(@PathVariable Long roleId,
+    		@RequestBody @Valid RolePermissionDto rolePermissionDto){
         log.debug("传入的参数为"+JSON.toJSONString(rolePermissionDto));
-        Result<RolePermissionDto> result=new Result<>();
+        Result<Boolean> result=new Result<Boolean>();
         try{
-        	sysRoleService.updateRoleAuthorization(rolePermissionDto);
-            result.setResult(rolePermissionDto);
+        	sysRoleService.grantRole(roleId,rolePermissionDto);
+            result.setResult(true);
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
         	result.setMessage(e.getErrorMsg());
@@ -275,16 +236,16 @@ public class RoleController {
     }
 
     /***
-     * selectRolePage方法概述:角色分页查询
-     * @param
-     * @return
-     * @创建人 Tom
-     * @创建时间 2019/12/6 10:01
+     * selectRolePage方法慨述:分页查询角色
+     * @param pageDto
+     * @return Result<IPage<SysRole>>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 下午1:43:51
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/select-role-page", method = RequestMethod.GET)
-    @ApiOperation("分页查询权限")
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @ApiOperation("分页查询角色")
     @ApiImplicitParams(value={
             @ApiImplicitParam(dataTypeClass=RolePageDto.class)
     })
@@ -295,65 +256,34 @@ public class RoleController {
     public Result<IPage<SysRole>> selectRolePage(BasePageDto<RolePageDto> pageDto){
         log.debug("传入的参数为"+JSON.toJSONString(pageDto));
         Result<IPage<SysRole>> result = new Result<>();
-        QueryWrapper qw = new QueryWrapper();
-        if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleName())){
-            qw.like(PermsCommonConstant.ROLE_NAME,pageDto.getData().getRoleName());
+        QueryWrapper<SysRole> qw = new QueryWrapper<SysRole>();
+        if(ConvertUtils.isNotEmpty(pageDto.getData())){
+        	if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleName())){
+                qw.like(PermsCommonConstant.ROLE_NAME,pageDto.getData().getRoleName());
+            }
+            if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleCode())){
+                qw.eq(PermsCommonConstant.ROLE_CODE,pageDto.getData().getRoleCode());
+            }
         }
-        if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleCode())){
-            qw.eq(PermsCommonConstant.ROLE_CODE,pageDto.getData().getRoleCode());
-        }
-        IPage page = new Page(pageDto.getPageNo(),pageDto.getPageSize());
+        IPage<SysRole> page = new Page<SysRole>(pageDto.getPageNo(),pageDto.getPageSize());
         IPage<SysRole> s = sysRoleService.page(page,qw);
         result.setResult(s);
-        result.success(Result.ROLE_LIST_MSG);
         log.info("返回值为:"+JSON.toJSONString(result.getResult()));
         return result;
     }
 
-    /**
-     *@ 作者：lzw
-     *@ 参数：deleteRoleDto
-     *@ 返回值：
-     *@ 时间：2019/11/21
-     *@ Description：删除多个角色
-     */
-    @RequestMapping(value = "/delete-role-ids",method = RequestMethod.DELETE)
-    @ApiOperation("删除多个角色")
-    @ApiImplicitParams(value={
-            @ApiImplicitParam(dataTypeClass=RoleDtos.class)
-    })
-    @ApiResponses(value = {
-            @ApiResponse(code=200,message = Result.COMM_ACTION_MSG),
-            @ApiResponse(code=500,message = Result.COMM_ACTION_ERROR_MSG)
-    })
-    public  Result<SysRole> deleteRoleByRoleIds(@RequestParam(value = "ids",required = false) String ids) {
-        log.debug("传入dis为:"+ids);
-        Result<SysRole> result=new Result<SysRole>();
-        //拿到字符串分割
-        List<String> idts = Arrays.asList(ids.split(","));
-        //转换类型为Long
-        List<Long> idsList = idts.stream().map(id -> Long.valueOf(id)).collect(Collectors.toList());
-        for (Long d:idsList){
-            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ID, d));
-            if(existsCount != 1 ) {//不存在此记录
-                result.setBizCode(BizResultEnum.ROLE_ID_NOT_EXIST.getBizCode());
-                result.setMessage(String.format(BizResultEnum.ROLE_ID_NOT_EXIST.getBizFormateMessage(), d));
-                return result;
-            }
-            sysRoleService.deleteRoleByRoleIds(d);
-            result.success("删除角色成功！");
-        }
-        log.info("返回的参数为"+SysRole.class);
-        return result;
-    }
-
-    /**
-     * 校验角色编码唯一
+    
+    /****
+     * checkRoleCode方法慨述:校验角色编码唯一
+     * @param roleCode
+     * @return Result<Boolean>
+     * @创建人 huanghy
+     * @创建时间 2019年12月10日 下午1:45:17
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
      */
     @ApiOperation("校验角色编码唯一")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "roleCode" ,value = "角色编码")
-    })
+    @ApiImplicitParam(name = "roleCode" ,value = "角色编码")
     @RequestMapping(value = "/check-role-code", method = RequestMethod.GET)
     public Result<Boolean> checkRoleCode(@RequestParam(value="roleCode",required=true)String roleCode) {
         Result<Boolean> result = new Result<Boolean>();
@@ -366,5 +296,4 @@ public class RoleController {
         }
         return result;
     }
-
 }

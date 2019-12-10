@@ -1,13 +1,24 @@
 package org.forbes.dal.entity;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.chase.system.entity.SysUser;
+
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * Table: f_sys_user
  */
 @Data
+@ApiModel(description="用户信息")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("f_sys_user")
 public class SysUser  extends BaseEntity {
 
@@ -84,5 +95,10 @@ public class SysUser  extends BaseEntity {
      */
     @ApiModelProperty(value = "姓名",required = true)
     private String realname;
+    
+    
+    @ApiModelProperty(value="管理员标识(-1-普通人员,0-超级管理员,1-企业管理员,2-不限制企业号)")
+	@NotEmpty(message="管理员标识不能为空")
+    private String adminFlag;
 
 }

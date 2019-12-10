@@ -1,7 +1,7 @@
 package org.forbes.biz.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.forbes.biz.SysRolePermissionService;
+import org.forbes.biz.ISysRolePermissionService;
 import org.forbes.comm.model.PermissionRoleDto;
 import org.forbes.comm.vo.PermissionInRoleVo;
 import org.forbes.comm.vo.SysRolePermissionVo;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 public class SysRolePermissionServiceImpl
-        extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements SysRolePermissionService {
+        extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements ISysRolePermissionService {
 
      @Autowired
      SysRolePermissionExtMapper sysRolePermissionExtMapper;

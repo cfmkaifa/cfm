@@ -3,18 +3,21 @@ package org.forbes.dal.entity;
 
 import javax.validation.constraints.NotEmpty;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * Table: f_sys_role
  */
 @Data
+@ApiModel(description="角色信息")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("f_sys_role")
 public class SysRole extends BaseEntity {
     

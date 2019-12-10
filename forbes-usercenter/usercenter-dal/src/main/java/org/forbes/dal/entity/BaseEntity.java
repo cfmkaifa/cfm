@@ -3,6 +3,10 @@ package org.forbes.dal.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.forbes.comm.constant.UpdateValid;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -21,6 +25,7 @@ public class BaseEntity implements Serializable  {
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
+    @NotNull(message="主键ID为空",groups=UpdateValid.class)
     private Long id;
     
     
