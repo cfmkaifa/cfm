@@ -115,6 +115,24 @@ public class SysUserController {
         log.debug("===========SysUserDto:"+JSON.toJSONString(userDto));
         Result<SysUser> result = new Result<SysUser>();
         String username = userDto.getUsername();
+        String email=userDto.getEmail();
+        String phone=userDto.getPhone();
+        if(email!=null){
+            int emailcount=sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.EMAIL, email));
+            if(emailcount>0){
+                result.setBizCode(BizResultEnum.USER_EMAIL_EXISTS.getBizCode());
+                result.setMessage(String.format(BizResultEnum.USER_EMAIL_EXISTS.getBizFormateMessage(), email));
+                return result;
+            }
+        }
+        if(phone!=null){
+            int phonecount=sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.PHONE, email));
+            if(phonecount>0){
+                result.setBizCode(BizResultEnum.PHONE_EXISTS.getBizCode());
+                result.setMessage(String.format(BizResultEnum.PHONE_EXISTS.getBizFormateMessage(), phone));
+                return result;
+            }
+        }
         int usernameCount = sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.USERNAME, username));
         if(usernameCount > 0 ){
             result.setBizCode(BizResultEnum.USER_NAME_EXISTS.getBizCode());
@@ -146,6 +164,25 @@ public class SysUserController {
         Result<SysUser> result = new Result<SysUser>();
         String username=userDto.getUsername();
         int usernameCount = sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.USERNAME, username));
+        String email=userDto.getEmail();
+        String phone=userDto.getPhone();
+        if(email!=null){
+            int emailcount=sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.EMAIL, email));
+            if(emailcount>0){
+                result.setBizCode(BizResultEnum.USER_EMAIL_EXISTS.getBizCode());
+                result.setMessage(String.format(BizResultEnum.USER_EMAIL_EXISTS.getBizFormateMessage(), email));
+                return result;
+            }
+        }
+
+        if(phone!=null){
+            int phonecount=sysUserService.count(new QueryWrapper<SysUser>().eq(DataColumnConstant.PHONE, email));
+            if(phonecount>0){
+                result.setBizCode(BizResultEnum.PHONE_EXISTS.getBizCode());
+                result.setMessage(String.format(BizResultEnum.PHONE_EXISTS.getBizFormateMessage(), phone));
+                return result;
+            }
+        }
         if(usernameCount==1){
             SysUser sysUser=new SysUser();
             BeanUtils.copyProperties(userDto,sysUser);
@@ -250,7 +287,7 @@ public class SysUserController {
      * @Author: xfx
      * @Date: 2019/12/7
      */
-    @RequestMapping(value = "/editor-user/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/select-user/{id}",method = RequestMethod.GET)
     @ApiOperation("编辑用户查询角色")
     @ApiResponses(value = {
             @ApiResponse(code=500,message = Result.EDITOR_USER_ERROR),
@@ -343,9 +380,7 @@ public class SysUserController {
             } else {
                 sysUserDto.setId(null);
             }
-            SysUser tempUser = new SysUser();
-            BeanUtils.copyProperties(sysUserDto, tempUser);
-            SysUser newUser = sysUserService.getOne(new QueryWrapper<SysUser>(tempUser));
+            SysUser newUser = sysUserService.getOne(new QueryWrapper<SysUser>().eq(DataColumnConstant.ID,sysUserDto.getId()));
             if (newUser != null) {
                 //如果根据传入信息查询到用户了，那么需要做校验。
                 if (oldUser == null) {

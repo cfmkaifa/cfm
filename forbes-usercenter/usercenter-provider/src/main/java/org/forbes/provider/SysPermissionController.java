@@ -43,8 +43,7 @@ public class SysPermissionController {
     @Autowired
     SysRolePermissionService sysRolePermissionService;
 
-    @Autowired
-    private RedisUtil redisUtil;
+
 
     /***
      * selectPage方法概述: 分页多条件查询
@@ -68,17 +67,17 @@ public class SysPermissionController {
         log.info("传入参数为："+JSON.toJSONString(pageDto)+",pageNo:"+pageDto.getPageNo()+",pageSize:"+pageDto.getPageSize());
         Result<IPage<SysPermission>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper();
-        if(ConvertUtils.isNotEmpty(pageDto.getData().getType()) ){
-            qw.eq("type",pageDto.getData().getType());
-        }
-        if(ConvertUtils.isNotEmpty(pageDto.getData().getName()) ){
-            qw.like("name",pageDto.getData().getName());
+        if (pageDto.getData()!=null) {
+            if(ConvertUtils.isNotEmpty(pageDto.getData().getType()) ){
+                qw.eq(PermsCommonConstant.PERMS,pageDto.getData().getType());
+            }
+            if(ConvertUtils.isNotEmpty(pageDto.getData().getName()) ){
+                qw.like(PermsCommonConstant.NAME,pageDto.getData().getName());
+            }
         }
         IPage page = new Page(pageDto.getPageNo(),pageDto.getPageSize());
         IPage<SysPermission> s = sysPermissionService.page(page,qw);
         result.setResult(s);
-        result.setCode(CommonConstant.SC_OK_200);
-        result.success(Result.PERMISSIONS_MSG);
         log.info("返回值为:"+JSON.toJSONString(result.getResult()));
         return result;
     }
@@ -103,8 +102,8 @@ public class SysPermissionController {
                 result.setMessage(Result.EXISTS_PERMISSION_MSG);
                 result.setResult(false);
                 return result;
-            }else {//如果编码不存在则可以进行下一步
-                result.success(Result.AVAILABLE_PERMISSION_MSG);
+            }else {//如果编码不存在则进行下一步
+                result.setMessage(Result.AVAILABLE_PERMISSION_MSG);
                 result.setResult(true);
                 return result;
             }
@@ -135,8 +134,6 @@ public class SysPermissionController {
         log.info("传入id为:"+id);
         Result<SysPermission> result = new Result<>();
         SysPermission permission = sysPermissionService.getById(id);
-        result.setCode(CommonConstant.SC_OK_200);
-        result.success(Result.PERMISSION_BY_ID_MSG);
         result.setResult(permission);
         log.info("返回值为:"+result.getResult());
         return result;
@@ -194,31 +191,6 @@ public class SysPermissionController {
 
 
     /***
-     * getTreeList方法概述: 获取全部权限树形
-     * @return
-     * @创建人 niehy(Frunk)
-     * @创建时间 2019/12/9
-     * @修改人 (修改了该文件，请填上修改人的名字)
-     * @修改日期 (请填上修改该文件时的日期)
-     */
-    @RequestMapping(value = "/tree-list",method = RequestMethod.GET)
-    public Result<Map<String,Object>> getTreeList(){
-        Result<Map<String,Object>> result = new Result<Map<String,Object>>();
-        //全部权限id
-        List<Long> ids = new ArrayList<>();
-
-        QueryWrapper<SysPermission> query = new QueryWrapper<SysPermission>();
-        query.eq(PermsCommonConstant.IF_LEAF,YesNoEnum.NO);
-        query.orderByAsc(PermsCommonConstant.SORT_NO);
-        List<SysPermission> list = sysPermissionService.list(query);
-        for (SysPermission s: list) {
-            ids.add(s.getId());
-        }
-        List<TreeModel> treeModels = new ArrayList<>();
-        return result;
-    }
-
-    /***
      * addPermission方法概述: 仅添加一个权限
      * @param sysPermission 添加的实体
      * @return
@@ -236,9 +208,9 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.ADD_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Boolean.class, message = Result.ADD_PERMISSION_MSG)
     })
-    public Result<Boolean> addPermission(SysPermission sysPermission){
+    public Result<SysPermission> addPermission(SysPermission sysPermission){
         log.info("传入sysPermission为:"+JSON.toJSONString(sysPermission));
-        Result<Boolean> result = new Result<>();
+        Result<SysPermission> result = new Result<>();
         int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(ConvertUtils.camelToUnderline(PermsCommonConstant.PERMS),sysPermission.getPerms()));
         if(exitsCount > 0){
             result.setMessage(Result.ADD_SAME_PERMISSION_NOT_ERROR_MSG);
@@ -251,15 +223,10 @@ public class SysPermissionController {
                 return result;
             }
             sysPermission.setIsHidden(YesNoEnum.NO.getCode());//是否隐藏,默认否
+            sysPermission.setIsLeaf(YesNoEnum.YES.getCode());
+            //判父级权权限值并更改父级自己点值
+            sysPermissionService.addChangeLeaf(sysPermission);
 
-            boolean i = sysPermissionService.save(sysPermission);
-            if (i==true){
-                result.setCode(CommonConstant.SC_OK_200);
-                result.success(Result.ADD_PERMISSION_MSG);
-            }else {
-                result.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);
-                result.setMessage(Result.ADD_PERMISSION_NOT_ERROR_MSG);
-            }
         }
         log.info("返回值为:"+result.getResult());
         return result;
@@ -284,9 +251,9 @@ public class SysPermissionController {
             @ApiResponse(code=500,message= Result.UPDATE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,response=Boolean.class, message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<Boolean> updatePermission(SysPermission sysPermission){
+    public Result<SysPermission> updatePermission(SysPermission sysPermission){
         log.info("传入sysPermission为:"+ JSON.toJSONString(sysPermission));
-        Result<Boolean> result = new Result<>();
+        Result<SysPermission> result = new Result<>();
         SysPermission permission = sysPermissionService.getById(sysPermission.getId());
         if(permission ==null){
             result.setMessage(Result.UPDATE_PERMISSION_NOT_ERROR_MSG);
@@ -295,20 +262,13 @@ public class SysPermissionController {
         //判断当前权限编码与输入的是否一致
         if (!permission.getPerms().equalsIgnoreCase(sysPermission.getPerms())) {
             //查询是否和其他权限编码一致
-            int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(ConvertUtils.camelToUnderline(PermsCommonConstant.PERMS),sysPermission.getPerms()));
+            int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PERMS,sysPermission.getPerms()));
             if (exitsCount > 0){//已存在相同的权限编码，不操作
                 result.setMessage(Result.UPDATE_SAME_PERMISSION_MSG);
             }
-        }else{
-            boolean i = sysPermissionService.updateById(sysPermission);
-            if (i == true){
-                result.setCode(CommonConstant.SC_OK_200);
-                result.success(Result.UPDATE_PERMISSION_MSG);
-            }else {
-                result.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);
-                result.setMessage(Result.UPDATE_PERMISSION_NOT_ERROR_MSG);
-            }
         }
+        sysPermissionService.updateChangeLeaf(sysPermission);
+
         log.info("返回值为:"+result.getResult());
         return result;
     }
@@ -337,26 +297,10 @@ public class SysPermissionController {
         Result<Boolean> result = new Result<>();
         //查询数据库有无此记录
         int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.ID,id));
-        if (exitsCount == 1){//存在该条记录
-
+        if (exitsCount == 1) {//存在该条记录
             SysPermission sysPermission = sysPermissionService.getById(id);
             //判断其是否是父级权限并更改其父级状态
-           boolean o = sysPermissionService.deleteChangeLeaf(sysPermission);
-           if(o == true){
-               boolean i = sysPermissionService.removeById(id);
-               if (i ==true ){//可以删除
-                   result.setCode(CommonConstant.SC_OK_200);
-                   result.setMessage(Result.DELETE_PERMISSION_MSG);
-               }else if(i == false ){//删除失败
-                   result.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);
-                   result.setMessage(Result.DELETE_IF_PERMISSION_NOT_ERROR_MSG);
-               }
-               result.setResult(i);
-           }
-        }else {//权限不存在
-            result.setResult(false);
-            result.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);
-            result.setMessage(Result.DELETE_PERMISSION_NOT_NULL_ERROR_MSG);
+           sysPermissionService.deleteChangeLeaf(sysPermission);
         }
         log.info("返回值为:"+result.getResult());
         return result;
@@ -398,19 +342,8 @@ public class SysPermissionController {
               continue;
             }else if(exitsCount == 0){//此权限无人使用，可以删除
                 SysPermission sysPermission = sysPermissionService.getById(id);
-                //判断其是否是父级权限并更改其父级状态
-                boolean o = sysPermissionService.deleteChangeLeaf(sysPermission);
-                if(o == true){
-                    boolean i = sysPermissionService.removeById(id);
-                    if (i ==true ){//删除成功
-                        result.setCode(CommonConstant.SC_OK_200);
-                        result.success(Result.DELETE_PERMISSION_MSG);
-                    }else if(i == false ){//删除失败
-                        result.setCode(CommonConstant.SC_INTERNAL_SERVER_ERROR_500);
-                        result.setMessage(Result.DELETE_PERMISSION_NOT_ERROR_MSG);
-                    }
-                    result.setResult(i);
-                }
+                //去业务层删除,并判断其是否是父级权限并更改其父级状态
+                sysPermissionService.deleteChangeLeaf(sysPermission);
             }
         }
         log.info("返回值为:"+result.getResult());
