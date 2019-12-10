@@ -222,11 +222,11 @@ public class RoleController {
             @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<Boolean> grantRole(@PathVariable Long roleId,
-    		@RequestBody @Valid RolePermissionDto rolePermissionDto){
-        log.debug("传入的参数为"+JSON.toJSONString(rolePermissionDto));
+    		@RequestBody @Valid List<RolePermissionDto> rolePermissionDtos){
+        log.debug("传入的参数为"+JSON.toJSONString(rolePermissionDtos));
         Result<Boolean> result=new Result<Boolean>();
         try{
-        	sysRoleService.grantRole(roleId,rolePermissionDto);
+        	sysRoleService.grantRole(roleId,rolePermissionDtos);
             result.setResult(true);
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
