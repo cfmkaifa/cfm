@@ -38,7 +38,7 @@ public class SysPermission extends BaseEntity {
      * Column:    name
      * Nullable:  true
      */
-    @ApiModelProperty(value = "资源名称")
+    @ApiModelProperty(value = "资源名称",required = true)
     private String name;
 
     /**
@@ -47,7 +47,7 @@ public class SysPermission extends BaseEntity {
      * Column:    perms
      * Nullable:  true
      */
-    @ApiModelProperty(value = "菜单权限编码")
+    @ApiModelProperty(value = "菜单权限编码",required = true)
     private String perms;
 
     /**
@@ -138,7 +138,7 @@ public class SysPermission extends BaseEntity {
      * Column:    url
      * Nullable:  true
      */
-    @ApiModelProperty(value = "后台请求地址")
+    @ApiModelProperty(value = "后台请求地址",required = true)
     private String url;
 
     /**
@@ -156,7 +156,7 @@ public class SysPermission extends BaseEntity {
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "类型",example="-1")
+    @ApiModelProperty(value = "类型",example="-1",required = true)
     private Long type;
 
     /**
@@ -165,7 +165,7 @@ public class SysPermission extends BaseEntity {
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "等级",example="-1")
+    @ApiModelProperty(value = "等级",example="-1",required = true)
     private Long grade;
 
 }
