@@ -2,6 +2,7 @@ package org.forbes.provider;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.constant.CommonConstant;
@@ -62,7 +63,7 @@ public class LoginController {
 			@ApiResponse(code=500,message=Result.LOGIN_NOT_USER_ERROR_MSG),
 			@ApiResponse(code=200,response=LoginVo.class, message = Result.LOGIN_MSG)
 	})
-	public Result<LoginVo> login(@RequestBody @Validated(value={ValidGroup.class}) SysLoginModel sysLoginModel) {
+	public Result<LoginVo> login(@RequestBody @Valid SysLoginModel sysLoginModel) {
 		Result<LoginVo> result = new Result<LoginVo>();
 		String username = sysLoginModel.getUsername();
 		String password = sysLoginModel.getPassword();
