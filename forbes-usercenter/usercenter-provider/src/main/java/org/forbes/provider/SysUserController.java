@@ -224,7 +224,7 @@ public class SysUserController {
      * freezeOrThaw方法慨述:冻结/解冻用户
      * @param id
      * @param status
-     * @return Result<UserDeatailVo>
+     * @return Result<SysUser>
      * @创建人 huanghy
      * @创建时间 2019年12月10日 上午9:18:38
      * @修改人 (修改了该文件，请填上修改人的名字)
