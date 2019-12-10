@@ -91,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public void addUser(SysUserDto sysUserDto){
 		SysUser sysUser = new SysUser();
 		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
-		.copy(sysUserDto, sysUser, null);
+		.copy(sysUserDto, sysUser, null);   
 		String salt = ConvertUtils.randomGen(8);
 		sysUser.setSalt(salt);
 		sysUser.setPassword(DEFAULT_PASSWD);
