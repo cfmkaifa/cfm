@@ -12,6 +12,7 @@ import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UserRoleDto;
 import org.forbes.comm.utils.ConvertUtils;
+import org.forbes.comm.utils.DeepCloneUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.vo.UserVo;
 import org.forbes.dal.entity.SysUser;
@@ -90,9 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(SysUserDto sysUserDto){
-		SysUser sysUser = new SysUser();
-		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
-		.copy(sysUserDto, sysUser, null);
+		SysUser sysUser = DeepCloneUtils.deepClone(sysUserDto);
 		String salt = ConvertUtils.randomGen(8);
 		sysUser.setSalt(salt);
 		sysUser.setPassword(DEFAULT_PASSWD);
@@ -113,6 +112,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		}
 	}
 	
+
+	private int deepClone(SysUserDto sysUserDto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
 
 	/***
 	 * 编辑用户
