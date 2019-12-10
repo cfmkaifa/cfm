@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.forbes.biz.ISysPermissionService;
 import org.forbes.biz.ISysUserRoleService;
 import org.forbes.biz.ISysUserService;
@@ -355,8 +356,9 @@ public class SysPermissionController {
 			query.orderByAsc(DataColumnConstant.SORT_NO);
 			List<SysPermission> list = sysPermissionService.list(query);
 			List<Long> ids = list.stream().map(sysPermission -> sysPermission.getId()).collect(Collectors.toList());
-			List<TreeModel> treeList = new ArrayList<>();
-			receTreeModelList(treeList, list, null);
+			List<TreeModel> treeList = new ArrayList<TreeModel>();
+			Map<Long,Boolean> idMaps = new HashMap<Long,Boolean>();
+			receTreeModelList(treeList, list, null,idMaps);
 			Map<String,Object> resMap = new HashMap<String,Object>();
 			resMap.put(CommonConstant.TREE_LIST_CODE, treeList); //全部树节点数据
 			resMap.put(CommonConstant.IDS_CODE, ids);//全部树ids
@@ -379,31 +381,34 @@ public class SysPermissionController {
 	 * @修改人 (修改了该文件，请填上修改人的名字)
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
-	private void receTreeModelList(List<TreeModel> treeList,List<SysPermission> metaList,TreeModel temp) {
+	private void receTreeModelList(List<TreeModel> treeList,List<SysPermission> metaList,TreeModel temp,Map<Long,Boolean> idMaps) {
 		try {
-			for (SysPermission permission : metaList) {
-				Long tempPid = permission.getId();
-				String icon = permission.getIcon();
-				Long parentId = permission.getParentId();
-				String name = permission.getName();
-				String isLeaf = permission.getIsLeaf();
-				TreeModel tree = new TreeModel(tempPid,icon,parentId,name,isLeaf);
-				if(temp == null 
-						&& -1 == parentId) {
-					treeList.add(tree);
-					if(!tree.getLeaf()) {
-						receTreeModelList(treeList, metaList, tree);
-					}
-				}else if(temp!=null 
-						&& -1 != tempPid 
-						&& parentId.equals(temp.getKey())){
-					temp.getChildren().add(tree);
-					if(!tree.getLeaf()) {
-						receTreeModelList(treeList, metaList, tree);
+			metaList.forEach(permission -> {
+				Long id  = permission.getId();
+				if(!idMaps.containsKey(id)){
+					Long tempPid = permission.getParentId();
+					String icon = permission.getIcon();
+					String name = permission.getName();
+					String isLeaf = permission.getIsLeaf();
+					TreeModel tree = new TreeModel(id,icon,tempPid,name,isLeaf);
+					if(temp == null
+							&& -1 == tempPid) {
+						idMaps.put(id,true);
+						treeList.add(tree);
+						if(!tree.getLeaf()) {
+							receTreeModelList(treeList, metaList, tree,idMaps);
+						}
+					}else if(temp!=null
+							&& -1 != tempPid
+							&& tempPid.equals(Long.valueOf(temp.getKey()))){
+						idMaps.put(id,true);
+						temp.getChildren().add(tree);
+						if(!tree.getLeaf()) {
+							receTreeModelList(treeList, metaList, tree,idMaps);
+						}
 					}
 				}
-				
-			}
+			});
 		}catch(Exception e){
 			throw new ForbesException(e.getMessage());
 		}
