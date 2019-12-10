@@ -28,7 +28,7 @@ public class RolePermissionDto implements Serializable{
     @TableId(type = IdType.AUTO)
     @JSONField(format="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    @ApiModelProperty("主键id")
+    @ApiModelProperty(value = "主键id",example = "0")
     private Long id;
 
     /**
@@ -47,7 +47,7 @@ public class RolePermissionDto implements Serializable{
      * Column:    role_id
      * Nullable:  true
      */
-    @ApiModelProperty(value = "角色ID(必传)")
+    @ApiModelProperty(value = "角色ID(必传)",example = "0")
     @NotEmpty(message="角色ID为空")
     private Long roleId;
 

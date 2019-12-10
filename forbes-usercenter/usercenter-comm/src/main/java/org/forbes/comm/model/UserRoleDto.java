@@ -21,12 +21,12 @@ public class UserRoleDto implements Serializable{
 
     private static final long serialVersionUID = 5601288102119484469L;
 
-    @ApiModelProperty(value = "用户id")
+    @ApiModelProperty(value = "用户id",example = "0")
     @NotEmpty(message = "用户id不能为空")
     private Long userId;
 
 
-    @ApiModelProperty(value = "角色id")
+    @ApiModelProperty(value = "角色id",example = "0")
     @NotEmpty(message = "角色id不能为空")
     private Long roleId;
 

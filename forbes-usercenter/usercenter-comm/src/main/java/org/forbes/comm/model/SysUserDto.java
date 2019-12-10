@@ -36,7 +36,7 @@ public class SysUserDto implements Serializable{
     private static final long serialVersionUID = 4511975727752590523L;
 
     
-    @ApiModelProperty("主键ID")
+    @ApiModelProperty(value = "主键ID",example = "0")
     @NotNull(message="主键ID为空",groups = UpdateValid.class)
     private Long id;
     

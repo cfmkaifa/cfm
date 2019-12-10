@@ -19,7 +19,7 @@ public class SelectUserAndRoleDto implements Serializable{
 
     private static final long serialVersionUID = 565714674112139969L;
 
-    @ApiModelProperty("用户id")
+    @ApiModelProperty(value = "用户id",example = "0")
     private Long userId;
 
 }

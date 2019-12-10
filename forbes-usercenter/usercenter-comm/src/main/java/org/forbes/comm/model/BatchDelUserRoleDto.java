@@ -19,10 +19,10 @@ public class BatchDelUserRoleDto implements Serializable {
 
     private static final long serialVersionUID = -7562147645896988719L;
 
-    @ApiModelProperty("用户id(必传)")
+    @ApiModelProperty(value = "用户id(必传)",example = "0")
     private Long userId;
 
-    @ApiModelProperty("角色id数组")
+    @ApiModelProperty(value = "角色id数组",example = "-1")
     private Long[] roleIdArray;
 
 }

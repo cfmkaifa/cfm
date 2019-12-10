@@ -20,7 +20,7 @@ public class SysPermissionPageDto implements Serializable{
 
     private static final long serialVersionUID = 5528079878333068701L;
 
-    @ApiModelProperty("类型")
+    @ApiModelProperty(value = "类型",example = "0")
     private Long type;
 
     @ApiModelProperty("资源名称")
