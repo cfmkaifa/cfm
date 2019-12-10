@@ -21,6 +21,7 @@ import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.core.Converter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -91,7 +92,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(SysUserDto sysUserDto){
 		SysUser sysUser = new SysUser();
-		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
+		BeanCopier.create(SysUserDto.class,SysUser.class ,true)
 		.copy(sysUserDto, sysUser, null);
 		String salt = ConvertUtils.randomGen(8);
 		sysUser.setSalt(salt);

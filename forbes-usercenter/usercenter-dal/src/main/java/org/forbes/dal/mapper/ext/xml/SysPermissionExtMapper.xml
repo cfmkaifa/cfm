@@ -20,7 +20,7 @@
 				  WHERE sps.`id` = srp.`permission_id` 
 		    			AND srp.`role_id` IN
 		    			<foreach collection="roleIds" item="roleId" open="(" separator=","  close=")">
-		    				#{createTime,jdbcType=BIGINT}
+		    				#{roleId,jdbcType=BIGINT}
 		    			</foreach>
 				    )
     </select>
