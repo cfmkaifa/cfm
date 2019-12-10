@@ -66,7 +66,7 @@ public class SysPermissionController {
     public Result<IPage<SysPermission>> selectPage(BasePageDto<SysPermissionPageDto> pageDto ){
         log.info("传入参数为："+JSON.toJSONString(pageDto)+",pageNo:"+pageDto.getPageNo()+",pageSize:"+pageDto.getPageSize());
         Result<IPage<SysPermission>> result = new Result<>();
-        QueryWrapper qw = new QueryWrapper();
+        QueryWrapper qw = new QueryWrapper<SysPermission>();
         if (pageDto.getData()!=null) {
             if(ConvertUtils.isNotEmpty(pageDto.getData().getType()) ){
                 qw.eq(PermsCommonConstant.PERMS,pageDto.getData().getType());
