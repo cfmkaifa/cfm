@@ -12,6 +12,7 @@ import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.SysUserDto;
 import org.forbes.comm.model.UserRoleDto;
 import org.forbes.comm.utils.ConvertUtils;
+import org.forbes.comm.utils.DeepCloneUtils;
 import org.forbes.comm.utils.PasswordUtil;
 import org.forbes.comm.vo.UserVo;
 import org.forbes.dal.entity.SysUser;
@@ -20,8 +21,6 @@ import org.forbes.dal.mapper.SysUserMapper;
 import org.forbes.dal.mapper.SysUserRoleMapper;
 import org.forbes.dal.mapper.ext.SysUserExtMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.beans.BeanCopier;
-import org.springframework.cglib.core.Converter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,8 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
-
-
+import net.sf.cglib.beans.BeanCopier;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 	
@@ -92,8 +90,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(SysUserDto sysUserDto){
 		SysUser sysUser = new SysUser();
-		BeanCopier.create(SysUserDto.class,SysUser.class ,true)
-		.copy(sysUserDto, sysUser, null);
+		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
+		.copy(sysUserDto, sysUser, null);   
 		String salt = ConvertUtils.randomGen(8);
 		sysUser.setSalt(salt);
 		sysUser.setPassword(DEFAULT_PASSWD);
@@ -113,7 +111,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			});
 		}
 	}
-	
+
+
+
 
 	/***
 	 * 编辑用户
