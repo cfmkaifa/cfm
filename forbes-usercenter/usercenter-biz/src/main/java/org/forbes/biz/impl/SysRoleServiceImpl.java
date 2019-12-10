@@ -66,17 +66,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Transactional(rollbackFor=Exception.class)
     public void grantRole(Long roleId,
-    		RolePermissionDto rolePermissionDto) {
-        List<PermissionIdRoleDto> permissionIdRoleDtos = rolePermissionDto.getPermissionIdRoleDtos();
-        if(ConvertUtils.isNotEmpty(permissionIdRoleDtos)){
-            permissionIdRoleDtos.stream().forEach(permissionIdRoleDto -> {
+    		List<RolePermissionDto> rolePermissionDtos) {
+        if(ConvertUtils.isNotEmpty(rolePermissionDtos)){
+            rolePermissionDtos.stream().forEach(permissionIdRoleDto -> {
                 SysRolePermission sysRolePermission=new SysRolePermission();
                 Long permissionId = permissionIdRoleDto.getPermissionId();
                 /*****判断上级****/
                 SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
                 Long parentId = sysPermission.getParentId();
                 if(0 != parentId.longValue()){
-                	long notParentCount = permissionIdRoleDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
+                	long notParentCount = rolePermissionDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
                 	if(0 == notParentCount){
                 		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
                 	}
