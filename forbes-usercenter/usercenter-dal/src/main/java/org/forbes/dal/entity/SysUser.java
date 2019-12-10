@@ -1,5 +1,4 @@
 package org.forbes.dal.entity;
-
 import javax.validation.constraints.NotEmpty;
 
 import com.baomidou.mybatisplus.annotation.TableName;

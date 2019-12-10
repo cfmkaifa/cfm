@@ -110,7 +110,7 @@ public class SysPermission extends BaseEntity {
      * Column:    sort_no
      * Nullable:  true
      */
-    @ApiModelProperty(value = "排序号",example="-1")
+    @ApiModelProperty(value = "排序号",example="0")
     @NotNull(message="排序号")
     private Integer sortNo;
 
@@ -156,7 +156,7 @@ public class SysPermission extends BaseEntity {
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "类型",example="-1",required = true)
+    @ApiModelProperty(value = "类型",example="0",required = true)
     private Long type;
 
     /**
@@ -165,7 +165,7 @@ public class SysPermission extends BaseEntity {
      * Column:    type
      * Nullable:  true
      */
-    @ApiModelProperty(value = "等级",example="-1",required = true)
+    @ApiModelProperty(value = "等级",example="0",required = true)
     private Long grade;
 
 }

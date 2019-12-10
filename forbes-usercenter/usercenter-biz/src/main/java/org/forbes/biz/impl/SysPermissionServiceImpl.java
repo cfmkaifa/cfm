@@ -75,7 +75,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(propagation = Propagation.MANDATORY,rollbackFor = Exception.class)
-    private void noLeafParent(Long parentId){
+    public void noLeafParent(Long parentId){
     	if(-1 !=  parentId){
     		SysPermission parentSysPermission = baseMapper.selectById(parentId);
     		if(YesNoEnum.YES.getCode()
@@ -96,7 +96,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional(propagation = Propagation.MANDATORY,rollbackFor = Exception.class)
-    private void yesLeafParent(Long parentId){
+    public void yesLeafParent(Long parentId){
     	if(-1 !=  parentId){
     		int childCount = baseMapper.selectCount(new QueryWrapper<SysPermission>().eq(DataColumnConstant.PARENT_ID, parentId));
     		if(0 == childCount){
