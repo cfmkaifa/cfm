@@ -6,7 +6,7 @@ import org.forbes.biz.SysRoleService;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.AddPermissionToRoleDto;
-import org.forbes.comm.model.UpdateRoleAuthorizationDto;
+import org.forbes.comm.model.RoleAuthorizationDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.RoleListVo;
 import org.forbes.comm.vo.RoleVo;
@@ -116,9 +116,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @修改日期 (请填上修改该文件时的日期)
      */
     @Transactional
-    public void updateRoleAuthorization(UpdateRoleAuthorizationDto updateRoleAuthorizationDto) {
+    public void updateRoleAuthorization(RoleAuthorizationDto roleAuthorizationDto) {
         SysRole sysRole=new SysRole();
-        List<AddPermissionToRoleDto>  addPermissionToRoleDtos = updateRoleAuthorizationDto.getAddPermissionToRoleDtos();
+        List<AddPermissionToRoleDto>  addPermissionToRoleDtos = roleAuthorizationDto.getAddPermissionToRoleDtos();
         if(ConvertUtils.isNotEmpty(addPermissionToRoleDtos)){
             addPermissionToRoleDtos.stream().forEach(addPermissionToRoleDto -> {
                 Long roleId=sysRole.getId();

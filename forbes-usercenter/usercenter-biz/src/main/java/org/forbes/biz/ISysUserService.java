@@ -66,4 +66,13 @@ public interface ISysUserService extends IService<SysUser> {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	void addUser(SysUserDto sysUserDto);
+
+	/**
+	 * @Author xfx
+	 * @Date 11:55 2019/12/9
+	 * @Param [user, roles]
+	 * @return void
+	 * 编辑用户和角色
+	 **/
+	public void editUserWithRole(SysUserDto sysUserDto);
 }

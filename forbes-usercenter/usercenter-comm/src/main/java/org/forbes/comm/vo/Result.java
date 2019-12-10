@@ -144,6 +144,13 @@ public class Result<T> implements Serializable {
 	public static final  String UNIQUE_USER = "用户账号已存在";
 	public static final  String UNIQUE_ERROR_USER="用户账号不存在";
 
+	/*****用户存在信息*****/
+	public static final  String EXIST_USER = "用户已存在";
+	public static final  String EXIST_ERROR_USER="用户不存在";
+
+	/***修改***/
+	public static final  String    UP_SUCCESS_MSG = "修改成功！";
+
 	/**
 	 * 返回代码
 	 */
