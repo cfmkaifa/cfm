@@ -64,7 +64,7 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=SysPermission.class, message = Result.PERMISSIONS_MSG)
     })
     public Result<IPage<SysPermission>> selectPage(BasePageDto<SysPermissionPageDto> pageDto ){
-        log.info("传入参数为："+JSON.toJSONString(pageDto)+",pageNo:"+pageDto.getPageNo()+",pageSize:"+pageDto.getPageSize());
+        log.debug("传入参数为："+JSON.toJSONString(pageDto));
         Result<IPage<SysPermission>> result = new Result<>();
         QueryWrapper qw = new QueryWrapper<SysPermission>();
         if (pageDto.getData()!=null) {
@@ -78,7 +78,7 @@ public class SysPermissionController {
         IPage page = new Page(pageDto.getPageNo(),pageDto.getPageSize());
         IPage<SysPermission> s = sysPermissionService.page(page,qw);
         result.setResult(s);
-        log.info("返回值为:"+JSON.toJSONString(result.getResult()));
+        log.debug("返回值为:"+JSON.toJSONString(result.getResult()));
         return result;
     }
 
@@ -95,6 +95,7 @@ public class SysPermissionController {
     @ApiImplicitParam(name = "perms",value = "权限编码",required = true)
     @RequestMapping(value = "/check-perms", method = RequestMethod.GET)
     public Result<Boolean> checkPerms(@RequestParam(value = "perms",required=true) String perms) {
+        log.debug("传入参数为："+perms);
         Result<Boolean> result = new Result<>();
         result.setResult(true);//如果此参数为false则程序发生异常
             int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PERMS,perms));
@@ -131,11 +132,11 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=PermissionVo.class, message = Result.PERMISSION_BY_ID_MSG)
     })
     public Result<SysPermission> getPermissionById(@PathVariable Long id){
-        log.info("传入id为:"+id);
+        log.debug("传入id为:"+id);
         Result<SysPermission> result = new Result<>();
         SysPermission permission = sysPermissionService.getById(id);
         result.setResult(permission);
-        log.info("返回值为:"+result.getResult());
+        log.debug("返回值为:"+result.getResult());
         return result;
     }
 
@@ -209,7 +210,7 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=Boolean.class, message = Result.ADD_PERMISSION_MSG)
     })
     public Result<SysPermission> addPermission(SysPermission sysPermission){
-        log.info("传入sysPermission为:"+JSON.toJSONString(sysPermission));
+        log.debug("传入sysPermission为:"+JSON.toJSONString(sysPermission));
         Result<SysPermission> result = new Result<>();
         int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(ConvertUtils.camelToUnderline(PermsCommonConstant.PERMS),sysPermission.getPerms()));
         if(exitsCount > 0){
@@ -228,7 +229,7 @@ public class SysPermissionController {
             sysPermissionService.addChangeLeaf(sysPermission);
 
         }
-        log.info("返回值为:"+result.getResult());
+        log.debug("返回值为:"+result.getResult());
         return result;
     }
 
@@ -252,7 +253,7 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=Boolean.class, message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<SysPermission> updatePermission(SysPermission sysPermission){
-        log.info("传入sysPermission为:"+ JSON.toJSONString(sysPermission));
+        log.debug("传入sysPermission为:"+ JSON.toJSONString(sysPermission));
         Result<SysPermission> result = new Result<>();
         SysPermission permission = sysPermissionService.getById(sysPermission.getId());
         if(permission ==null){
@@ -269,7 +270,7 @@ public class SysPermissionController {
         }
         sysPermissionService.updateChangeLeaf(sysPermission);
 
-        log.info("返回值为:"+result.getResult());
+        log.debug("返回值为:"+result.getResult());
         return result;
     }
 
@@ -293,7 +294,7 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=Boolean.class, message = Result.DELETE_PERMISSION_MSG)
     })
     public Result<Boolean> deletePermission(@PathVariable Long id){
-        log.info("传入di为:"+id);
+        log.debug("传入di为:"+id);
         Result<Boolean> result = new Result<>();
         //查询数据库有无此记录
         int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.ID,id));
@@ -302,7 +303,7 @@ public class SysPermissionController {
             //判断其是否是父级权限并更改其父级状态
            sysPermissionService.deleteChangeLeaf(sysPermission);
         }
-        log.info("返回值为:"+result.getResult());
+        log.debug("返回值为:"+result.getResult());
         return result;
     }
 
@@ -326,7 +327,7 @@ public class SysPermissionController {
             @ApiResponse(code=200,response=Boolean.class, message = Result.DELETE_PERMISSION_MSG)
     })
     public Result<Boolean> deletePermissions(@RequestParam(value = "ids",required = false)String  ids){
-        log.info("传入dis为:"+ids);
+        log.debug("传入dis为:"+ids);
         Result<Boolean> result = new Result<>();
         //拿到字符串分割
         List<String> idts = Arrays.asList(ids.split(","));
@@ -346,7 +347,7 @@ public class SysPermissionController {
                 sysPermissionService.deleteChangeLeaf(sysPermission);
             }
         }
-        log.info("返回值为:"+result.getResult());
+        log.debug("返回值为:"+result.getResult());
         return result;
     }
 }
