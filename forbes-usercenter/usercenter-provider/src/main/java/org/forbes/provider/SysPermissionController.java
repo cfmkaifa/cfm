@@ -350,14 +350,11 @@ public class SysPermissionController {
 	public Result<Map<String,Object>> queryTreeList() {
 		Result<Map<String,Object>> result = new Result<>();
 		//全部权限ids
-		List<Long> ids = new ArrayList<Long>();
 		try {
 			QueryWrapper<SysPermission> query = new QueryWrapper<SysPermission>();
 			query.orderByAsc(DataColumnConstant.SORT_NO);
 			List<SysPermission> list = sysPermissionService.list(query);
-			for(SysPermission sysPer : list) {
-				ids.add(sysPer.getId());
-			}
+			List<Long> ids = list.stream().map(sysPermission -> sysPermission.getId()).collect(Collectors.toList());
 			List<TreeModel> treeList = new ArrayList<>();
 			receTreeModelList(treeList, list, null);
 			Map<String,Object> resMap = new HashMap<String,Object>();

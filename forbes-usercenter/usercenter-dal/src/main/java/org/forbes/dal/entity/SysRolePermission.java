@@ -1,8 +1,12 @@
 package org.forbes.dal.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -10,6 +14,9 @@ import javax.validation.constraints.NotEmpty;
  * Table: f_sys_role_permission
  */
 @Data
+@ApiModel(description="角色权限信息")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("f_sys_role_permission")
 public class SysRolePermission extends BaseEntity {
    

@@ -2,8 +2,6 @@ package org.forbes.dal.entity;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.chase.system.entity.SysUser;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import io.swagger.annotations.ApiModel;
