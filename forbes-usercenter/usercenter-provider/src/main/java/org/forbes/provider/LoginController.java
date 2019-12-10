@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.forbes.biz.ISysUserService;
 import org.forbes.comm.constant.CommonConstant;
-import org.forbes.comm.constant.ValidGroup;
 import org.forbes.comm.model.SysLoginModel;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.utils.JwtUtil;
@@ -19,7 +18,6 @@ import org.forbes.config.cache.UserCache;
 import org.forbes.dal.entity.SysUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
