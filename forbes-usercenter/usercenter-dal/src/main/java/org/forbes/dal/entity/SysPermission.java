@@ -17,7 +17,6 @@ import lombok.experimental.Accessors;
 @Data
 @ApiModel(description="权限信息")
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("f_sys_permission")
 public class SysPermission extends BaseEntity {
    
