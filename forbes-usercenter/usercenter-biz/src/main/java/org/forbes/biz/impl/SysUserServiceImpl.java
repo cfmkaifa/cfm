@@ -89,6 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional(rollbackFor=Exception.class)
 	public void addUser(SysUserDto sysUserDto){
 		SysUser sysUser = new SysUser();
+		sysUserDto.setId(0L);
 		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
 		.copy(sysUserDto, sysUser, null);   
 		String salt = ConvertUtils.randomGen(8);
