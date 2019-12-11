@@ -25,7 +25,6 @@ public class ForbesApplication {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	 public static void main(String[] args) {
-		    System.setProperty(CommonConstant.PROVILES_CODE, CommonConstant.ACTIVE_CODE);
 	    	SpringApplication.run(ForbesApplication.class, args);
 	    }
 	 
