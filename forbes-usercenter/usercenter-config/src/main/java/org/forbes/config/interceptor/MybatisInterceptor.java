@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -45,16 +47,26 @@ public class MybatisInterceptor implements Interceptor {
 	/***
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
 		String sqlId = mappedStatement.getId();
 		log.debug("------sqlId------" + sqlId);
 		SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-		Object parameter = invocation.getArgs()[1];
-		log.debug("------sqlCommandType------" + sqlCommandType);
-		if (parameter == null) {
+		Object parameter = null;
+		Object parameterObj = invocation.getArgs()[1];
+		if (parameterObj == null) {
 			return invocation.proceed();
+		}
+		if(parameterObj instanceof Map ){
+			Map<String,Object> parameterMap = (Map<String,Object>)parameterObj;
+			Optional<Map.Entry<String,Object>> optParameterObj =  parameterMap.entrySet().stream().findFirst();
+			if(optParameterObj.isPresent()){
+				parameter = optParameterObj.get().getValue();
+			}
+		} else {
+			parameter = parameterObj;
 		}
 		List<Field> fields = this.receFields(parameter);
 		if (SqlCommandType.INSERT == sqlCommandType) {
