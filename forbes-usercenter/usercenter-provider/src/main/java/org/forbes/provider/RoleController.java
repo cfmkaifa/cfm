@@ -99,16 +99,16 @@ public class RoleController {
     public  Result<SysRole> addRole(@RequestBody @Validated(value=SaveValid.class) SysRole sysRole){
         log.debug("传入的参数为"+ JSON.toJSONString(sysRole));
         Result<SysRole> result=new Result<SysRole>();
-        String roleCode = sysRole.getRoleCode();
-        int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
-        if(existsCount > 0 ) {//存在此记录
-            result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
-            result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
+            String roleCode = sysRole.getRoleCode();
+            int existsCount = sysRoleService.count(new QueryWrapper<SysRole>().eq(DataColumnConstant.ROLE_CODE, roleCode));
+            if(existsCount > 0 ) {//存在此记录
+                result.setBizCode(BizResultEnum.ROLE_CODE_EXIST.getBizCode());
+                result.setMessage(String.format(BizResultEnum.ROLE_CODE_EXIST.getBizFormateMessage(), roleCode));
+                return result;
+            }
+            sysRoleService.save(sysRole);
+            result.setResult(sysRole);
             return result;
-        }
-        sysRoleService.save(sysRole);
-        result.setResult(sysRole);
-        return result;
     }
 
     /***
@@ -227,7 +227,7 @@ public class RoleController {
         Result<Boolean> result=new Result<Boolean>();
         try{
         	sysRoleService.grantRole(roleId,rolePermissionDtos);
-            result.setResult(true);
+            result.setResult(true);      
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
         	result.setMessage(e.getErrorMsg());

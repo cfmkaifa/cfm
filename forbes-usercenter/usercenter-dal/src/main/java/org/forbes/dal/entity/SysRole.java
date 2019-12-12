@@ -28,7 +28,7 @@ public class SysRole extends BaseEntity {
      * Column:    role_name
      * Nullable:  true
      */
-    @ApiModelProperty(value = "角色名称")
+    @ApiModelProperty(value = "角色名称",required = true)
     @NotEmpty(message="角色名称为空")
     private String roleName;
 
@@ -38,7 +38,7 @@ public class SysRole extends BaseEntity {
      * Column:    role_code
      * Nullable:  true
      */
-    @ApiModelProperty(value = "角色编码")
+    @ApiModelProperty(value = "角色编码",required = true)
     @NotEmpty(message="角色编码为空")
     private String roleCode;
 
