@@ -1,7 +1,6 @@
 package org.forbes;
 import javax.servlet.MultipartConfigElement;
 
-import org.forbes.comm.constant.CommonConstant;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +24,7 @@ public class ForbesApplication {
 	 * @修改日期 (请填上修改该文件时的日期)
 	 */
 	 public static void main(String[] args) {
-		    System.setProperty(CommonConstant.PROVILES_CODE, CommonConstant.ACTIVE_CODE);
+		    //System.setProperty(CommonConstant.PROVILES_CODE, CommonConstant.ACTIVE_CODE);
 	    	SpringApplication.run(ForbesApplication.class, args);
 	    }
 	 
