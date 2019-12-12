@@ -125,6 +125,7 @@ public class SysPermissionController {
             result.setResult(false);
             return result;
         }
+		result.setMessage(Result.AVAILABLE_PERMISSION_MSG);
         return result;
     }
 
