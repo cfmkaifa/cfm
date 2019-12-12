@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * @ClassName
  * @Description 多条件查询用户返回集合
@@ -128,5 +130,8 @@ public class UserVo implements Serializable{
 
     @ApiModelProperty(value = "用户对应角色",required = true)
     private List<String> roleNameList;
+
+    @ApiModelProperty(value="管理员标识(0-超级管理员,1-普通人员)")
+    private String adminFlag;
 
 }

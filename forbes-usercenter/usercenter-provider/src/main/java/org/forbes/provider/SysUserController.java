@@ -72,7 +72,7 @@ public class SysUserController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/user-staus", method = RequestMethod.GET)
+    @RequestMapping(value = "/user-status", method = RequestMethod.GET)
     @ApiOperation("获取用户状态")
     public Result<List<Map<String,String>>> receUserStaus(){
         Result<List<Map<String,String>>> result = new Result<List<Map<String,String>>>();
