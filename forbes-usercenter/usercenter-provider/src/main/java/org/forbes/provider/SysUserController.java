@@ -210,7 +210,7 @@ public class SysUserController {
             @ApiResponse(code=200,response=UserVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
             @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<IPage<UserVo>> selectUserList(@RequestBody(required=false)BasePageDto<SysUserDto> basePageDto){
+    public Result<IPage<UserVo>> selectUserList(BasePageDto<SysUserDto> basePageDto){
         log.debug("=============="+JSON.toJSONString(basePageDto));
         Result<IPage<UserVo>> result=new Result<IPage<UserVo>>();
         IPage<UserVo> page = new Page<UserVo>(basePageDto.getPageNo(),basePageDto.getPageSize());
