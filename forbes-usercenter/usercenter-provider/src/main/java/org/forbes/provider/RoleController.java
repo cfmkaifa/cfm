@@ -216,13 +216,13 @@ public class RoleController {
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
-    @RequestMapping(value = "/grant-role/{roleId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/grant-role",method = RequestMethod.POST)
     @ApiOperation("角色授权")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
             @ApiResponse(code=200,message = Result.UPDATE_PERMISSION_MSG)
     })
-    public Result<Boolean> grantRole(@PathVariable Long roleId,
+    public Result<Boolean> grantRole(@RequestParam("roleId") Long roleId,
     	@RequestBody @Valid RoleDto roleDtos){
     	List<RolePermissionDto> permissionDtos = roleDtos.getPermissionDtos();
         log.debug("传入的参数为"+JSON.toJSONString(permissionDtos));
