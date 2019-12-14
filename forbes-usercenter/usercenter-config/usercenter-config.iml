@@ -226,5 +226,10 @@
     <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:javax.activation-api:1.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.objenesis:objenesis:2.6" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm-commons:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm-tree:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm-util:3.3.1" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
   </component>
 </module>
