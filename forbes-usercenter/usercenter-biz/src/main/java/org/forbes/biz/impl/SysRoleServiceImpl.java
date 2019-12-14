@@ -69,20 +69,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     		List<RolePermissionDto> rolePermissionDtos) {
         if(ConvertUtils.isNotEmpty(rolePermissionDtos)){
             rolePermissionDtos.stream().forEach(permissionIdRoleDto -> {
-                SysRolePermission sysRolePermission=new SysRolePermission();
-                Long permissionId = permissionIdRoleDto.getPermissionId();
-                /*****判断上级****/
-                SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
-                Long parentId = sysPermission.getParentId();
-                if(0 != parentId.longValue()){
-                	long notParentCount = rolePermissionDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
-                	if(0 == notParentCount){
-                		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
-                	}
-                }
-                sysRolePermission.setPermissionId(permissionIdRoleDto.getPermissionId());
-                sysRolePermission.setRoleId(roleId);
-                sysRolePermissionMapper.insert(sysRolePermission);
+            	Long permissionId = permissionIdRoleDto.getPermissionId();
+            	if(0 != permissionId){
+            		SysRolePermission sysRolePermission=new SysRolePermission();
+                    /*****判断上级****/
+                    SysPermission sysPermission = sysPermissionMapper.selectById(permissionId);
+                    Long parentId = sysPermission.getParentId();
+                    if(0 != parentId.longValue()){
+                    	long notParentCount = rolePermissionDtos.stream().filter(tDto -> parentId == tDto.getPermissionId()).count();
+                    	if(0 == notParentCount){
+                    		throw new ForbesException(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizCode(),String.format(BizResultEnum.PERMISSION_PARENT_NO_EXISTS.getBizFormateMessage(), sysPermission.getName()));
+                    	}
+                    }
+                    sysRolePermission.setPermissionId(permissionIdRoleDto.getPermissionId());
+                    sysRolePermission.setRoleId(roleId);
+                    sysRolePermissionMapper.insert(sysRolePermission);
+            	}
             });
         }
     }
