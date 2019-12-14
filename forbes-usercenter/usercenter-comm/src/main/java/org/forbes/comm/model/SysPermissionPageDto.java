@@ -1,12 +1,10 @@
 package org.forbes.comm.model;
 
+import java.io.Serializable;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.DefaultValue;
-import java.io.Serializable;
 
 /***
  * @创建人 niehy(Frunk)
@@ -23,6 +21,6 @@ public class SysPermissionPageDto implements Serializable{
     @ApiModelProperty(value = "类型",example = "0")
     private Long type;
 
-    @ApiModelProperty("资源名称")
+    @ApiModelProperty(value = "资源名称")
     private String name;
 }

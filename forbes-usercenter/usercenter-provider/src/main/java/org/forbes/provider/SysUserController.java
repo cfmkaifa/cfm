@@ -207,14 +207,14 @@ public class SysUserController {
     @RequestMapping(value = "/page",method = RequestMethod.GET)
     @ApiOperation("用户分页查询")
     @ApiResponses(value = {
-            @ApiResponse(code=200,response=UserVo.class,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
-            @ApiResponse(code=500, message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
+            @ApiResponse(code=200,message = Result.SELECT_LIST_USER_AND_ROLE_MSG),
+            @ApiResponse(code=500,message = Result.SELECT_LIST_USER_AND_ROLE_ERROR_MSG)
     })
-    public Result<IPage<UserVo>> selectUserList(@RequestBody(required=false)BasePageDto<SysUserDto> basePageDto){
+    public Result<IPage<UserVo>> selectUserList(BasePageDto basePageDto,SysUserDto sysUserDto){
         log.debug("=============="+JSON.toJSONString(basePageDto));
         Result<IPage<UserVo>> result=new Result<IPage<UserVo>>();
         IPage<UserVo> page = new Page<UserVo>(basePageDto.getPageNo(),basePageDto.getPageSize());
-        IPage<UserVo> pageUsers =  sysUserService.pageUsers(page, basePageDto.getData());
+        IPage<UserVo> pageUsers =  sysUserService.pageUsers(page, sysUserDto);
         result.setResult(pageUsers);
         return result;
     }

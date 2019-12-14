@@ -8,7 +8,6 @@ import org.forbes.biz.ISysRoleService;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
-import org.forbes.comm.model.PermissionIdRoleDto;
 import org.forbes.comm.model.RolePermissionDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.dal.entity.SysPermission;
@@ -20,6 +19,7 @@ import org.forbes.dal.mapper.SysRolePermissionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;

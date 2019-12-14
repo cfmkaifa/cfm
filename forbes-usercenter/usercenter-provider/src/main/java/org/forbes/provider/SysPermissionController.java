@@ -1,5 +1,4 @@
 package org.forbes.provider;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -58,8 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 public class SysPermissionController {
-
-    @Autowired
+	@Autowired
     ISysPermissionService sysPermissionService;
     @Autowired
     private ISysUserService sysUserService;
@@ -78,21 +76,22 @@ public class SysPermissionController {
      * @修改日期 (请填上修改该文件时的日期)
      */
     @RequestMapping(value = "/page", method = RequestMethod.GET)
-    @ApiOperation("分页查询权限")
+    @ApiOperation(value="分页查询权限")
     @ApiResponses(value={
             @ApiResponse(code=500,message= Result.PERMISSIONS_NOT_ERROR_MSG),
             @ApiResponse(code=200,message = Result.PERMISSIONS_MSG)
     })
-    public Result<IPage<SysPermission>> selectPage(BasePageDto<SysPermissionPageDto> pageDto ){
-        log.debug("传入参数为："+JSON.toJSONString(pageDto));
+    public Result<IPage<SysPermission>> selectPage(BasePageDto pageDto,
+    		SysPermissionPageDto permissionPageDto){
+        log.debug("传入参数为："+JSON.toJSONString(permissionPageDto));
         Result<IPage<SysPermission>> result = new Result<>();
         QueryWrapper<SysPermission> qw = new QueryWrapper<SysPermission>();
-        if (ConvertUtils.isNotEmpty(pageDto.getData())) {
-            if(ConvertUtils.isNotEmpty(pageDto.getData().getType()) ){
-                qw.eq(PermsCommonConstant.PERMS,pageDto.getData().getType());
+        if (ConvertUtils.isNotEmpty(permissionPageDto)) {
+            if(ConvertUtils.isNotEmpty(permissionPageDto.getType()) ){
+                qw.eq(PermsCommonConstant.PERMS,permissionPageDto.getType());
             }
-            if(ConvertUtils.isNotEmpty(pageDto.getData().getName()) ){
-                qw.like(PermsCommonConstant.NAME,pageDto.getData().getName());
+            if(ConvertUtils.isNotEmpty(permissionPageDto.getName()) ){
+                qw.like(PermsCommonConstant.NAME,permissionPageDto.getName());
             }
         }
         IPage<SysPermission> page = new Page<SysPermission>(pageDto.getPageNo(),pageDto.getPageSize());

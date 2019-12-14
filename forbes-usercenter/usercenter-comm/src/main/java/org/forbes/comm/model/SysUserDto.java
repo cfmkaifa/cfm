@@ -9,16 +9,10 @@ import javax.validation.constraints.Pattern;
 
 import org.forbes.comm.constant.UpdateValid;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * @ClassName
@@ -30,7 +24,6 @@ import lombok.experimental.Accessors;
 @Data
 @ApiModel(description="用户信息")
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class SysUserDto implements Serializable{
 
     private static final long serialVersionUID = 4511975727752590523L;

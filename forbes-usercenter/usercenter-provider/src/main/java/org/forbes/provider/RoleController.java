@@ -14,6 +14,7 @@ import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.enums.BizResultEnum;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.BasePageDto;
+import org.forbes.comm.model.RoleDto;
 import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.RolePermissionDto;
 import org.forbes.comm.utils.ConvertUtils;
@@ -219,14 +220,15 @@ public class RoleController {
     @ApiOperation("角色授权")
     @ApiResponses(value = {
             @ApiResponse(code=500,message= Result.UPDATE_ROLE_PERMISSION_NOT_ERROR_MSG),
-            @ApiResponse(code=200,response=Result.class, message = Result.UPDATE_PERMISSION_MSG)
+            @ApiResponse(code=200,message = Result.UPDATE_PERMISSION_MSG)
     })
     public Result<Boolean> grantRole(@PathVariable Long roleId,
-    		@RequestBody @Valid List<RolePermissionDto> rolePermissionDtos){
-        log.debug("传入的参数为"+JSON.toJSONString(rolePermissionDtos));
+    	@RequestBody @Valid RoleDto roleDtos){
+    	List<RolePermissionDto> permissionDtos = roleDtos.getPermissionDtos();
+        log.debug("传入的参数为"+JSON.toJSONString(permissionDtos));
         Result<Boolean> result=new Result<Boolean>();
         try{
-        	sysRoleService.grantRole(roleId,rolePermissionDtos);
+        	sysRoleService.grantRole(roleId,permissionDtos);
             result.setResult(true);      
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
@@ -253,16 +255,16 @@ public class RoleController {
             @ApiResponse(code=500,message= Result.ROLE_LIST_ERROR_MSG),
             @ApiResponse(code=200,response=Result.class, message = Result.ROLE_LIST_MSG)
     })
-    public Result<IPage<SysRole>> selectRolePage(BasePageDto<RolePageDto> pageDto){
+    public Result<IPage<SysRole>> selectRolePage(BasePageDto pageDto,RolePageDto rolePageDto){
         log.debug("传入的参数为"+JSON.toJSONString(pageDto));
         Result<IPage<SysRole>> result = new Result<>();
         QueryWrapper<SysRole> qw = new QueryWrapper<SysRole>();
-        if(ConvertUtils.isNotEmpty(pageDto.getData())){
-        	if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleName())){
-                qw.like(PermsCommonConstant.ROLE_NAME,pageDto.getData().getRoleName());
+        if(ConvertUtils.isNotEmpty(rolePageDto)){
+        	if(ConvertUtils.isNotEmpty(rolePageDto.getRoleName())){
+                qw.like(PermsCommonConstant.ROLE_NAME,rolePageDto.getRoleName());
             }
-            if(ConvertUtils.isNotEmpty(pageDto.getData().getRoleCode())){
-                qw.eq(PermsCommonConstant.ROLE_CODE,pageDto.getData().getRoleCode());
+            if(ConvertUtils.isNotEmpty(rolePageDto.getRoleCode())){
+                qw.eq(PermsCommonConstant.ROLE_CODE,rolePageDto.getRoleCode());
             }
         }
         IPage<SysRole> page = new Page<SysRole>(pageDto.getPageNo(),pageDto.getPageSize());
