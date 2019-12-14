@@ -59,7 +59,7 @@ public class RoleController {
     @Autowired
     private ISysRoleService sysRoleService;
 
-   
+
 
     /***
      * selectAllRole方法慨述:查询所有角色
@@ -177,7 +177,7 @@ public class RoleController {
    		sysRoleService.removeById(id);
    		return result;
    	}
-   	
+
    	/***批量删除角色
    	 * deleteBatch方法慨述:
    	 * @param ids
@@ -204,12 +204,12 @@ public class RoleController {
    		return result;
    	}
 
-    
-    
+
+
 
     /***
      * grantRole方法慨述:角色授权
-     * @param rolePermissionDtos
+     * @param roleDtos
      * @return Result<RolePermissionDto>
      * @创建人 huanghy
      * @创建时间 2019年12月10日 下午1:35:36
@@ -229,7 +229,7 @@ public class RoleController {
         Result<Boolean> result=new Result<Boolean>();
         try{
         	sysRoleService.grantRole(roleId,permissionDtos);
-            result.setResult(true);      
+            result.setResult(true);
         }catch(ForbesException e){
         	result.setBizCode(e.getErrorCode());
         	result.setMessage(e.getErrorMsg());
