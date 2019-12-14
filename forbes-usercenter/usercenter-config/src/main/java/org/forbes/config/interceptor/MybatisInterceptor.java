@@ -29,8 +29,6 @@ public class MybatisInterceptor implements Interceptor {
 
 
 	public static final String CREATE_BY = "createBy";
-	public static final String CREATE_BY_TABLE = "create_by";
-	public static final String CREATE_TIME_TABLE = "create_time";
 	public static final String CREATE_TIME = "createTime";
 	/**
 	 * 更新用户登录名称

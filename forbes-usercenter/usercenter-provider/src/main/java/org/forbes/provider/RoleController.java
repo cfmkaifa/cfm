@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.forbes.biz.ISysRolePermissionService;
 import org.forbes.biz.ISysRoleService;
 import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.DataColumnConstant;
@@ -19,7 +20,9 @@ import org.forbes.comm.model.RolePageDto;
 import org.forbes.comm.model.RolePermissionDto;
 import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.comm.vo.Result;
+import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
+import org.forbes.dal.entity.SysRolePermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,6 +61,8 @@ public class RoleController {
 
     @Autowired
     private ISysRoleService sysRoleService;
+    @Autowired
+    ISysRolePermissionService sysRolePermissionService;
 
 
 
@@ -235,6 +240,28 @@ public class RoleController {
         	result.setMessage(e.getErrorMsg());
         }
         return result;
+    }
+    
+    
+    
+    /***
+     * rolePermissionByRoleId方法慨述:根据角色ID获取授权
+     * @param roleId
+     * @return Result<List<SysRolePermission>>
+     * @创建人 huanghy
+     * @创建时间 2019年12月14日 下午2:21:11
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @ApiOperation("根据角色ID获取授权")
+    @ApiImplicitParam(value="roleId",name="角色ID")
+    @RequestMapping(value="/role-permissions-role-id",method=RequestMethod.GET)
+	public Result<List<SysRolePermission>> rolePermissionByRoleId(@RequestParam(name="roleId",required=true)String roleId){
+    	Result<List<SysRolePermission>> result = new Result<List<SysRolePermission>>();
+    	List<SysRolePermission> sysPermissions = sysRolePermissionService.list(new QueryWrapper<SysRolePermission>()
+    			.eq(DataColumnConstant.ROLE_ID, roleId));
+    	result.setResult(sysPermissions);
+    	return result;
     }
 
     /***

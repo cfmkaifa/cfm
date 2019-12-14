@@ -43,7 +43,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper,Sy
         return retBool;
     }
     
-    
     /***
      */
     @Transactional(rollbackFor = Exception.class)
