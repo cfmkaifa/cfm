@@ -2,6 +2,7 @@ package org.forbes.provider;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,8 @@ import org.forbes.comm.constant.PermsCommonConstant;
 import org.forbes.comm.constant.SaveValid;
 import org.forbes.comm.constant.UpdateValid;
 import org.forbes.comm.enums.BizResultEnum;
+import org.forbes.comm.enums.PermissionTypeEnum;
+import org.forbes.comm.enums.RoleCodeEnum;
 import org.forbes.comm.exception.ForbesException;
 import org.forbes.comm.model.BasePageDto;
 import org.forbes.comm.model.RoleDto;
@@ -323,6 +326,23 @@ public class RoleController {
             result.setResult(false);
             return result;
         }
+        return result;
+    }
+    
+    
+    /***
+     * receRoleCodes方法慨述:获取角色编码
+     * @return Result<List<Map<String,String>>>
+     * @创建人 huanghy
+     * @创建时间 2019年12月16日 上午9:54:42
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/role-codes", method = RequestMethod.GET)
+    @ApiOperation("获取角色编码")
+    public Result<List<Map<String,String>>> receRoleCodes(){
+        Result<List<Map<String,String>>> result = new Result<List<Map<String,String>>>();
+        result.setResult(RoleCodeEnum.receEnums());
         return result;
     }
 }

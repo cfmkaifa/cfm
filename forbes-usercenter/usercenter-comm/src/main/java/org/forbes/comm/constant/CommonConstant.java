@@ -32,4 +32,5 @@ public interface CommonConstant {
     public static final String ID = "id";
     public static final String META = "meta";
     public static final String CHILDREN = "children";
+    public static final String DEFAULT_PASSWD = "123456";
 }

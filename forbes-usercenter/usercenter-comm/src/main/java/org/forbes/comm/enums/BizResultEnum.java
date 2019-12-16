@@ -22,6 +22,7 @@ public enum BizResultEnum {
 	ROLE_CODE_EXIST("001002001","角色编码存在","%s对应角色编码存在"),
 	ROLE_EXIST("001002002","用户角色不存在","%s对应用户角色不存在"),
 	ROLE_ID_NOT_EXIST("001002003","角色id不存在","%s对应角色id不存在"),
+	ROLE_CODE_NOT_EXIST("001002004","角色编码不存在，请联系管理员","%s角色不存在，请联系管理员"),
 	/**权限**/
 	PERMISSION_EXIST("001003001","权限不存在","%s查询权限不存在"),
 	PERMISSION_TYPE_NO_EXISTS("001003002","权限类型不对应","%s对应权限类型不存在"),

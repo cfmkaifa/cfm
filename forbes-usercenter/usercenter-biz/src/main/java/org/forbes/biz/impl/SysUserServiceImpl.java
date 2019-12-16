@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.forbes.biz.ISysUserService;
+import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.enums.AdminFlagEnum;
 import org.forbes.comm.enums.BizResultEnum;
@@ -36,7 +37,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	SysUserExtMapper sysUserExtMapper;
 	@Autowired
 	SysUserRoleMapper sysUserRoleMapper;
-	private static final String DEFAULT_PASSWD = "123456";
 	
 	/***
 	 * getUserByName方法慨述:根据用户名查询用户
@@ -93,7 +93,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		.copy(sysUserDto, sysUser, null);   
 		String salt = ConvertUtils.randomGen(8);
 		sysUser.setSalt(salt);
-		sysUser.setPassword(DEFAULT_PASSWD);
+		sysUser.setPassword(CommonConstant.DEFAULT_PASSWD);
 		String passwordEncode = PasswordUtil.encrypt(sysUser.getUsername(), sysUser.getPassword(), salt);
 		sysUser.setPassword(passwordEncode);
 		sysUser.setStatus(UserStausEnum.NORMAL.getCode());

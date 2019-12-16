@@ -8,9 +8,9 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>org.forbes</groupId>
-  <artifactId>usercenter-provider</artifactId>
+  <artifactId>usercenter-api</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>usercenter-provider</name>
+  <name>usercenter-api</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,7 +37,7 @@
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
-  <build>
+   <build>
   	<plugins>
 		<!-- 打包跳过测试 -->
           <plugin>
