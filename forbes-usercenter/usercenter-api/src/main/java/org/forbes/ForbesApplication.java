@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"org.forbes"})
-@DubboComponentScan(basePackages = "org.forbes.api.servcie.impl")
+@DubboComponentScan(basePackages = "org.forbes.servcie.impl")
 @SpringBootApplication
 @EnableSwagger2
 @MapperScan(basePackages = {"org.forbes.dal.mapper"})
@@ -29,6 +29,7 @@ public class ForbesApplication {
      * @修改日期 (请填上修改该文件时的日期)
      */
     public static void main(String[] args) {
+	    //System.setProperty(CommonConstant.PROVILES_CODE, CommonConstant.ACTIVE_CODE);
         SpringApplication.run(ForbesApplication.class, args);
     }
 

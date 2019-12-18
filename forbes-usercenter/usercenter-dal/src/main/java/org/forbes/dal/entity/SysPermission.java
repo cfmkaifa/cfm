@@ -82,7 +82,7 @@ public class SysPermission extends BaseEntity {
      * Column:    is_route
      * Nullable:  true
      */
-    @ApiModelProperty(value = "是否路由")
+    @ApiModelProperty(value = "是否路由",required = true)
     @NotEmpty(message="是否路由为空")
     private String isRoute;
 

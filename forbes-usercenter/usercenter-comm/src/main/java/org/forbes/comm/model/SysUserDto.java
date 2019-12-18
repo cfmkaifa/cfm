@@ -37,14 +37,14 @@ public class SysUserDto implements Serializable{
     @NotEmpty(message="用户状态为空")
     private String status;
 
-    @ApiModelProperty("用户名")
+    @ApiModelProperty(value="用户名",required=true)
     @NotEmpty(message="用户名为空")
     private String username;
 
-    @ApiModelProperty("姓名/工厂名称或者公司名称")
+    @ApiModelProperty(value="姓名/工厂名称或者公司名称",required=true)
     private String realname;
 
-    @ApiModelProperty("电话")
+    @ApiModelProperty(value="电话",required=true)
     @Pattern(regexp ="^[1][3,4,5,7,8][0-9]{9}$")
     private String phone;
 
@@ -52,7 +52,8 @@ public class SysUserDto implements Serializable{
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")
     private String email;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty(value="密码",required=true)
+    @NotEmpty(message="密码为空")
     private String password;
 
     @ApiModelProperty("头像")

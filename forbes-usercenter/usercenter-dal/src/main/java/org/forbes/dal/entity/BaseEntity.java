@@ -23,8 +23,6 @@ public class BaseEntity implements Serializable  {
      * id
      */
     @TableId(type = IdType.AUTO)
-    @JSONField(format="yyyy-MM-dd")
-	@JsonFormat(pattern="yyyy-MM-dd")
     @NotNull(message="主键ID为空",groups=UpdateValid.class)
     private Long id;
     
