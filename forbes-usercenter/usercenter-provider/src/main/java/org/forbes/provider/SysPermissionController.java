@@ -223,7 +223,9 @@ public class SysPermissionController {
                 result.success(String.format(BizResultEnum.PERMISSION_TYPE_NO_EXISTS.getBizFormateMessage(),type));
                 return result;
             }
-            sysPermission.setIsHidden(YesNoEnum.NO.getCode());//是否隐藏,默认否
+			//是否隐藏,默认否
+            sysPermission.setIsHidden(YesNoEnum.NO.getCode());
+			//是否子集,默认否
             sysPermission.setIsLeaf(YesNoEnum.YES.getCode());
             //判父级权权限值并更改父级自己点值
             sysPermissionService.save(sysPermission);
@@ -262,7 +264,8 @@ public class SysPermissionController {
         	String perms = sysPermission.getPerms();
             //查询是否和其他权限编码一致
             int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PERMS,perms));
-            if (exitsCount > 0){//已存在相同的权限编码，不操作
+			//已存在相同的权限编码，不操作
+            if (exitsCount > 0){
             	result.setBizCode(BizResultEnum.PERMISSION_CODE_EXISTS.getBizCode());
                 result.success(String.format(BizResultEnum.PERMISSION_CODE_EXISTS.getBizFormateMessage(),perms));
                 return result;
@@ -323,17 +326,12 @@ public class SysPermissionController {
 	 */
 	@ApiOperation("批量删除权限")
 	@ApiImplicitParams(value = {
-		@ApiImplicitParam(name = "ids",value = "用户IDs",required = true)
+		@ApiImplicitParam(name = "ids",value = "权限IDs",required = true)
 	})
 	@RequestMapping(value = "/delete-batch", method = RequestMethod.DELETE)
 	public Result<Boolean> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		Result<Boolean> result = new Result<Boolean>();
-		try {
-			sysPermissionService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
-		}catch(ForbesException e){
-			result.setBizCode(e.getErrorCode());
-			result.setMessage(e.getErrorMsg());
-		}
+		sysPermissionService.removeByIds(Arrays.asList(ids.split(CommonConstant.SEPARATOR)));
 		return result;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.forbes.comm.constant.UpdateValid;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -30,6 +31,7 @@ public class BaseEntity implements Serializable  {
     /**
      * 创建人
      */
+    @ApiModelProperty("前端不传值")
     private String createBy;
 
     /**
@@ -37,15 +39,18 @@ public class BaseEntity implements Serializable  {
      */
     @JSONField(format="yyyy-MM-dd")
 	@JsonFormat(pattern="yyyy-MM-dd")
+    @ApiModelProperty("前端不传值")
     private Date createTime;
 
     /**
      * 更新人
      */
+    @ApiModelProperty("前端不传值")
     private String updateBy;
 
     /**
      * 更新时间
      */
+    @ApiModelProperty("前端不传值")
     private Date updateTime;
 }

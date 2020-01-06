@@ -37,7 +37,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	SysUserExtMapper sysUserExtMapper;
 	@Autowired
 	SysUserRoleMapper sysUserRoleMapper;
-	
+
 	/***
 	 * getUserByName方法慨述:根据用户名查询用户
 	 * @param username
