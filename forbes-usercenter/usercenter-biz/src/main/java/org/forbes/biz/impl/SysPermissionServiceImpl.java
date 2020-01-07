@@ -140,8 +140,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public boolean removeByIds(Collection<? extends Serializable> idList) {
         idList.forEach(id -> {
-            baseMapper.delete(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PARENT_ID,id));
-            baseMapper.deleteById(id);
+            int childCount = baseMapper.selectCount(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PARENT_ID, id));
+            if(childCount > 0){
+                throw new ForbesException(BizResultEnum.PERMISSION_CHILD_EXISTS.getBizCode(), BizResultEnum.PERMISSION_CHILD_EXISTS.getBizMessage());
+            }
+            removeById(id);
         });
         return false;
     }
