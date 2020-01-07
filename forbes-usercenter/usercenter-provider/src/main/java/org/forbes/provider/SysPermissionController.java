@@ -470,7 +470,7 @@ public class SysPermissionController {
 				if(parentJson==null 
 						&& 0 == tempPid) {
 					jsonArray.add(json);
-					if(YesNoEnum.NO.equals(permission.getIsLeaf())) {
+					if(YesNoEnum.NO.getCode().equals(permission.getIsLeaf())) {
 						recePermissionJsonArray(jsonArray, metaList, json);
 					}
 				}else if(parentJson!=null 
@@ -496,7 +496,7 @@ public class SysPermissionController {
 							children.add(json);
 							parentJson.put(CommonConstant.CHILDREN, children);
 						}
-						if(YesNoEnum.NO.equals(permission.getIsLeaf())) {
+						if(YesNoEnum.NO.getCode().equals(permission.getIsLeaf())) {
 							recePermissionJsonArray(jsonArray, metaList, json);
 						}
 					}
@@ -527,14 +527,18 @@ public class SysPermissionController {
 				|| PermissionTypeEnum.MENU.getCode().equals(menuType.toString())) {
 			json.put(CommonConstant.ID, permission.getId());
 			if(YesNoEnum.YES.getCode().equals(permission.getIsRoute())) {
-				json.put("route", "1");//表示生成路由
+				//表示生成路由
+				json.put("route", "1");
 			}else {
-				json.put("route", "0");//表示不生成路由
+				//表示不生成路由
+				json.put("route", "0");
 			}
 			if(YesNoEnum.YES.getCode().equals(permission.getIsHidden())){
-				json.put("hidden", "1");//表示隐藏
+				//表示隐藏
+				json.put("hidden", "1");
 			} else {
-				json.put("hidden", "0");//表示显示
+				//表示显示
+				json.put("hidden", "0");
 			}
 			json.put("component", permission.getComponent());
 			JSONObject meta = new JSONObject();
@@ -548,6 +552,7 @@ public class SysPermissionController {
 					meta.put("icon", permission.getIcon());
 				}
 			}else {
+				json.put("redirect",permission.getRedirect());
 				if(ConvertUtils.isNotEmpty(permission.getIcon())) {
 					meta.put("icon", permission.getIcon());
 				}

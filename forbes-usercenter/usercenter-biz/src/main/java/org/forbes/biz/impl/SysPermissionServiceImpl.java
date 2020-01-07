@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.forbes.biz.ISysPermissionService;
+import org.forbes.comm.constant.CommonConstant;
 import org.forbes.comm.constant.DataColumnConstant;
 import org.forbes.comm.constant.PermsCommonConstant;
 import org.forbes.comm.enums.BizResultEnum;
@@ -139,7 +140,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     @Override
     public boolean removeByIds(Collection<? extends Serializable> idList) {
         idList.forEach(id -> {
-            removeById(id);
+            baseMapper.delete(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PARENT_ID,id));
+            baseMapper.deleteById(id);
         });
         return false;
     }
