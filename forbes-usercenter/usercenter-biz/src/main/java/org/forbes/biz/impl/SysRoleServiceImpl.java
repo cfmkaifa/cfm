@@ -13,6 +13,7 @@ import org.forbes.comm.utils.ConvertUtils;
 import org.forbes.dal.entity.SysPermission;
 import org.forbes.dal.entity.SysRole;
 import org.forbes.dal.entity.SysRolePermission;
+import org.forbes.dal.entity.SysUserRole;
 import org.forbes.dal.mapper.SysPermissionMapper;
 import org.forbes.dal.mapper.SysRoleMapper;
 import org.forbes.dal.mapper.SysRolePermissionMapper;
@@ -64,12 +65,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @修改人 (修改了该文件，请填上修改人的名字)
      * @修改日期 (请填上修改该文件时的日期)
      */
+    @Override
     @Transactional(rollbackFor=Exception.class)
     public void grantRole(Long roleId,
     		List<RolePermissionDto> rolePermissionDtos) {
+        //先删后加
+        sysRolePermissionMapper.delete(new QueryWrapper<SysRolePermission>().eq(DataColumnConstant.ROLE_ID,roleId));
+
         if(ConvertUtils.isNotEmpty(rolePermissionDtos)){
             rolePermissionDtos.stream().forEach(permissionIdRoleDto -> {
-            	Long permissionId = permissionIdRoleDto.getPermissionId();
+                Long permissionId = permissionIdRoleDto.getPermissionId();
             	if(0 != permissionId){
             		SysRolePermission sysRolePermission=new SysRolePermission();
                     /*****判断上级****/
@@ -84,9 +89,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
                     sysRolePermission.setPermissionId(permissionIdRoleDto.getPermissionId());
                     sysRolePermission.setRoleId(roleId);
                     sysRolePermissionMapper.insert(sysRolePermission);
-            	}
+}
             });
-        }
-    }
+                    }
+                    }
 
 }
