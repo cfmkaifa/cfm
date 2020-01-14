@@ -16,7 +16,8 @@ public interface CommonConstant {
     /***********/
     public static final String PREFIX_USER_ROLE = "PREFIX_USER_ROLE";
     public static final String PREFIX_USER_PERMISSION  = "PREFIX_USER_PERMISSION";
-    public static final int  TOKEN_EXPIRE_TIME  = 3600; //3600秒即是一小时
+    //3600秒即是一小时
+    public static final int  TOKEN_EXPIRE_TIME  = 3600;
     public static final String PREFIX_USER_TOKEN  = "PREFIX_USER_TOKEN";
     public static final String PREFIX_USER  = "PREFIX_USER%s";
     /****默认空值

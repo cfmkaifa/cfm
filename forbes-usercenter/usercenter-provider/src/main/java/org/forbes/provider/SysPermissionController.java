@@ -118,7 +118,8 @@ public class SysPermissionController {
         log.debug("传入参数为："+perms);
         Result<Boolean> result = new Result<Boolean>();
         int exitsCount = sysPermissionService.count(new QueryWrapper<SysPermission>().eq(PermsCommonConstant.PERMS,perms));
-        if (exitsCount > 0){//如果编码存在，则返回false
+		//如果编码存在，则返回false
+        if (exitsCount > 0){
             result.setMessage(Result.EXISTS_PERMISSION_MSG);
             result.setResult(false);
             return result;

@@ -75,7 +75,7 @@ public class SysPermission extends BaseEntity {
      * Column:    always_show
      * Nullable:  true
      */
-    @ApiModelProperty(value = "是否聚合子路由")
+    @ApiModelProperty(value = "是否聚合子路由",required = true)
     @NotEmpty(message="是否聚合子路由为空",groups = SaveValid.class)
     private String alwaysShow;
 
@@ -129,7 +129,7 @@ public class SysPermission extends BaseEntity {
      * Column:    redirect
      * Nullable:  true
      */
-    @ApiModelProperty(value = "路由请求地址")
+    @ApiModelProperty(value = "路由请求地址",required = true)
     @NotEmpty(message = "路由请求地址为空",groups = SaveValid.class)
     private String redirect;
 

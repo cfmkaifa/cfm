@@ -144,9 +144,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             if(childCount > 0){
                 throw new ForbesException(BizResultEnum.PERMISSION_CHILD_EXISTS.getBizCode(), BizResultEnum.PERMISSION_CHILD_EXISTS.getBizMessage());
             }
-            removeById(id);
         });
-        return false;
+        boolean delBool = SqlHelper.delBool(baseMapper.deleteBatchIds(idList));
+        return delBool;
     }
 
 
