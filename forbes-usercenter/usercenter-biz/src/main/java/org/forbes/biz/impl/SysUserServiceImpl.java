@@ -37,7 +37,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	SysUserExtMapper sysUserExtMapper;
 	@Autowired
 	SysUserRoleMapper sysUserRoleMapper;
-	
+
 	/***
 	 * getUserByName方法慨述:根据用户名查询用户
 	 * @param username
@@ -122,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public void editUserWithRole(SysUserDto sysUserDto) {
 		SysUser sysUser = new SysUser();
 		BeanCopier.create(SysUserDto.class,SysUser.class ,false)
-		.copy(sysUserDto, sysUser, null);
+				.copy(sysUserDto, sysUser, null);
 		baseMapper.updateById(sysUser);
 		//先删后加
 		sysUserRoleMapper.delete(new QueryWrapper<SysUserRole>().eq(DataColumnConstant.USER_ID, sysUserDto.getId()));

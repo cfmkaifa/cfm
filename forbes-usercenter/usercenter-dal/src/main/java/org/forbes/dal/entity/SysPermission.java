@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.forbes.comm.constant.SaveValid;
 
 /**
  * Table: f_sys_permission
@@ -37,6 +38,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "资源名称",required = true)
+    @NotEmpty(message = "资源名称为空")
     private String name;
 
     /**
@@ -46,6 +48,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "菜单权限编码",required = true)
+    @NotEmpty(message = "菜单权限编码为空")
     private String perms;
 
     /**
@@ -73,7 +76,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "是否聚合子路由")
-    @NotEmpty(message="是否聚合子路由为空")
+    @NotEmpty(message="是否聚合子路由为空",groups = SaveValid.class)
     private String alwaysShow;
 
     /**
@@ -83,7 +86,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "是否路由",required = true)
-    @NotEmpty(message="是否路由为空")
+    @NotEmpty(message="是否路由为空",groups = SaveValid.class)
     private String isRoute;
 
     /**是否子集
@@ -109,7 +112,6 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "排序号",example="0")
-    @NotNull(message="排序号")
     private Integer sortNo;
 
     /**
@@ -128,6 +130,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "路由请求地址")
+    @NotEmpty(message = "路由请求地址为空",groups = SaveValid.class)
     private String redirect;
 
     /**
@@ -137,6 +140,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "后台请求地址",required = true)
+    @NotEmpty(message = "后台请求地址为空",groups = SaveValid.class)
     private String url;
 
     /**
@@ -155,6 +159,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "类型",example="0",required = true)
+    @NotNull(message="类型为空",groups = SaveValid.class)
     private Long type;
 
     /**
@@ -164,6 +169,7 @@ public class SysPermission extends BaseEntity {
      * Nullable:  true
      */
     @ApiModelProperty(value = "等级",example="0",required = true)
+    @NotNull(message="等级为空",groups = SaveValid.class)
     private Long grade;
 
 }

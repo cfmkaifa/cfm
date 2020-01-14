@@ -61,10 +61,46 @@ public class SysUserController {
     private ISysPermissionService  sysPermissionService;
     @Autowired
     private ISysRoleService sysRoleService;
+
+
     
     
     
     /***
+     * getAllUser方法慨述:通过id获取用户
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019年12月26日 上午10:24:55
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/get-user-by-id/{id}", method = RequestMethod.GET)
+    @ApiOperation("通过id获取用户")
+    public Result<SysUser> getAllUser(@PathVariable String id){
+        Result<SysUser> result = new Result<SysUser>();
+        SysUser sysUser = sysUserService.getById(id);
+        result.setResult(sysUser);
+        return result;
+    }
+
+    /***
+     * getAllUser方法慨述:获取所有用户
+     * @创建人 niehy(Frunk)
+     * @创建时间 2019年12月26日 上午10:24:55
+     * @修改人 (修改了该文件，请填上修改人的名字)
+     * @修改日期 (请填上修改该文件时的日期)
+     */
+    @RequestMapping(value = "/get-all-user", method = RequestMethod.GET)
+    @ApiOperation("获取所有用户")
+    public Result<List<SysUser>> getAllUser(){
+        Result<List<SysUser>> result = new Result<List<SysUser>>();
+        List<SysUser> sysUsers = sysUserService.list();
+        result.setResult(sysUsers);
+        return result;
+    }
+
+
+
+     /***
      * receUserStaus方法慨述:获取用户状态
      * @return Result<List<Map<String,String>>>
      * @创建人 huanghy
@@ -79,7 +115,7 @@ public class SysUserController {
         result.setResult(UserStausEnum.receUserStaus());
         return result;
     }
-    
+
     
     
     /***
